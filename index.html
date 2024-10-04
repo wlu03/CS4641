@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ML Proposal - Pairs Trading</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            background-color: #f4f4f4;
+        }
+        h1, h2, h3 {
+            color: #333;
+        }
+        h1 {
+            text-align: center;
+        }
+        section {
+            background-color: #fff;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-radius: 5px;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+        }
+        p {
+            margin-bottom: 10px;
+        }
+        ul {
+            margin-left: 20px;
+        }
+        a {
+            color: blue;
+            text-decoration: none;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Machine Learning Proposal for Pairs Trading</h1>
+
+    <section>
+        <h2>Introduction/Background</h2>
+        <p>Pairs trading is a market-neutral trading strategy that involves matching a long position with a short position in two highly correlated stocks or securities. The idea is to profit from the relative price movements of two stocks that typically move together. If the price relationship between the two stocks diverges, the trader would short the over-performing stock and go long on the under-performing stock, expecting the prices to eventually converge again. Pairs trading works on the assumption that the prices of the stocks will revert to their historical correlation.</p>
+    </section>
+
+    <section>
+        <h2>Literature Review</h2>
+        <p>The correlation between two stocks refers to how similarly or differently their prices move in relation to each other. A positive correlation means that both stocks tend to move in the same direction, while a negative correlation implies that they move in opposite directions.</p>
+        <p>Machine learning can be applied to pairs trading in several ways:</p>
+        <ul>
+            <li><strong>Stock Selection and Pair Identification</strong></li>
+            <li><strong>Predicting Divergence and Convergence</strong> </li>
+            <li><strong>Risk Management and Execution</strong></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Dataset Description</h2>
+        <p>The Kaggle dataset contains: Data, Open, High, Low, Close, Adj Close, Volume. Feature engineering include calculating rolling correlations, volatility, and price differences between assets. The Alpaca market API will be used to gather concurrent information for pairs to determine the price correlation.</p>
+        <p>Links:</p>
+        <ul>
+            <li><a href="https://alpaca.markets/" target="_blank">Alpaca Market API</a></li>
+            <li><a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank">Kaggle Stock Market Dataset</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Problem/Definition</h2>
+        <p>The primary research questions for this project include:</p>
+        <ul>
+            <li>What machine learning techniques are most effective for improving pairs trading strategies?</li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Methods</h2>
+        <h3>Data Preprocessing</h3>
+        <ul>
+            <li><strong>Normalization/Scaling:</strong> Since stock prices vary across companies, scaling the data is essential. Methods like Min-Max Scaling (range 0-1) and Z-score normalization standardize data, ensuring algorithms like Support Vector Machines (SVM) can focus on relationships without being affected by price magnitude.</li>
+            <li><strong>Missing Data Interpolation:</strong> Stock data often has gaps due to market holidays, which can disrupt model training. Forward filling with the previous data point helps address this issue. </li>
+            <li><strong>Feature Engineering:</strong> Creating new features from raw data, such as price ratios, moving averages, volatility indicators, and log returns, can enhance model performance by revealing stock pair relationships.</li>
+            <li><strong>ADF Test:</strong> The Augmented Dickey-Fuller (ADF) test checks for stationarity in time series data. If a stock’s price is stationary, it suggests mean reversion, making it a good candidate for pairs trading.</li>
+        </ul>
+
+        <h3>ML-Algorithms</h3>
+        <ul>
+            <li><strong>Support Vector Machines (SVM)</strong>: SVMs find the optimal hyperplane to classify data. In pair trading, they can identify "buy" or "sell" states based on price spread or other features.</li>
+            <li><strong>Random Forest</strong>: This ensemble method combines multiple decision trees for more accurate predictions. It can forecast future spreads between securities or classify trading signals in pair trading.</li> 
+            <li><strong>K-Nearest Neighbors (KNN)</strong>: KNN classifies a pair’s state by comparing it to historical data, helping identify potential trading opportunities.</li> <li><strong>Linear Regression</strong>: A statistical method used to model the linear relationship between two assets. In pair trading, it fits historical data to predict future price relationships.</li>
+            <li><strong>LSTM</strong>: LSTMs are recurrent neural networks that excel at learning from sequences. They capture complex, non-linear relationships between assets in pair trading, identifying more advanced patterns than linear models.</li>
+
+        </ul>
+    </section>
+
+    <section>
+        <h2>Results/Discussion</h2>
+        <p>Quantitative metrics for evaluating the project include:</p>
+        <ul>
+            <li><strong>Sharpe Ratio</strong></li>
+            <li><strong>Cumulative Return</strong> </li>
+            <li><strong>Mean Squared Error (MSE)</strong> </li>
+            <li><strong>Alpha and Beta</strong> </li>
+        </ul>
+    </section>
+
+    <section>
+        <h2>Motivation</h2>
+        <p>Pairs trading is a low-risk strategy, but selecting optimal pairs and timing trades are challenges that machine learning can address more effectively than traditional methods
+        </p>
+    </section>
+
+    <section>
+        <h2>Expected Results</h2>
+        <p>We expect to identify highly correlated pairs, reflected by cumulative returns during backtesting. Our strategy should remain market neutral with low beta and deliver strong quantitative metrics, including low MSE for price spread forecasts. The goal is to achieve marginal profitability with a solid risk-adjusted return rate.        </p>
+    </section>
+
+    <section>
+        <h2>References</h2>
+        <ul>
+            <li>Sarmento, S. M., & Horta, N. (2020b). A Machine Learning based Pairs Trading Investment Strategy. In SpringerBriefs in applied sciences and technology. <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank">DOI link</a>.</li>
+            <li>Sarmento, S. M., & Horta, N. (2020a). Enhancing a Pairs Trading strategy with the application of Machine Learning. <em>Expert Systems With Applications</em>, 158, 113490. <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank">DOI link</a>.</li>
+            <li>Chang, V., Man, X., Xu, Q., & Hsu, C. (2020). Pairs trading on different portfolios based on machine learning. <em>Expert Systems</em>, 38(3). <a href="https://doi.org/10.1111/exsy.12649" target="_blank">DOI link</a>.</li>
+        </ul>
+    </section>
+
+    <iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5n0LOcpPxzPahQBxcPG46zXWm-MLAN2CHTJLEBEEx2XPt_OAPdQn_-88kTPDsbGuAad-U3dZAs0s/pubhtml?widget=true&amp;headers=false" width="100%" height="600"></iframe>
+</body>
+</html>
