@@ -1,2 +1,2 @@
-"Date,Open,High,Low,Close,Volume,OpenInt",Daily Return,MA-5,MA-10,MA-20,EMA,BB_upper,BB_lower,Volatility-10,RSI,Volume MA-20,High-Low,Close-Open,ROC-10,P/B Ratio,P/E Ratio,Log Returns,Dividend Yield,Sector
-"2017-11-10,25.01,25.01,25.0009,25.0011,3000,0",,,,,,,,,,,,,,,,,,
+Date,Open,High,Low,Close,Volume,OpenInt,Daily Return,MA-5,MA-10,MA-20,EMA,BB_upper,BB_lower,Volatility-10,RSI,Volume MA-20,High-Low,Close-Open,ROC-10,Log Returns
+2017-11-10,25.01,25.01,25.0009,25.0011,3000,0,,,,,25.0011,,,,,,0.0363986896471731,-0.0355857656937248,,
