@@ -165,7 +165,7 @@ text-decoration: underline;
         
         <h3>Data</h3>
         <p>We decided to switch our dataset to the “Huge Stock Market Dataset” on Kaggle, which contains more recent information, aiding in our backtesting and model training. The dataset contains both ETF and single equity data, but we only used the single equity data. The dataset originally contained 7000 text files, which we converted to CSV files.</p>
-        <img src="images/initial_features.png" alt="Initial features dataset example" width="600">
+        <img src="../images/initial_features.png" alt="Initial features dataset example" width="600">
     
         <h3>Feature Engineering</h3>
         <p>The original dataset contained only a limited set of features, primarily basic price and volume data. While informative, these features alone were insufficient for effectively training our clustering models, as they did not capture essential quantitative metrics related to price volatility, trend momentum, and trading behavior. Therefore, as outlined in our proposal, we performed extensive feature engineering to enhance the dataset's depth for clustering.</p>
@@ -175,27 +175,27 @@ text-decoration: underline;
     
         <h3>Feature Selection</h3>
         <p>In clustering, variances of features play a significant role in determining how well the data can be grouped into clusters. Variance measures how features differ from each other, with high variance features providing a more distinct separation across data points. To find the optimal features, we used a variance threshold to filter out features that do not vary much, as low variance features don’t effectively separate the data points for clustering.</p>
-        <img src="images/feature_variance.png" alt="Variance of each feature" width="600">
+        <img src="../images/feature_variance.png" alt="Variance of each feature" width="600">
         <p>The graph above shows the variance for each feature in our dataset. We aimed to condense the time series data into summary statistics without using the full time series to simplify the data. For each time series metric, like daily return, moving average, exponential moving average, volatility, etc., we calculated the 25th percentile, 50th percentile, and 75th percentile values over a two-year time span. These percentiles provided the distribution of each metric. Taking these percentile values, we created features that represent the range and central tendencies. While it condenses the data effectively, it sacrifices temporal details. By reducing each time series to a few key percentiles, we lose the ability to capture day-to-day patterns, which would offer more insights for clustering.</p>
     
         <h3>Clustering Techniques</h3>
         <h4>K-Means</h4>
         <p>K-Means clustering is an unsupervised machine learning algorithm used to group similar points of data based on their features. It organizes points to minimize differences within clusters while maximizing the distance between each cluster. The number K is the number of clusters or centroids. Each point is assigned to the nearest cluster, and the centroids are recalculated. This algorithm stops when the clusters stabilize.</p>
-        <img src="images/kmean_clustering.png" alt="K-Means clustering on high-variance features" width="600">
+        <img src="../images/kmean_clustering.png" alt="K-Means clustering on high-variance features" width="600">
         <p>First, we loaded the dataset and removed any missing values. Only numeric features were used for clustering. Using the 20-day volume moving average (50th percentile) and 10-day moving average (50th percentile), we chose 30 clusters. The features were standardized to have a mean of 0 and a standard deviation of 1, which is important as it treats the features equally when calculating distances between points. We used a Silhouette score to determine the quality of clusters, where a higher score indicates a better-defined cluster.</p>
-        <img src="images/individuals_in_kmean_cluster.png" alt="Number of individuals in each K-Mean cluster" width="600">
+        <img src="../images/individuals_in_kmean_cluster.png" alt="Number of individuals in each K-Mean cluster" width="600">
     
         <h4>DBSCAN</h4>
         <p>DBSCAN is an unsupervised machine learning algorithm particularly effective for identifying clusters in data with varying densities and for dealing with noisy data. Unlike K-Means, DBSCAN does not require the number of clusters to be specified in advance. Instead, it groups points based on density, identifying regions of high point concentration and classifying sparse points as noise.</p>
-        <img src="images/dbscan_clustering.png" alt="DBSCAN clustering on t-SNE components" width="600">
+        <img src="../images/dbscan_clustering.png" alt="DBSCAN clustering on t-SNE components" width="600">
         <p>For this analysis, we first transformed our high-dimensional feature space into a 2D space using t-SNE (t-distributed Stochastic Neighbor Embedding), with parameters set to TSNE(n_components=2, perplexity=30, n_iter=300). t-SNE is a powerful tool for visualizing high-dimensional data, preserving relative distances and ensuring that similar data points are closer in the new 2D representation.</p>
         <p>We then applied DBSCAN to the t-SNE-transformed data with parameters eps=0.3 and min_samples=8. These values were chosen to balance the identification of meaningful clusters and minimize noise. DBSCAN effectively identified stocks with similar characteristics while isolating outliers, enabling a nuanced view of data that did not fit neatly into any specific cluster.</p>
     
         <h3>Quantitative Findings/Graphs</h3>
         <p>K-Means and DBSCAN clustering graphs represent all clusters formed. The graph shows the number of individuals in each cluster. Stocks within clusters exhibit similar patterns and are deemed as pairs.</p>
-        <img src="images/cluster_1_dbscan.png" alt="Cluster 1 - Closing Prices (DBSCAN)" width="600">
-        <img src="images/cluster_0_dbscan.png" alt="Cluster 0 - Closing Prices (DBSCAN)" width="600">
-        <img src="images/cluster_4_kmean.png" alt="Cluster 4 - Closing Prices (K-Means)" width="600">
+        <img src="../images/cluster_1_dbscan.png" alt="Cluster 1 - Closing Prices (DBSCAN)" width="600">
+        <img src="../images/cluster_0_dbscan.png" alt="Cluster 0 - Closing Prices (DBSCAN)" width="600">
+        <img src="../images/cluster_4_kmean.png" alt="Cluster 4 - Closing Prices (K-Means)" width="600">
     
         <h3>Next Steps</h3>
         <p>The next step is to implement the distance approach by normalizing each stock’s price at the start of the formation period, allowing for comparisons. As outlined by Smith and Xu (2017), this involves calculating daily returns to construct normalized price paths. We then compute the Euclidean distance between each stock pair to rank them, with the smallest distances indicating the closest relationships (Elliott et al., 2005). This approach could provide a more accurate measure on how we implement our unique strategy for feature engineering. The best-performing pairs within the clusters will be selected for backtesting to assess profitability and analyzed for mean reversion using linear regression. Additionally, we will incorporate co-movement metrics to further refine pair selection within clusters.</p>
