@@ -72,14 +72,22 @@
       <p>
         Pairs trading is a market-neutral trading strategy that involves
         matching a long position with a short position in two highly correlated
-        stocks or securities (Sarmento & Horta, 2020b). The idea is to profit
+        stocks or securities [1]. The idea is to profit
         from the relative price movements of two stocks that typically move
-        together. If the price relationship between the two stocks diverges, the
+        together called spread. The reason why market-neutral strategy are important is the underlying
+        principal behind them. These investment strategies are designed to minimize market risk by offsetting both long and short positions.
+        When markets are bearish, market neutral strategies are not affected by the downturn in price movement [8].
+         If the price relationship between the two stocks diverges, the
         trader would short the over-performing stock and go long on the
         under-performing stock, expecting the prices to eventually converge
         again. Pairs trading works on the assumption that the prices of the
-        stocks will revert to their historical correlation (Sarmento & Horta,
-        2020a).
+        stocks will revert to their historical correlation [1].
+
+
+
+        
+
+
       </p>
     </section>
 
@@ -95,6 +103,8 @@
         expecting the prices to eventually converge again (Sarmento & Horta,
         2020b). Pairs trading works on the assumption that the prices of the
         stocks will revert to their historical correlation.
+
+
       </p>
       <p>
         The correlation between two stocks refers to how similarly or
@@ -139,7 +149,7 @@
           supervised learning algorithms (such as Random Forest, Support Vector
           Machines) or unsupervised learning techniques, machine learning can
           predict when a pair's price will diverge and when it is likely to
-          converge back (Chang, Man, Xu, & Hsu, 2020). Time-series forecasting
+          converge back [3]. Time-series forecasting
           methods like LSTM (Long Short-Term Memory) networks can also be useful
           in predicting future price movements.
         </li>
@@ -149,6 +159,33 @@
           costs, and managing risks dynamically.
         </li>
       </ul>
+      <p>
+        A well known approach detailed in one of many researches employs the Kalman 
+        Filter to develop a quantitative pairs trading strategy using linear state
+        space models. They modeled the spread between paired assets as a mean-reverting 
+        process utilizing a Gaussian linear state space model derived from Ornstein-Uhlenbeck process [6].
+        The Kalman filter plays a pivotal role in their strategy as estimating the spread is important
+        to capture price movement. Using the probability and statistics, pricing the model
+        based on a set standard deviation away from regular price can indicate a stock being 
+        overbought or oversold. A part of the model is the dynamic hedging ratio. The hedging ratio represents
+        the proportion of a short position in one security needed to hedge the exposure from a long position
+        in another security. This ratio is dynamic because it evolves over time in response to changes in
+        the relationship between the securities.It continuously updates the hedging ratio as new data becomes available, using a state-space approach [7].
+        This project utilizes this model to generate meaningful returns.
+        Linear Regression is a statistical method used to model the relationship between two or more variables by fitting a linear equation to observed data [9].
+        In the context of pairs trading, linear regression is employed to analyze the relationship between the price of two stocks as well. Just like with Kalman Filtering, 
+        linear regression also uses a hedging ratio. 
+        The foundations of linear regression and Kalman filtering are completely different related to its purpose and assumptions. 
+        Linear regression is assumed to be static and serves to explain the impact of an independent variable on a dependent variable as a function. 
+        Linear regression can be used for interpreting past events in which changes between variables were stable. 
+        For instance, such methods can help evaluate the average relationship between the two stocks within a certain time frame.
+        Kalman filtering, on the other hand, is a time dependent, recursive and self improving algorithm which helps in estimating the
+         present condition of the system over a span of time, in the presence of uncertainty, faults and noise. In comparison to linear regression,
+          Kalman filtering is unique in a sense that it does not remain stable in a sense that when new data arrives, it can adjust its responses according
+           to the new information. This is useful in times where real time processing is required, such as financial markets, as the relationships are always
+            changing between the variables during times. Linear regression provides a mere ‘still image’ with regards to time, in this case progression.
+             Kalman filtering allows one to assess the system at any period and track changes that can happen.
+      </p>
     </section>
 
     <section>
@@ -626,43 +663,31 @@
       <h2>References</h2>
       <ul>
         <li>
-          Sarmento, S. M., & Horta, N. (2020b). A Machine Learning based Pairs
-          Trading Investment Strategy. In SpringerBriefs in applied sciences and
-          technology.
-          <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank"
-            >DOI link</a
-          >.
+          [1] S. M. Sarmento and N. Horta, <em>A Machine Learning Based Pairs Trading Investment Strategy</em>. SpringerBriefs in Applied Sciences and Technology, 2020. [Online]. Available: <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank">https://doi.org/10.1007/978-3-030-47251-1</a>.
         </li>
         <li>
-          Sarmento, S. M., & Horta, N. (2020a). Enhancing a Pairs Trading
-          strategy with the application of Machine Learning.
-          <em>Expert Systems With Applications</em>, 158, 113490.
-          <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank"
-            >DOI link</a
-          >.
+          [2] S. M. Sarmento and N. Horta, "Enhancing a Pairs Trading strategy with the application of Machine Learning," <em>Expert Systems with Applications</em>, vol. 158, p. 113490, 2020. [Online]. Available: <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank">https://doi.org/10.1016/j.eswa.2020.113490</a>.
         </li>
         <li>
-          Chang, V., Man, X., Xu, Q., & Hsu, C. (2020). Pairs trading on
-          different portfolios based on machine learning.
-          <em>Expert Systems</em>, 38(3).
-          <a href="https://doi.org/10.1111/exsy.12649" target="_blank"
-            >DOI link</a
-          >.
+          [3] V. Chang, X. Man, Q. Xu, and C. Hsu, "Pairs trading on different portfolios based on machine learning," <em>Expert Systems</em>, vol. 38, no. 3, 2020. [Online]. Available: <a href="https://doi.org/10.1111/exsy.12649" target="_blank">https://doi.org/10.1111/exsy.12649</a>.
         </li>
         <li>
-          Elliott, R. J., Van Der Hoek, J., & Malcolm, W. P. (2005). Pairs
-          trading. <em>Quantitative Finance, 5</em>(3), 271-276.
-          <a href="https://doi.org/10.1080/14697680500149370" target="_blank"
-            >DOI link</a
-          >.
+          [4] R. J. Elliott, J. Van Der Hoek, and W. P. Malcolm, "Pairs trading," <em>Quantitative Finance</em>, vol. 5, no. 3, pp. 271–276, 2005. [Online]. Available: <a href="https://doi.org/10.1080/14697680500149370" target="_blank">https://doi.org/10.1080/14697680500149370</a>.
         </li>
         <li>
-          Smith, R. T., & Xu, X. (2017). A good pair: Alternative pairs-trading
-          strategies. <em>Finance Markets Portfolio Management, 31</em>(1),
-          1-26.
-          <a href="https://doi.org/10.1007/s11408-016-0280-x" target="_blank"
-            >DOI link</a
-          >.
+          [5] R. T. Smith and X. Xu, "A good pair: Alternative pairs-trading strategies," <em>Finance Markets Portfolio Management</em>, vol. 31, no. 1, pp. 1–26, 2017. [Online]. Available: <a href="https://doi.org/10.1007/s11408-016-0280-x" target="_blank">https://doi.org/10.1007/s11408-016-0280-x</a>.
+        </li>
+        <li>
+          [6] C. E. de Moura, A. Pizzinga, and J. Zubelli, "A pairs trading strategy based on linear state space models and the Kalman filter," <em>Quantitative Finance</em>, vol. 16, no. 10, pp. 1559–1573, 2016. [Online]. Available: <a href="https://doi.org/10.1080/14697688.2016.1164886" target="_blank">https://doi.org/10.1080/14697688.2016.1164886</a>.
+        </li>
+        <li>
+          [7] M. J. Nourahmadi and M. Nourahmadi, "Application of Kalman Filter to Estimate Dynamic Hedge Ratio in Pairs Trading Strategy: A Case Study of the Automobile Industry," <em>Financial Research Journal</em>, vol. 21, no. 3, 2021. [Online]. Available: <a href="https://doi.org/10.22059/FRJ.2021.325988.1007206" target="_blank">https://doi.org/10.22059/FRJ.2021.325988.1007206</a>.
+        </li>
+        <li>
+          [8] A. J. Patton, "Are 'Market Neutral' Hedge Funds Really Market Neutral?," <em>The Review of Financial Studies</em>, vol. 22, no. 7, pp. 2495–2530, 2009. [Online]. Available: <a href="https://doi.org/10.1093/rfs/hhn113" target="_blank">https://doi.org/10.1093/rfs/hhn113</a>.
+        </li>
+        <li>
+          [9] B. Do, R. Faff, and K. Hamza, "A New Approach to Modeling and Estimation for Pairs Trading," 2006. [Online]. Available: <a href="https://doi.org/10.2139/ssrn.901289" target="_blank">https://doi.org/10.2139/ssrn.901289</a>.
         </li>
       </ul>
     </section>
@@ -675,7 +700,7 @@
         </tr>
         <tr>
           <td>Wesley Lu</td>
-          <td>Presentation Slide, K-mean Clustering</td>
+          <td>Presentation Slide, K-mean Clustering, Kalman Filtering, Linear Regression</td>
         </tr>
         <tr>
           <td>Matthew She</td>
