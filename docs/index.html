@@ -640,24 +640,41 @@
         A short signal of z-score higher than 1.0 indicated that the pair is overvalued and likely to revert downward.
         A hold signal would be when the z-score remained within the threshold.
       </p>
+      <img
+        src="cum_LR_return.jpeg"
+        alt="Cumulative Returns of LR Strategy"
+        width="600"
+      />
+      <img
+        src="logprices_LR.jpeg"
+        alt="Logarithmic Prices & Spread and Trading Signals"
+        width="600"
+      />
+      <img
+        src="logcloseprices_LR.jpeg"
+        alt="Logarithmic Close Prices: CVX vs XOM"
+        width="600"
+      />
+
+      <h3>Linear Regression Analysis</h3>
+        <p>Overall, the linear regression model performed strongly, generating a 294.48% return over the four year time period. Below is a strengths/weaknesses analysis of the algorithm. </p>
+      <h4>Strengths</h4>
+      <p>Cumulative Return: A 294.48% return over the observed period of four yeras is a good result for a pairs trading strategy. </p>
+      <p>Sharpe Ratio: The linear regression model generated a Sharpe Ratio of 3.82, which indicates excellent risk-adjusted performance. A ratio above 3 is typically regarded as outstanding in financial contexts</p>
+      <p>Log Price and Spread Behavior: The signals generated in the graph above align well with the spread reverting to the mean, validating the linear regression model's ability to predict profitable trades</p>
+      <h4>Weaknesses</h4>
+      <p>Dataset Time: The results are based on historical data (2010 through 2014). For a thorough evaluation, it's essential to validate the strategy's robustness on out-of-sample data</p>
+
+
+      <h4>Comparison of dbscan and k-means</h4>
+      <p>K-Means is a powerful clustering method for well-structured data, DBSCAN's ability to identify irregularly shaped clusters, handle noise, and adapt without requiring a predefined number of clusters makes it a better choice for pairs trading under volatile conditions. DBSCAN's flexibility ensures more meaningful clustering in the context of financial relationships, which can ultimately lead to more accurate trading signals and better performance in dynamic markets.</p>
+      <h4>Comparison of dbscan and linear regression</h4>
+      <p>DBSCAN and Linear Regression can work together effectively in pairs trading, each addressing different aspects of the strategy. DBSCAN's ability to identify irregularly shaped clusters, handle noise, and adapt to dynamic relationships makes it ideal for the initial step of selecting potential pairs. Linear Regression then takes over to provide a quantitative framework for trade execution, determining optimal entry and exit points. By using these two methods in tandem, traders can build a robust and adaptive pairs trading strategy that is well-suited to navigating the complexities of financial markets.</p>
+      <h4></h4>
 
 
       <h3>Next Steps</h3>
-      <p>
-        The next step is to implement the distance approach by normalizing each
-        stock’s price at the start of the formation period, allowing for
-        comparisons. As outlined by Smith and Xu (2017), this involves
-        calculating daily returns to construct normalized price paths. We then
-        compute the Euclidean distance between each stock pair to rank them,
-        with the smallest distances indicating the closest relationships
-        (Elliott et al., 2005). This approach could provide a more accurate
-        measure on how we implement our unique strategy for feature engineering.
-        The best-performing pairs within the clusters will be selected for
-        backtesting to assess profitability and analyzed for mean reversion
-        using linear regression (Smith & Xu, 2017). Additionally, we will
-        incorporate co-movement metrics to further refine pair selection within
-        clusters.
-      </p>
+      <p>To further enhance the pairs trading model, one could explore additional clustering methods like hierarchical clustering or Gaussian Mixture Models, apply feature engineering to derive new indicators, utilize advanced models such as LSTMs for forecasting, and conduct extensive backtesting with optimization techniques to ensure the robustness of the model.</p>
     </section>
     <section>
       <h2>References</h2>
