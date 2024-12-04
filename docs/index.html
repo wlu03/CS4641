@@ -1,268 +1,681 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>ML Proposal - Pairs Trading</title>
-<style>
-body {
-    font-family: Arial, sans-serif;
-    line-height: 1.6;
-    margin: 20px;
-    background-color: #f4f4f4;
-}
-h1, h2, h3 {
-    color: #333;
-}
-h1 {
-    text-align: center;
-}
-section {
-    background-color: #fff;
-    padding: 20px;
-    margin-bottom: 20px;
-    border-radius: 5px;
-    box-shadow: 0 0 10px rgba(0,0,0,0.1);
-}
-p {
-    margin-bottom: 10px;
-}
-ul {
-    margin-left: 20px;
-}
-a {
-    color: blue;
-    text-decoration: none;
-}
-a:hover {
-    text-decoration: underline;
-}
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
-table, th, td {
-    border: 1px solid #ddd;
-    padding: 12px;
-    text-align: left;
-}
-th {
-    background-color: #f2f2f2;
-    font-weight: bold;
-    color: #333;
-}
-tr:nth-child(even) {
-    background-color: #f9f9f9;
-}
-tr:hover {
-    background-color: #f1f1f1;
-}
-</style>
-</head>
-<body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ML Proposal - Pairs Trading</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        line-height: 1.6;
+        margin: 20px;
+        background-color: #f4f4f4;
+      }
+      h1,
+      h2,
+      h3 {
+        color: #333;
+      }
+      h1 {
+        text-align: center;
+      }
+      section {
+        background-color: #fff;
+        padding: 20px;
+        margin-bottom: 20px;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      }
+      p {
+        margin-bottom: 10px;
+      }
+      ul {
+        margin-left: 20px;
+      }
+      a {
+        color: blue;
+        text-decoration: none;
+      }
+      a:hover {
+        text-decoration: underline;
+      }
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+      table,
+      th,
+      td {
+        border: 1px solid #ddd;
+        padding: 12px;
+        text-align: left;
+      }
+      th {
+        background-color: #f2f2f2;
+        font-weight: bold;
+        color: #333;
+      }
+      tr:nth-child(even) {
+        background-color: #f9f9f9;
+      }
+      tr:hover {
+        background-color: #f1f1f1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Machine Learning Proposal for Pairs Trading</h1>
 
-<h1>Machine Learning Proposal for Pairs Trading</h1>
-
-<section>
-<h2>Introduction/Background</h2>
-<p>Pairs trading is a market-neutral trading strategy that involves matching a long position with a short position in two highly correlated stocks or securities. The idea is to profit from the relative price movements of two stocks that typically move together. If the price relationship between the two stocks diverges, the trader would short the over-performing stock and go long on the under-performing stock, expecting the prices to eventually converge again. Pairs trading works on the assumption that the prices of the stocks will revert to their historical correlation.</p>
-</section>
-
-<section>
-<h2>Literature Review</h2>
-<p>Pairs trading is a market-neutral trading strategy that involves matching a long position with a short position in two highly correlated stocks or securities. The idea is to profit from the relative price movements of two stocks that typically move together. If the price relationship between the two stocks diverges, the trader would short the over-performing stock and go long on the under-performing stock, expecting the prices to eventually converge again. Pairs trading works on the assumption that the prices of the stocks will revert to their historical correlation.</p>
-<p>The correlation between two stocks refers to how similarly or differently their prices move in relation to each other. A positive correlation means that both stocks tend to move in the same direction, while a negative correlation implies that they move in opposite directions.</p>
-<ul>
-<li><strong>A correlation of +1</strong> means the two stocks move perfectly in tandem.</li>
-<li><strong>A correlation of -1</strong> means the two stocks move in exactly opposite directions.</li>
-<li><strong>A correlation close to 0</strong> means that the two stocks have little to no relationship in their price movements.</li>
-</ul>
-<p>This relationship can be represented visually through scatter plots or line charts, and the correlation coefficient can be calculated using historical price data.</p>
-<p>Machine learning can be applied to pairs trading in several ways, including:</p>
-<ul>
-<li><strong>Stock Selection and Pair Identification:</strong> ML algorithms can analyze historical data to identify stock pairs that show high correlation or co-integration. Techniques such as clustering, PCA (Principal Component Analysis), or regression models can be used.</li>
-<li><strong>Predicting Divergence and Convergence:</strong> Using supervised learning algorithms (such as Random Forest, Support Vector Machines) or unsupervised learning techniques, machine learning can predict when a pair's price will diverge and when it is likely to converge back. Time-series forecasting methods like LSTM (Long Short-Term Memory) networks can also be useful in predicting future price movements.</li>
-<li><strong>Risk Management and Execution:</strong> ML models can optimize trade execution by predicting price slippage, reducing transaction costs, and managing risks dynamically.</li>
-</ul>
-</section>
-
-<section>
-<h2>Dataset Description</h2>
-<p>The Kaggle dataset contains the following: Data, Open, High, Low, Close, Adj Close, Volume. For the stocks, we can preprocess the data to find the rolling correlation between two assets over a moving time window. The difference in the price of the two assets can be monitored. Volatility is another feature that can be calculated using the prices. The Alpaca market API can be used to get concurrent information for pairs to find the price correlation.</p>
-<p>Links:</p>
-<ul>
-<li><a href="https://alpaca.markets/" target="_blank">Alpaca Market API</a></li>
-<li><a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank">Kaggle Stock Market Dataset</a></li>
-</ul>
-
-<h3>Feature Engineering</h3>
-<p>To improve the predictive capability of the models, the following features were engineered:</p>
-<ul>
-<li><strong>Daily Return:</strong> Percentage change in the closing price from the previous day.</li>
-<li><strong>Moving Averages (MA):</strong> Calculated over different windows:
-    <ul>
-        <li>MA-5, MA-10, MA-20: Simple moving averages over 5, 10, and 20 days, respectively.</li>
-    </ul>
-</li>
-<li><strong>Exponential Moving Average (EMA):</strong> A 20-day exponential moving average of the closing price.</li>
-<li><strong>Bollinger Bands (BB):</strong> 
-    <ul>
-        <li>BB_upper, BB_lower: Calculated as the 20-day moving average plus/minus two standard deviations.</li>
-    </ul>
-</li>
-<li><strong>Volatility-10:</strong> Standard deviation of daily returns over a 10-day window.</li>
-<li><strong>Relative Strength Index (RSI):</strong> A momentum oscillator that measures the speed and change of price movements, calculated over a 14-day window.</li>
-<li><strong>Volume Moving Average (Volume MA-20):</strong> A 20-day moving average of the volume.</li>
-<li><strong>High-Low Percentage:</strong> Difference between high and low prices as a percentage of the low price.</li>
-<li><strong>Close-Open Percentage:</strong> Percentage difference between closing and opening prices.</li>
-<li><strong>Rate of Change (ROC-10):</strong> Percentage change in closing price over a 10-day period.</li>
-<li><strong>Log Returns:</strong> Natural log of the ratio of the current closing price to the previous day’s closing price.</li>
-</ul>
-</section>
-
-<section>
-<h2>Problem Definition</h2>
-<p>The primary research questions for this project include:</p>
-<ul>
-<li><strong>Can machine learning predict profitable entry and exit points for pairs trading based on historical price data?</strong> 
-<p>This question investigates whether ML models, trained on historical price patterns, can accurately forecast moments when a stock pair's price divergence is likely to revert. By timing trades precisely, the goal is to enhance profitability.</p></li>
-<li><strong>What machine learning techniques are most effective for improving pairs trading strategies?</strong>
-<p>This question explores the most effective ML methods for identifying pairs, forecasting price movements, and optimizing trades. Techniques such as clustering, time-series analysis, and reinforcement learning will be analyzed.</p></li>
-<li><strong>How does ML affect the risk and return profile of pairs trading compared to traditional methods?</strong>
-<p>This question seeks to evaluate the advantages of ML-based strategies over traditional statistical models in terms of risk and return. It examines if ML can better manage risk while achieving profitability.</p></li>
-</ul>
-</section>
-
-<section>
-<h2>Motivation</h2>
-<p>Pairs trading is often viewed as a low-risk strategy, but it faces challenges in selecting optimal pairs and timing trades. Machine learning offers promising solutions to address these challenges, making the strategy more efficient and potentially more profitable. By utilizing ML, this project aims to optimize pair selection and trade timing, which are critical to maximizing returns and minimizing risk.</p>
-</section>
-
-<section>
-<h2>Methods</h2>
-<h3>Data Preprocessing</h3>
-<ul>
-<li><strong>Normalization/Scaling:</strong> Due to the variance in stock prices across companies, it is essential to normalize and scale data. Min-Max Scaling (0-1 range) and Z-score normalization are used to standardize data, enabling algorithms to focus on relationships without price magnitude interference.</li>
-<li><strong>Missing Data Interpolation:</strong> Gaps in stock data from market holidays or incomplete records can disrupt calculations and training. Forward filling missing values with the previous data point is an effective solution.</li>
-<li><strong>Feature Engineering:</strong> New features, such as price ratios, moving averages, volatility, and log returns, are engineered to uncover stock pair relationships and aid in identifying key trading moments.</li>
-<li><strong>ADF Test:</strong> The Augmented Dickey-Fuller (ADF) test is used to check for stationarity in time series data, indicating whether a stock price series is mean-reverting and suitable for pairs trading.</li>
-</ul>
-
-<h3>ML Algorithms/Models</h3>
-<ul>
-<li><strong>Support Vector Machines (SVM):</strong> SVMs are used to classify "buy" or "sell" states based on price spreads or other features, finding the optimal hyperplane for accurate separation.</li>
-<li><strong>Random Forest:</strong> An ensemble of decision trees that improves prediction accuracy, useful for predicting spreads or classifying trading signals.</li> 
-<li><strong>Gradient Boosting Machines (GBM):</strong> Models like XGBoost and LightGBM use an ensemble of trees to detect complex patterns in security relationships, enhancing predictive accuracy.</li>
-<li><strong>K-Nearest Neighbors (KNN):</strong> KNN can classify states by comparing them to historical patterns, potentially identifying similar past trading opportunities.</li>
-<li><strong>LSTM:</strong> Long Short-Term Memory networks, a type of recurrent neural network, capture complex relationships over time between asset prices, revealing advanced patterns.</li>
-<li><strong>Linear Regression:</strong> This model identifies linear relationships between asset prices, establishing the historical price correlation as a baseline for future forecasts.</li>
-</ul>
-</section>
-
-<section>
-<h2>Results and Discussion</h2>
-<p>Quantitative metrics to evaluate the project include:</p>
-<ul>
-<li><strong>Sharpe Ratio:</strong> Measures the risk-adjusted return, with SOFR as the risk-free rate.</li>
-<li><strong>Cumulative Return:</strong> Tracks the total portfolio return during backtesting.</li>
-<li><strong>Mean Squared Error (MSE):</strong> Measures the accuracy of spread forecasts.</li>
-<li><strong>Alpha and Beta:</strong> Alpha indicates performance relative to a benchmark, while beta measures volatility compared to the market.</li>
-</ul>
-</section>
-
-<section>
-<h2>Project Goals</h2>
-<p>The objective is to predict optimal entry and exit points for trading pairs by analyzing the price spread using ML. Our goal is to enhance pair selection while minimizing risk, with backtesting to evaluate quantitative metrics. A secondary goal is to explore reinforcement learning for adapting strategies to market conditions.</p>
-</section>
-
-<section>
-<h2>Expected Results</h2>
-<p>The expected outcome is to identify highly correlated pairs reflected by cumulative returns in backtesting. The strategy should remain market-neutral with a low beta and strong quantitative metrics, including low MSE for spread forecasts. Ultimately, the goal is a profitable, risk-adjusted return rate.</p>
-</section>
-
-<section>
-        <h2>Midterm Report</h2>
-        
-        <h3>Data</h3>
-        <p>We decided to switch our dataset to the “Huge Stock Market Dataset” on Kaggle, which contains more recent information, aiding in our backtesting and model training. The dataset contains both ETF and single equity data, but we only used the single equity data. The dataset originally contained 7000 text files, which we converted to CSV files.</p>
-        <img src="initial_features.png" alt="Initial features dataset example" width="600">
-    
-        <h3>Feature Engineering</h3>
-        <p>The original dataset contained only a limited set of features, primarily basic price and volume data. While informative, these features alone were insufficient for effectively training our clustering models, as they did not capture essential quantitative metrics related to price volatility, trend momentum, and trading behavior. Therefore, as outlined in our proposal, we performed extensive feature engineering to enhance the dataset's depth for clustering.</p>
-        <p>To build more robust features, we introduced several new quantitative features. Key additions included moving averages over multiple time windows (e.g., 5, 10, and 20 days) to smooth out price fluctuations and reveal long-term trends, as well as exponential moving averages (EMAs). By incorporating Bollinger Bands and volatility metrics, we enhanced our ability to assess price variability and detect breakout points, which are critical for understanding stock behavior across market conditions.</p>
-        <p>Furthermore, we added momentum indicators like the Relative Strength Index (RSI) and Rate of Change (ROC), which measure price momentum and help distinguish between bullish and bearish trends. To capture intraday price dynamics, we calculated percentage changes between daily high and low prices (High-Low %) and closing and opening prices (Close-Open %). We also transformed price data into log returns for a statistically sound measurement of continuous compounding returns, making the dataset suitable for models that assume normally distributed returns.</p>
-        <p>Additionally, volume-based features such as the Volume Moving Average allowed us to incorporate trading activity trends, highlighting periods of increased buying or selling pressure. Each of these engineered features provided insights into the underlying market structure and behavior, enhancing the dataset’s utility for clustering.</p>
-    
-        <h3>Feature Selection</h3>
-        <p>In clustering, variances of features play a significant role in determining how well the data can be grouped into clusters. Variance measures how features differ from each other, with high variance features providing a more distinct separation across data points. To find the optimal features, we used a variance threshold to filter out features that do not vary much, as low variance features don’t effectively separate the data points for clustering.</p>
-        <img src="feature_variance.png" alt="Variance of each feature" width="600">
-        <p>The graph above shows the variance for each feature in our dataset. We aimed to condense the time series data into summary statistics without using the full time series to simplify the data. For each time series metric, like daily return, moving average, exponential moving average, volatility, etc., we calculated the 25th percentile, 50th percentile, and 75th percentile values over a two-year time span. These percentiles provided the distribution of each metric. Taking these percentile values, we created features that represent the range and central tendencies. While it condenses the data effectively, it sacrifices temporal details. By reducing each time series to a few key percentiles, we lose the ability to capture day-to-day patterns, which would offer more insights for clustering.</p>
-    
-        <h3>Clustering Techniques</h3>
-        <h4>K-Means</h4>
-        <p>K-Means clustering is an unsupervised machine learning algorithm used to group similar points of data based on their features. It organizes points to minimize differences within clusters while maximizing the distance between each cluster. The number K is the number of clusters or centroids. Each point is assigned to the nearest cluster, and the centroids are recalculated. This algorithm stops when the clusters stabilize.</p>
-        <img src="kmean_clustering.png" alt="K-Means clustering on high-variance features" width="600">
-        <p>First, we loaded the dataset and removed any missing values. Only numeric features were used for clustering. Using the 20-day volume moving average (50th percentile) and 10-day moving average (50th percentile), we chose 30 clusters. The features were standardized to have a mean of 0 and a standard deviation of 1, which is important as it treats the features equally when calculating distances between points. We used a Silhouette score to determine the quality of clusters, where a higher score indicates a better-defined cluster.</p>
-        <img src="individuals_in_kmean_cluster.png" alt="Number of individuals in each K-Mean cluster" width="600">
-    
-        <h4>DBSCAN</h4>
-        <p>DBSCAN is an unsupervised machine learning algorithm particularly effective for identifying clusters in data with varying densities and for dealing with noisy data. Unlike K-Means, DBSCAN does not require the number of clusters to be specified in advance. Instead, it groups points based on density, identifying regions of high point concentration and classifying sparse points as noise.</p>
-        <img src="dbscan_clustering.png" alt="DBSCAN clustering on t-SNE components" width="600">
-        <p>For this analysis, we first transformed our high-dimensional feature space into a 2D space using t-SNE (t-distributed Stochastic Neighbor Embedding), with parameters set to TSNE(n_components=2, perplexity=30, n_iter=300). t-SNE is a powerful tool for visualizing high-dimensional data, preserving relative distances and ensuring that similar data points are closer in the new 2D representation.</p>
-        <p>We then applied DBSCAN to the t-SNE-transformed data with parameters eps=0.3 and min_samples=8. These values were chosen to balance the identification of meaningful clusters and minimize noise. DBSCAN effectively identified stocks with similar characteristics while isolating outliers, enabling a nuanced view of data that did not fit neatly into any specific cluster.</p>
-    
-        <h3>Quantitative Findings/Graphs</h3>
-        <p>K-Means and DBSCAN clustering graphs represent all clusters formed. The graph shows the number of individuals in each cluster. Stocks within clusters exhibit similar patterns and are deemed as pairs.</p>
-        <img src="cluster_1_dbscan.png" alt="Cluster 1 - Closing Prices (DBSCAN)" width="600">
-        <img src="cluster_0_dbscan.png" alt="Cluster 0 - Closing Prices (DBSCAN)" width="600">
-        <img src="cluster_4_kmean.png" alt="Cluster 4 - Closing Prices (K-Means)" width="600">
-    
-        <h3>Next Steps</h3>
-        <p>The next step is to implement the distance approach by normalizing each stock’s price at the start of the formation period, allowing for comparisons. As outlined by Smith and Xu (2017), this involves calculating daily returns to construct normalized price paths. We then compute the Euclidean distance between each stock pair to rank them, with the smallest distances indicating the closest relationships (Elliott et al., 2005). This approach could provide a more accurate measure on how we implement our unique strategy for feature engineering. The best-performing pairs within the clusters will be selected for backtesting to assess profitability and analyzed for mean reversion using linear regression. Additionally, we will incorporate co-movement metrics to further refine pair selection within clusters.</p>
+    <section>
+      <h2>Introduction/Background</h2>
+      <p>
+        Pairs trading is a market-neutral trading strategy that involves
+        matching a long position with a short position in two highly correlated
+        stocks or securities (Sarmento & Horta, 2020b). The idea is to profit
+        from the relative price movements of two stocks that typically move
+        together. If the price relationship between the two stocks diverges, the
+        trader would short the over-performing stock and go long on the
+        under-performing stock, expecting the prices to eventually converge
+        again. Pairs trading works on the assumption that the prices of the
+        stocks will revert to their historical correlation (Sarmento & Horta,
+        2020a).
+      </p>
     </section>
 
-<section>
-        <h2>References</h2>
-        <ul>
-        <li>Sarmento, S. M., & Horta, N. (2020b). A Machine Learning based Pairs Trading Investment Strategy. In SpringerBriefs in applied sciences and technology. <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank">DOI link</a>.</li>
-        <li>Sarmento, S. M., & Horta, N. (2020a). Enhancing a Pairs Trading strategy with the application of Machine Learning. <em>Expert Systems With Applications</em>, 158, 113490. <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank">DOI link</a>.</li>
-        <li>Chang, V., Man, X., Xu, Q., & Hsu, C. (2020). Pairs trading on different portfolios based on machine learning. <em>Expert Systems</em>, 38(3). <a href="https://doi.org/10.1111/exsy.12649" target="_blank">DOI link</a>.</li>
-        <li>Elliott, R. J., Van Der Hoek, J., & Malcolm, W. P. (2005). Pairs trading. <em>Quantitative Finance, 5</em>(3), 271-276. <a href="https://doi.org/10.1080/14697680500149370" target="_blank">DOI link</a>.</li>
-        <li>Smith, R. T., & Xu, X. (2017). A good pair: Alternative pairs-trading strategies. <em>Finance Markets Portfolio Management, 31</em>(1), 1-26. <a href="https://doi.org/10.1007/s11408-016-0280-x" target="_blank">DOI link</a>.</li>
-        </ul>
-</section>
-        
-<section>
-        <h2>Contributions</h2>
-        <table>
-            <tr>
-                <th>Name</th>
-                <th>Final Contributions</th>
-            </tr>
-            <tr>
-                <td>Wesley Lu</td>
-                <td>Presentation Slide, K-mean Clustering</td>
-            </tr>
-            <tr>
-                <td>Matthew She</td>
-                <td>Presentation Slide, Data Processing, Feature Engineering</td>
-            </tr>
-            <tr>
-                <td>Matthew Lu</td>
-                <td>Presentation Slide, DBScan Clustering</td>
-            </tr>
-            <tr>
-                <td>Justin Lee</td>
-                <td>Presentation Slide, Data Processing, Feature Engineering</td>
-            </tr>
-            <tr>
-                <td>Victor Wu</td>
-                <td>Presentation Slide, Data Processing, Feature Engineering</td>
-            </tr>
-        </table>
-        </section>
+    <section>
+      <h2>Literature Review</h2>
+      <p>
+        Pairs trading is a market-neutral trading strategy that involves
+        matching a long position with a short position in two highly correlated
+        stocks or securities. The idea is to profit from the relative price
+        movements of two stocks that typically move together. If the price
+        relationship between the two stocks diverges, the trader would short the
+        over-performing stock and go long on the under-performing stock,
+        expecting the prices to eventually converge again (Sarmento & Horta,
+        2020b). Pairs trading works on the assumption that the prices of the
+        stocks will revert to their historical correlation.
+      </p>
+      <p>
+        The correlation between two stocks refers to how similarly or
+        differently their prices move in relation to each other. A positive
+        correlation means that both stocks tend to move in the same direction,
+        while a negative correlation implies that they move in opposite
+        directions.
+      </p>
+      <ul>
+        <li>
+          <strong>A correlation of +1</strong> means the two stocks move
+          perfectly in tandem.
+        </li>
+        <li>
+          <strong>A correlation of -1</strong> means the two stocks move in
+          exactly opposite directions.
+        </li>
+        <li>
+          <strong>A correlation close to 0</strong> means that the two stocks
+          have little to no relationship in their price movements.
+        </li>
+      </ul>
+      <p>
+        This relationship can be represented visually through scatter plots or
+        line charts, and the correlation coefficient can be calculated using
+        historical price data.
+      </p>
+      <p>
+        Machine learning can be applied to pairs trading in several ways,
+        including:
+      </p>
+      <ul>
+        <li>
+          <strong>Stock Selection and Pair Identification:</strong> ML
+          algorithms can analyze historical data to identify stock pairs that
+          show high correlation or co-integration. Techniques such as
+          clustering, PCA (Principal Component Analysis), or regression models
+          can be used.
+        </li>
+        <li>
+          <strong>Predicting Divergence and Convergence:</strong> Using
+          supervised learning algorithms (such as Random Forest, Support Vector
+          Machines) or unsupervised learning techniques, machine learning can
+          predict when a pair's price will diverge and when it is likely to
+          converge back (Chang, Man, Xu, & Hsu, 2020). Time-series forecasting
+          methods like LSTM (Long Short-Term Memory) networks can also be useful
+          in predicting future price movements.
+        </li>
+        <li>
+          <strong>Risk Management and Execution:</strong> ML models can optimize
+          trade execution by predicting price slippage, reducing transaction
+          costs, and managing risks dynamically.
+        </li>
+      </ul>
+    </section>
 
-<iframe src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5n0LOcpPxzPahQBxcPG46zXWm-MLAN2CHTJLEBEEx2XPt_OAPdQn_-88kTPDsbGuAad-U3dZAs0s/pubhtml?widget=true&amp;headers=false" width="100%" height="600"></iframe>
-</body>
+    <section>
+      <h2>Dataset Description</h2>
+      <p>
+        The Kaggle dataset contains the following: Data, Open, High, Low, Close,
+        Adj Close, Volume. For the stocks, we can preprocess the data to find
+        the rolling correlation between two assets over a moving time window.
+        The difference in the price of the two assets can be monitored.
+        Volatility is another feature that can be calculated using the prices.
+        The Alpaca market API can be used to get concurrent information for
+        pairs to find the price correlation.
+      </p>
+      <p>Links:</p>
+      <ul>
+        <li>
+          <a href="https://alpaca.markets/" target="_blank"
+            >Alpaca Market API</a
+          >
+        </li>
+        <li>
+          <a
+            href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset"
+            target="_blank"
+            >Kaggle Stock Market Dataset</a
+          >
+        </li>
+      </ul>
+
+      <h3>Feature Engineering</h3>
+      <p>
+        To improve the predictive capability of the models, the following
+        features were engineered:
+      </p>
+      <ul>
+        <li>
+          <strong>Daily Return:</strong> Percentage change in the closing price
+          from the previous day.
+        </li>
+        <li>
+          <strong>Moving Averages (MA):</strong> Calculated over different
+          windows:
+          <ul>
+            <li>
+              MA-5, MA-10, MA-20: Simple moving averages over 5, 10, and 20
+              days, respectively.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Exponential Moving Average (EMA):</strong> A 20-day
+          exponential moving average of the closing price.
+        </li>
+        <li>
+          <strong>Bollinger Bands (BB):</strong>
+          <ul>
+            <li>
+              BB_upper, BB_lower: Calculated as the 20-day moving average
+              plus/minus two standard deviations.
+            </li>
+          </ul>
+        </li>
+        <li>
+          <strong>Volatility-10:</strong> Standard deviation of daily returns
+          over a 10-day window.
+        </li>
+        <li>
+          <strong>Relative Strength Index (RSI):</strong> A momentum oscillator
+          that measures the speed and change of price movements, calculated over
+          a 14-day window.
+        </li>
+        <li>
+          <strong>Volume Moving Average (Volume MA-20):</strong> A 20-day moving
+          average of the volume.
+        </li>
+        <li>
+          <strong>High-Low Percentage:</strong> Difference between high and low
+          prices as a percentage of the low price.
+        </li>
+        <li>
+          <strong>Close-Open Percentage:</strong> Percentage difference between
+          closing and opening prices.
+        </li>
+        <li>
+          <strong>Rate of Change (ROC-10):</strong> Percentage change in closing
+          price over a 10-day period.
+        </li>
+        <li>
+          <strong>Log Returns:</strong> Natural log of the ratio of the current
+          closing price to the previous day’s closing price.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Problem Definition</h2>
+      <p>The primary research questions for this project include:</p>
+      <ul>
+        <li>
+          <strong
+            >Can machine learning predict profitable entry and exit points for
+            pairs trading based on historical price data?</strong
+          >
+          <p>
+            This question investigates whether ML models, trained on historical
+            price patterns, can accurately forecast moments when a stock pair's
+            price divergence is likely to revert. By timing trades precisely,
+            the goal is to enhance profitability.
+          </p>
+        </li>
+        <li>
+          <strong
+            >What machine learning techniques are most effective for improving
+            pairs trading strategies?</strong
+          >
+          <p>
+            This question explores the most effective ML methods for identifying
+            pairs, forecasting price movements, and optimizing trades.
+            Techniques such as clustering, time-series analysis, and
+            reinforcement learning will be analyzed.
+          </p>
+        </li>
+        <li>
+          <strong
+            >How does ML affect the risk and return profile of pairs trading
+            compared to traditional methods?</strong
+          >
+          <p>
+            This question seeks to evaluate the advantages of ML-based
+            strategies over traditional statistical models in terms of risk and
+            return. It examines if ML can better manage risk while achieving
+            profitability.
+          </p>
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Motivation</h2>
+      <p>
+        Pairs trading is often viewed as a low-risk strategy, but it faces
+        challenges in selecting optimal pairs and timing trades. Machine
+        learning offers promising solutions to address these challenges, making
+        the strategy more efficient and potentially more profitable. By
+        utilizing ML, this project aims to optimize pair selection and trade
+        timing, which are critical to maximizing returns and minimizing risk.
+      </p>
+    </section>
+
+    <section>
+      <h2>Methods</h2>
+      <h3>Data Preprocessing</h3>
+      <ul>
+        <li>
+          <strong>Normalization/Scaling:</strong> Due to the variance in stock
+          prices across companies, it is essential to normalize and scale data.
+          Min-Max Scaling (0-1 range) and Z-score normalization are used to
+          standardize data, enabling algorithms to focus on relationships
+          without price magnitude interference.
+        </li>
+        <li>
+          <strong>Missing Data Interpolation:</strong> Gaps in stock data from
+          market holidays or incomplete records can disrupt calculations and
+          training. Forward filling missing values with the previous data point
+          is an effective solution.
+        </li>
+        <li>
+          <strong>Feature Engineering:</strong> New features, such as price
+          ratios, moving averages, volatility, and log returns, are engineered
+          to uncover stock pair relationships and aid in identifying key trading
+          moments.
+        </li>
+        <li>
+          <strong>ADF Test:</strong> The Augmented Dickey-Fuller (ADF) test is
+          used to check for stationarity in time series data, indicating whether
+          a stock price series is mean-reverting and suitable for pairs trading.
+        </li>
+      </ul>
+
+      <h3>ML Algorithms/Models</h3>
+      <ul>
+        <li>
+          <strong>Support Vector Machines (SVM):</strong> SVMs are used to
+          classify "buy" or "sell" states based on price spreads or other
+          features, finding the optimal hyperplane for accurate separation.
+        </li>
+        <li>
+          <strong>Random Forest:</strong> An ensemble of decision trees that
+          improves prediction accuracy, useful for predicting spreads or
+          classifying trading signals.
+        </li>
+        <li>
+          <strong>Gradient Boosting Machines (GBM):</strong> Models like XGBoost
+          and LightGBM use an ensemble of trees to detect complex patterns in
+          security relationships, enhancing predictive accuracy.
+        </li>
+        <li>
+          <strong>K-Nearest Neighbors (KNN):</strong> KNN can classify states by
+          comparing them to historical patterns, potentially identifying similar
+          past trading opportunities.
+        </li>
+        <li>
+          <strong>LSTM:</strong> Long Short-Term Memory networks, a type of
+          recurrent neural network, capture complex relationships over time
+          between asset prices, revealing advanced patterns.
+        </li>
+        <li>
+          <strong>Linear Regression:</strong> This model identifies linear
+          relationships between asset prices, establishing the historical price
+          correlation as a baseline for future forecasts.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Results and Discussion</h2>
+      <p>Quantitative metrics to evaluate the project include:</p>
+      <ul>
+        <li>
+          <strong>Sharpe Ratio:</strong> Measures the risk-adjusted return, with
+          SOFR as the risk-free rate.
+        </li>
+        <li>
+          <strong>Cumulative Return:</strong> Tracks the total portfolio return
+          during backtesting.
+        </li>
+        <li>
+          <strong>Mean Squared Error (MSE):</strong> Measures the accuracy of
+          spread forecasts.
+        </li>
+        <li>
+          <strong>Alpha and Beta:</strong> Alpha indicates performance relative
+          to a benchmark, while beta measures volatility compared to the market.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Project Goals</h2>
+      <p>
+        The objective is to predict optimal entry and exit points for trading
+        pairs by analyzing the price spread using ML. Our goal is to enhance
+        pair selection while minimizing risk, with backtesting to evaluate
+        quantitative metrics. A secondary goal is to explore reinforcement
+        learning for adapting strategies to market conditions.
+      </p>
+    </section>
+
+    <section>
+      <h2>Expected Results</h2>
+      <p>
+        The expected outcome is to identify highly correlated pairs reflected by
+        cumulative returns in backtesting. The strategy should remain
+        market-neutral with a low beta and strong quantitative metrics,
+        including low MSE for spread forecasts. Ultimately, the goal is a
+        profitable, risk-adjusted return rate.
+      </p>
+    </section>
+
+    <section>
+      <h2>Midterm Report</h2>
+
+      <h3>Data</h3>
+      <p>
+        We decided to switch our dataset to the “Huge Stock Market Dataset” on
+        Kaggle, which contains more recent information, aiding in our
+        backtesting and model training. The dataset contains both ETF and single
+        equity data, but we only used the single equity data. The dataset
+        originally contained 7000 text files, which we converted to CSV files.
+      </p>
+      <img
+        src="initial_features.png"
+        alt="Initial features dataset example"
+        width="600"
+      />
+
+      <h3>Feature Engineering</h3>
+      <p>
+        The original dataset contained only a limited set of features, primarily
+        basic price and volume data. While informative, these features alone
+        were insufficient for effectively training our clustering models, as
+        they did not capture essential quantitative metrics related to price
+        volatility, trend momentum, and trading behavior. Therefore, as outlined
+        in our proposal, we performed extensive feature engineering to enhance
+        the dataset's depth for clustering.
+      </p>
+      <p>
+        To build more robust features, we introduced several new quantitative
+        features. Key additions included moving averages over multiple time
+        windows (e.g., 5, 10, and 20 days) to smooth out price fluctuations and
+        reveal long-term trends, as well as exponential moving averages (EMAs).
+        By incorporating Bollinger Bands and volatility metrics, we enhanced our
+        ability to assess price variability and detect breakout points, which
+        are critical for understanding stock behavior across market conditions
+        (Elliott, Van Der Hoek, & Malcolm, 2005).
+      </p>
+      <p>
+        Furthermore, we added momentum indicators like the Relative Strength
+        Index (RSI) and Rate of Change (ROC), which measure price momentum and
+        help distinguish between bullish and bearish trends. To capture intraday
+        price dynamics, we calculated percentage changes between daily high and
+        low prices (High-Low %) and closing and opening prices (Close-Open %).
+        We also transformed price data into log returns for a statistically
+        sound measurement of continuous compounding returns, making the dataset
+        suitable for models that assume normally distributed returns.
+      </p>
+      <p>
+        Additionally, volume-based features such as the Volume Moving Average
+        allowed us to incorporate trading activity trends, highlighting periods
+        of increased buying or selling pressure. Each of these engineered
+        features provided insights into the underlying market structure and
+        behavior, enhancing the dataset’s utility for clustering.
+      </p>
+
+      <h3>Feature Selection</h3>
+      <p>
+        In clustering, variances of features play a significant role in
+        determining how well the data can be grouped into clusters (Chang, Man,
+        Xu, & Hsu, 2020). Variance measures how features differ from each other,
+        with high variance features providing a more distinct separation across
+        data points. To find the optimal features, we used a variance threshold
+        to filter out features that do not vary much, as low variance features
+        don’t effectively separate the data points for clustering (Chang, Man,
+        Xu, & Hsu, 2020).
+      </p>
+      <img
+        src="feature_variance.png"
+        alt="Variance of each feature"
+        width="600"
+      />
+      <p>
+        The graph above shows the variance for each feature in our dataset. We
+        aimed to condense the time series data into summary statistics without
+        using the full time series to simplify the data. For each time series
+        metric, like daily return, moving average, exponential moving average,
+        volatility, etc., we calculated the 25th percentile, 50th percentile,
+        and 75th percentile values over a two-year time span. These percentiles
+        provided the distribution of each metric. Taking these percentile
+        values, we created features that represent the range and central
+        tendencies. While it condenses the data effectively, it sacrifices
+        temporal details. By reducing each time series to a few key percentiles,
+        we lose the ability to capture day-to-day patterns, which would offer
+        more insights for clustering.
+      </p>
+
+      <h3>Clustering Techniques</h3>
+      <h4>K-Means</h4>
+      <p>
+        K-Means clustering is an unsupervised machine learning algorithm used to
+        group similar points of data based on their features. It organizes
+        points to minimize differences within clusters while maximizing the
+        distance between each cluster. The number K is the number of clusters or
+        centroids. Each point is assigned to the nearest cluster, and the
+        centroids are recalculated. This algorithm stops when the clusters
+        stabilize.
+      </p>
+      <img
+        src="kmean_clustering.png"
+        alt="K-Means clustering on high-variance features"
+        width="600"
+      />
+      <p>
+        First, we loaded the dataset and removed any missing values. Only
+        numeric features were used for clustering. Using the 20-day volume
+        moving average (50th percentile) and 10-day moving average (50th
+        percentile), we chose 30 clusters. The features were standardized to
+        have a mean of 0 and a standard deviation of 1, which is important as it
+        treats the features equally when calculating distances between points.
+        We used a Silhouette score to determine the quality of clusters, where a
+        higher score indicates a better-defined cluster.
+      </p>
+      <img
+        src="individuals_in_kmean_cluster.png"
+        alt="Number of individuals in each K-Mean cluster"
+        width="600"
+      />
+
+      <h4>DBSCAN</h4>
+      <p>
+        DBSCAN is an unsupervised machine learning algorithm particularly
+        effective for identifying clusters in data with varying densities and
+        for dealing with noisy data. Unlike K-Means, DBSCAN does not require the
+        number of clusters to be specified in advance. Instead, it groups points
+        based on density, identifying regions of high point concentration and
+        classifying sparse points as noise.
+      </p>
+      <img
+        src="dbscan_clustering.png"
+        alt="DBSCAN clustering on t-SNE components"
+        width="600"
+      />
+      <p>
+        For this analysis, we first transformed our high-dimensional feature
+        space into a 2D space using t-SNE (t-distributed Stochastic Neighbor
+        Embedding), with parameters set to TSNE(n_components=2, perplexity=30,
+        n_iter=300). t-SNE is a powerful tool for visualizing high-dimensional
+        data, preserving relative distances and ensuring that similar data
+        points are closer in the new 2D representation.
+      </p>
+      <p>
+        We then applied DBSCAN to the t-SNE-transformed data with parameters
+        eps=0.3 and min_samples=8. These values were chosen to balance the
+        identification of meaningful clusters and minimize noise. DBSCAN
+        effectively identified stocks with similar characteristics while
+        isolating outliers, enabling a nuanced view of data that did not fit
+        neatly into any specific cluster.
+      </p>
+
+      <h3>Quantitative Findings/Graphs</h3>
+      <p>
+        K-Means and DBSCAN clustering graphs represent all clusters formed. The
+        graph shows the number of individuals in each cluster. Stocks within
+        clusters exhibit similar patterns and are deemed as pairs.
+      </p>
+      <img
+        src="cluster_1_dbscan.png"
+        alt="Cluster 1 - Closing Prices (DBSCAN)"
+        width="600"
+      />
+      <img
+        src="cluster_0_dbscan.png"
+        alt="Cluster 0 - Closing Prices (DBSCAN)"
+        width="600"
+      />
+      <img
+        src="cluster_4_kmean.png"
+        alt="Cluster 4 - Closing Prices (K-Means)"
+        width="600"
+      />
+
+      <h3>Next Steps</h3>
+      <p>
+        The next step is to implement the distance approach by normalizing each
+        stock’s price at the start of the formation period, allowing for
+        comparisons. As outlined by Smith and Xu (2017), this involves
+        calculating daily returns to construct normalized price paths. We then
+        compute the Euclidean distance between each stock pair to rank them,
+        with the smallest distances indicating the closest relationships
+        (Elliott et al., 2005). This approach could provide a more accurate
+        measure on how we implement our unique strategy for feature engineering.
+        The best-performing pairs within the clusters will be selected for
+        backtesting to assess profitability and analyzed for mean reversion
+        using linear regression (Smith & Xu, 2017). Additionally, we will
+        incorporate co-movement metrics to further refine pair selection within
+        clusters.
+      </p>
+    </section>
+
+    <section>
+      <h2>References</h2>
+      <ul>
+        <li>
+          Sarmento, S. M., & Horta, N. (2020b). A Machine Learning based Pairs
+          Trading Investment Strategy. In SpringerBriefs in applied sciences and
+          technology.
+          <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank"
+            >DOI link</a
+          >.
+        </li>
+        <li>
+          Sarmento, S. M., & Horta, N. (2020a). Enhancing a Pairs Trading
+          strategy with the application of Machine Learning.
+          <em>Expert Systems With Applications</em>, 158, 113490.
+          <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank"
+            >DOI link</a
+          >.
+        </li>
+        <li>
+          Chang, V., Man, X., Xu, Q., & Hsu, C. (2020). Pairs trading on
+          different portfolios based on machine learning.
+          <em>Expert Systems</em>, 38(3).
+          <a href="https://doi.org/10.1111/exsy.12649" target="_blank"
+            >DOI link</a
+          >.
+        </li>
+        <li>
+          Elliott, R. J., Van Der Hoek, J., & Malcolm, W. P. (2005). Pairs
+          trading. <em>Quantitative Finance, 5</em>(3), 271-276.
+          <a href="https://doi.org/10.1080/14697680500149370" target="_blank"
+            >DOI link</a
+          >.
+        </li>
+        <li>
+          Smith, R. T., & Xu, X. (2017). A good pair: Alternative pairs-trading
+          strategies. <em>Finance Markets Portfolio Management, 31</em>(1),
+          1-26.
+          <a href="https://doi.org/10.1007/s11408-016-0280-x" target="_blank"
+            >DOI link</a
+          >.
+        </li>
+      </ul>
+    </section>
+
+    <section>
+      <h2>Contributions</h2>
+      <table>
+        <tr>
+          <th>Name</th>
+          <th>Final Contributions</th>
+        </tr>
+        <tr>
+          <td>Wesley Lu</td>
+          <td>Presentation Slide, K-mean Clustering</td>
+        </tr>
+        <tr>
+          <td>Matthew She</td>
+          <td>Presentation Slide, Data Processing, Feature Engineering</td>
+        </tr>
+        <tr>
+          <td>Matthew Lu</td>
+          <td>Presentation Slide, DBScan Clustering</td>
+        </tr>
+        <tr>
+          <td>Justin Lee</td>
+          <td>Presentation Slide, Data Processing, Feature Engineering</td>
+        </tr>
+        <tr>
+          <td>Victor Wu</td>
+          <td>Presentation Slide, Data Processing, Feature Engineering</td>
+        </tr>
+      </table>
+    </section>
+
+    <iframe
+      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5n0LOcpPxzPahQBxcPG46zXWm-MLAN2CHTJLEBEEx2XPt_OAPdQn_-88kTPDsbGuAad-U3dZAs0s/pubhtml?widget=true&amp;headers=false"
+      width="100%"
+      height="600"
+    ></iframe>
+  </body>
 </html>
