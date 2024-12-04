@@ -25,6 +25,12 @@ Machine Learning for Pairs Trading
   Performs feature engineering on stock market data by calculating additional metrics (e.g., moving averages, Bollinger Bands) to improve the quality of inputs for clustering
 
 
+- **kalman_filtering.ipynb**:
+  Implements Kalman Filtering for predicting stock price movements and smoothing noisy time series data to identify meaningful trends
+
+- **linear_regression.ipynb**:
+  Develops a linear regression model to identify relationships between selected stock features and predict stock prices, analyzing feature importance and model performance
+
 ## Requirements
 
 To run these notebooks, ensure you have the necessary Python packages installed:
