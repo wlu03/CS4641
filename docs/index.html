@@ -64,7 +64,7 @@
       }
     </style>
   </head>
-  <body>
+  <>
     <h1>Machine Learning Proposal for Pairs Trading</h1>
 
     <section>
@@ -408,8 +408,8 @@
       </p>
     </section>
 
-    <section>
-      <h2>Midterm Report</h2>
+    <>
+      <h2>Final Report</h2>
 
       <h3>Data</h3>
       <p>
@@ -579,6 +579,32 @@
         width="600"
       />
 
+      <h3>
+        Linear Regression
+      </h3>
+      <h4>Overview</h4>
+      <p>For our supervised learning algorithm, we chose to use linear regression. Linear regression is better suited for modeling the direct relationship
+        between two stocks as it can quantify how closely two data points move together. This will help quantify their dependency and calculate their residual spread.
+      </p>
+      <h4>Data for Linear Regression Model</h4>
+      <p>We chose to use two stocks (XOM and CVX) that were already known to be used in pairs trading.
+        Log transformation was applied to the stocks' closing prices to stabilize variance and make the data more suitable for linear analysis.
+        The log-transformed prices of the two stocks were then merged into their common date to align the data with their time-series.
+        Then, the log-transformed closing prices of XOM were used as the independent variable, while the log-transformed closing prices of CVX were used as the dependent variable.
+      </p>
+
+      <h4>Model Training and Evaluation</h4>
+      <p>A linear regression model was trained on the data to model the relationship between the log-transformed prices.
+        This model would provide us with a hedge-ratio and an intercept which represented the statistical relationship between two stocks. 
+        Then using the fitted regression model, the residuals (difference form predicted and actual) were calculated to capture deviations from the expected equillibrium.
+        <br>
+        We then normalized the residual spread using z-score transformation which standardizes values to identify deviations from the mean.
+        We then were able to create trading signals based off the z-score thresholds. A z-score of -1.0 or lower indicated a long signal and indicated that the pair was likely to revert upward.
+        A short signal of z-score higher than 1.0 indicated that the pair is overvalued and likely to revert downward.
+        A hold signal would be when the z-score remained within the threshold.
+      </p>
+
+
       <h3>Next Steps</h3>
       <p>
         The next step is to implement the distance approach by normalizing each
@@ -596,7 +622,6 @@
         clusters.
       </p>
     </section>
-
     <section>
       <h2>References</h2>
       <ul>
@@ -641,7 +666,6 @@
         </li>
       </ul>
     </section>
-
     <section>
       <h2>Contributions</h2>
       <table>
