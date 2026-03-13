@@ -3,745 +3,833 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>ML Proposal - Pairs Trading</title>
+    <title>ML Pairs Trading — CS4641 Project</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
     <style>
+      *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+      :root {
+        --bg: #0d1117;
+        --bg-card: #161b22;
+        --bg-card-hover: #1c2128;
+        --border: #30363d;
+        --accent: #58a6ff;
+        --accent2: #3fb950;
+        --accent3: #f78166;
+        --text: #e6edf3;
+        --text-muted: #8b949e;
+        --text-dim: #6e7681;
+        --radius: 10px;
+        --shadow: 0 4px 24px rgba(0,0,0,0.4);
+      }
+
+      html { scroll-behavior: smooth; }
+
       body {
-        font-family: Arial, sans-serif;
-        line-height: 1.6;
-        margin: 20px;
-        background-color: #f4f4f4;
+        font-family: 'Inter', sans-serif;
+        background: var(--bg);
+        color: var(--text);
+        line-height: 1.7;
       }
-      h1,
-      h2,
-      h3 {
-        color: #333;
+
+      /* ── NAV ── */
+      nav {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        background: rgba(13,17,23,0.92);
+        backdrop-filter: blur(12px);
+        border-bottom: 1px solid var(--border);
+        padding: 0 2rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 58px;
       }
-      h1 {
+      .nav-brand {
+        font-weight: 600;
+        font-size: 0.95rem;
+        color: var(--accent);
+        text-decoration: none;
+        letter-spacing: 0.02em;
+      }
+      .nav-links {
+        display: flex;
+        gap: 0.25rem;
+        list-style: none;
+        flex-wrap: wrap;
+      }
+      .nav-links a {
+        color: var(--text-muted);
+        text-decoration: none;
+        font-size: 0.82rem;
+        font-weight: 500;
+        padding: 0.3rem 0.7rem;
+        border-radius: 6px;
+        transition: color 0.15s, background 0.15s;
+      }
+      .nav-links a:hover { color: var(--text); background: var(--bg-card); }
+
+      /* ── HERO ── */
+      .hero {
+        padding: 5rem 2rem 4rem;
+        max-width: 900px;
+        margin: 0 auto;
         text-align: center;
       }
-      section {
-        background-color: #fff;
-        padding: 20px;
-        margin-bottom: 20px;
-        border-radius: 5px;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      .hero-tag {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+        color: var(--accent);
+        background: rgba(88,166,255,0.1);
+        border: 1px solid rgba(88,166,255,0.25);
+        border-radius: 20px;
+        padding: 0.3rem 0.9rem;
+        margin-bottom: 1.5rem;
       }
-      p {
-        margin-bottom: 10px;
+      .hero h1 {
+        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-weight: 700;
+        line-height: 1.2;
+        color: var(--text);
+        margin-bottom: 1rem;
       }
-      ul {
-        margin-left: 20px;
+      .hero h1 span { color: var(--accent); }
+      .hero p {
+        font-size: 1.05rem;
+        color: var(--text-muted);
+        max-width: 620px;
+        margin: 0 auto 2rem;
       }
-      a {
-        color: blue;
-        text-decoration: none;
+      .hero-meta {
+        display: flex;
+        justify-content: center;
+        gap: 2rem;
+        flex-wrap: wrap;
       }
-      a:hover {
-        text-decoration: underline;
+      .hero-meta-item {
+        text-align: center;
       }
-      table {
+      .hero-meta-item .val {
+        display: block;
+        font-size: 1.6rem;
+        font-weight: 700;
+        color: var(--accent2);
+        font-family: 'JetBrains Mono', monospace;
+      }
+      .hero-meta-item .lbl {
+        font-size: 0.75rem;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      /* ── LAYOUT ── */
+      .container {
+        max-width: 980px;
+        margin: 0 auto;
+        padding: 0 2rem 4rem;
+      }
+
+      /* ── SECTION ── */
+      .section {
+        margin-bottom: 3rem;
+      }
+      .section-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+      .section-header .badge {
+        width: 8px;
+        height: 28px;
+        border-radius: 4px;
+        flex-shrink: 0;
+      }
+      .badge-blue { background: var(--accent); }
+      .badge-green { background: var(--accent2); }
+      .badge-red { background: var(--accent3); }
+      .badge-purple { background: #bc8cff; }
+      .badge-orange { background: #e3b341; }
+      .section-header h2 {
+        font-size: 1.35rem;
+        font-weight: 600;
+        color: var(--text);
+      }
+
+      /* ── CARD ── */
+      .card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.5rem;
+        margin-bottom: 1.25rem;
+        transition: border-color 0.2s, background 0.2s;
+      }
+      .card:hover { border-color: #484f58; background: var(--bg-card-hover); }
+      .card h3 {
+        font-size: 1rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 0.6rem;
+      }
+      .card h4 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--text);
+        margin: 1rem 0 0.4rem;
+      }
+      .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
+      .card ul { padding-left: 1.2rem; color: var(--text-muted); font-size: 0.9rem; }
+      .card ul li { margin-bottom: 0.35rem; }
+      .card strong { color: var(--text); }
+
+      /* ── TWO-COL GRID ── */
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+      @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } .nav-links { display: none; } }
+
+      /* ── METRIC PILLS ── */
+      .metrics-row {
+        display: flex;
+        gap: 1rem;
+        flex-wrap: wrap;
+        margin-bottom: 1.25rem;
+      }
+      .metric-pill {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.8rem 1.2rem;
+        flex: 1;
+        min-width: 130px;
+        text-align: center;
+      }
+      .metric-pill .num {
+        display: block;
+        font-size: 1.4rem;
+        font-weight: 700;
+        font-family: 'JetBrains Mono', monospace;
+        color: var(--accent2);
+      }
+      .metric-pill .desc {
+        font-size: 0.72rem;
+        color: var(--text-dim);
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+      }
+
+      /* ── FIGURE ── */
+      .fig-wrap {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin: 1rem 0;
+        text-align: center;
+      }
+      .fig-wrap img {
         width: 100%;
-        border-collapse: collapse;
-        margin-top: 20px;
+        max-width: 700px;
+        height: auto;
+        display: block;
+        margin: 0 auto;
+        padding: 1rem;
       }
-      table,
-      th,
-      td {
-        border: 1px solid #ddd;
-        padding: 12px;
-        text-align: left;
+      .fig-caption {
+        font-size: 0.78rem;
+        color: var(--text-dim);
+        padding: 0.5rem 1rem 0.75rem;
+        border-top: 1px solid var(--border);
+        font-style: italic;
       }
+
+      /* ── COMPARISON CARDS ── */
+      .compare-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 1.25rem 1.5rem;
+        margin-bottom: 1rem;
+      }
+      .compare-card h4 {
+        font-size: 0.9rem;
+        font-weight: 600;
+        color: var(--accent);
+        margin-bottom: 0.5rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+      }
+      .compare-card h4::before {
+        content: '';
+        display: inline-block;
+        width: 6px;
+        height: 6px;
+        background: var(--accent);
+        border-radius: 50%;
+      }
+      .compare-card p { color: var(--text-muted); font-size: 0.875rem; }
+
+      /* ── INLINE STRENGTH/WEAKNESS ── */
+      .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      @media (max-width: 640px) { .sw-grid { grid-template-columns: 1fr; } }
+      .sw-box {
+        border-radius: var(--radius);
+        padding: 1rem 1.25rem;
+      }
+      .sw-box.strength { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.25); }
+      .sw-box.weakness { background: rgba(247,129,102,0.08); border: 1px solid rgba(247,129,102,0.25); }
+      .sw-box h4 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.5rem; }
+      .sw-box.strength h4 { color: var(--accent2); }
+      .sw-box.weakness h4 { color: var(--accent3); }
+      .sw-box p, .sw-box li { font-size: 0.85rem; color: var(--text-muted); }
+      .sw-box ul { padding-left: 1.1rem; }
+      .sw-box ul li { margin-bottom: 0.3rem; }
+
+      /* ── FEATURE LIST ── */
+      .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+        gap: 0.75rem;
+      }
+      .feature-item {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 0.75rem 1rem;
+        font-size: 0.85rem;
+      }
+      .feature-item strong { color: var(--accent); display: block; margin-bottom: 0.2rem; font-size: 0.8rem; }
+      .feature-item span { color: var(--text-muted); font-size: 0.8rem; }
+
+      /* ── ALGO TAGS ── */
+      .algo-tag {
+        display: inline-block;
+        font-size: 0.72rem;
+        font-weight: 600;
+        font-family: 'JetBrains Mono', monospace;
+        padding: 0.2rem 0.6rem;
+        border-radius: 4px;
+        background: rgba(88,166,255,0.1);
+        color: var(--accent);
+        border: 1px solid rgba(88,166,255,0.2);
+        margin: 0.2rem 0.2rem 0.2rem 0;
+      }
+
+      /* ── TABLE ── */
+      .table-wrap {
+        overflow-x: auto;
+        border-radius: var(--radius);
+        border: 1px solid var(--border);
+        margin-top: 1rem;
+      }
+      table { width: 100%; border-collapse: collapse; }
       th {
-        background-color: #f2f2f2;
-        font-weight: bold;
-        color: #333;
+        background: var(--bg-card);
+        color: var(--text-muted);
+        font-size: 0.75rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        padding: 0.85rem 1rem;
+        text-align: left;
+        border-bottom: 1px solid var(--border);
       }
-      tr:nth-child(even) {
-        background-color: #f9f9f9;
+      td {
+        padding: 0.85rem 1rem;
+        font-size: 0.9rem;
+        color: var(--text-muted);
+        border-bottom: 1px solid var(--border);
       }
-      tr:hover {
-        background-color: #f1f1f1;
+      tr:last-child td { border-bottom: none; }
+      tr:hover td { background: var(--bg-card-hover); color: var(--text); }
+
+      /* ── REFERENCES ── */
+      .ref-list { list-style: none; }
+      .ref-list li {
+        padding: 0.6rem 0;
+        border-bottom: 1px solid var(--border);
+        font-size: 0.84rem;
+        color: var(--text-muted);
+        line-height: 1.5;
+      }
+      .ref-list li:last-child { border-bottom: none; }
+      .ref-list a { color: var(--accent); text-decoration: none; }
+      .ref-list a:hover { text-decoration: underline; }
+      .ref-num {
+        font-family: 'JetBrains Mono', monospace;
+        font-size: 0.78rem;
+        color: var(--accent);
+        font-weight: 600;
+        margin-right: 0.5rem;
+      }
+
+      /* ── LINKS ── */
+      a { color: var(--accent); text-decoration: none; }
+      a:hover { text-decoration: underline; }
+
+      /* ── SEPARATOR ── */
+      .sep { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
+
+      /* ── IFRAME SECTION ── */
+      .iframe-wrap {
+        background: var(--bg-card);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+        margin-top: 1rem;
+      }
+      .iframe-wrap iframe { display: block; }
+
+      /* ── FOOTER ── */
+      footer {
+        border-top: 1px solid var(--border);
+        padding: 2rem;
+        text-align: center;
+        color: var(--text-dim);
+        font-size: 0.8rem;
       }
     </style>
   </head>
-  <>
-    <h1>Machine Learning Proposal for Pairs Trading</h1>
+  <body>
 
-    <section>
-      <h2>Introduction/Background</h2>
-      <p>
-        Pairs trading is a market-neutral trading strategy that involves
-        matching a long position with a short position in two highly correlated
-        stocks or securities [1]. The idea is to profit
-        from the relative price movements of two stocks that typically move
-        together called spread. The reason why market-neutral strategy are important is the underlying
-        principal behind them. These investment strategies are designed to minimize market risk by offsetting both long and short positions.
-        When markets are bearish, market neutral strategies are not affected by the downturn in price movement [8].
-         If the price relationship between the two stocks diverges, the
-        trader would short the over-performing stock and go long on the
-        under-performing stock, expecting the prices to eventually converge
-        again. Pairs trading works on the assumption that the prices of the
-        stocks will revert to their historical correlation [1].
-
-
-
-        
-
-
-      </p>
-    </section>
-
-    <section>
-      <h2>Literature Review</h2>
-      <p>
-        Pairs trading is a market-neutral trading strategy that involves
-        matching a long position with a short position in two highly correlated
-        stocks or securities. The idea is to profit from the relative price
-        movements of two stocks that typically move together. If the price
-        relationship between the two stocks diverges, the trader would short the
-        over-performing stock and go long on the under-performing stock,
-        expecting the prices to eventually converge again (Sarmento & Horta,
-        2020b). Pairs trading works on the assumption that the prices of the
-        stocks will revert to their historical correlation.
-
-
-      </p>
-      <p>
-        The correlation between two stocks refers to how similarly or
-        differently their prices move in relation to each other. A positive
-        correlation means that both stocks tend to move in the same direction,
-        while a negative correlation implies that they move in opposite
-        directions.
-      </p>
-      <ul>
-        <li>
-          <strong>A correlation of +1</strong> means the two stocks move
-          perfectly in tandem.
-        </li>
-        <li>
-          <strong>A correlation of -1</strong> means the two stocks move in
-          exactly opposite directions.
-        </li>
-        <li>
-          <strong>A correlation close to 0</strong> means that the two stocks
-          have little to no relationship in their price movements.
-        </li>
+    <!-- ── NAV ── -->
+    <nav>
+      <a class="nav-brand" href="#">Pairs Trading · CS4641</a>
+      <ul class="nav-links">
+        <li><a href="#intro">Intro</a></li>
+        <li><a href="#literature">Literature</a></li>
+        <li><a href="#dataset">Dataset</a></li>
+        <li><a href="#methods">Methods</a></li>
+        <li><a href="#results">Results</a></li>
+        <li><a href="#report">Report</a></li>
+        <li><a href="#references">References</a></li>
+        <li><a href="#contributions">Team</a></li>
       </ul>
-      <p>
-        This relationship can be represented visually through scatter plots or
-        line charts, and the correlation coefficient can be calculated using
-        historical price data.
-      </p>
-      <p>
-        Machine learning can be applied to pairs trading in several ways,
-        including:
-      </p>
-      <ul>
-        <li>
-          <strong>Stock Selection and Pair Identification:</strong> ML
-          algorithms can analyze historical data to identify stock pairs that
-          show high correlation or co-integration. Techniques such as
-          clustering, PCA (Principal Component Analysis), or regression models
-          can be used.
-        </li>
-        <li>
-          <strong>Predicting Divergence and Convergence:</strong> Using
-          supervised learning algorithms (such as Random Forest, Support Vector
-          Machines) or unsupervised learning techniques, machine learning can
-          predict when a pair's price will diverge and when it is likely to
-          converge back [3]. Time-series forecasting
-          methods like LSTM (Long Short-Term Memory) networks can also be useful
-          in predicting future price movements.
-        </li>
-        <li>
-          <strong>Risk Management and Execution:</strong> ML models can optimize
-          trade execution by predicting price slippage, reducing transaction
-          costs, and managing risks dynamically.
-        </li>
-      </ul>
-      <p>
-        A well known approach detailed in one of many researches employs the Kalman 
-        Filter to develop a quantitative pairs trading strategy using linear state
-        space models. They modeled the spread between paired assets as a mean-reverting 
-        process utilizing a Gaussian linear state space model derived from Ornstein-Uhlenbeck process [6].
-        The Kalman filter plays a pivotal role in their strategy as estimating the spread is important
-        to capture price movement. Using the probability and statistics, pricing the model
-        based on a set standard deviation away from regular price can indicate a stock being 
-        overbought or oversold. A part of the model is the dynamic hedging ratio. The hedging ratio represents
-        the proportion of a short position in one security needed to hedge the exposure from a long position
-        in another security. This ratio is dynamic because it evolves over time in response to changes in
-        the relationship between the securities.It continuously updates the hedging ratio as new data becomes available, using a state-space approach [7].
-        This project utilizes this model to generate meaningful returns.
-        Linear Regression is a statistical method used to model the relationship between two or more variables by fitting a linear equation to observed data [9].
-        In the context of pairs trading, linear regression is employed to analyze the relationship between the price of two stocks as well. Just like with Kalman Filtering, 
-        linear regression also uses a hedging ratio. 
-        The foundations of linear regression and Kalman filtering are completely different related to its purpose and assumptions. 
-        Linear regression is assumed to be static and serves to explain the impact of an independent variable on a dependent variable as a function. 
-        Linear regression can be used for interpreting past events in which changes between variables were stable. 
-        For instance, such methods can help evaluate the average relationship between the two stocks within a certain time frame.
-        Kalman filtering, on the other hand, is a time dependent, recursive and self improving algorithm which helps in estimating the
-         present condition of the system over a span of time, in the presence of uncertainty, faults and noise. In comparison to linear regression,
-          Kalman filtering is unique in a sense that it does not remain stable in a sense that when new data arrives, it can adjust its responses according
-           to the new information. This is useful in times where real time processing is required, such as financial markets, as the relationships are always
-            changing between the variables during times. Linear regression provides a mere ‘still image’ with regards to time, in this case progression.
-             Kalman filtering allows one to assess the system at any period and track changes that can happen.
-      </p>
-    </section>
+    </nav>
 
-    <section>
-      <h2>Dataset Description</h2>
-      <p>
-        The Kaggle dataset contains the following: Data, Open, High, Low, Close,
-        Adj Close, Volume. For the stocks, we can preprocess the data to find
-        the rolling correlation between two assets over a moving time window.
-        The difference in the price of the two assets can be monitored.
-        Volatility is another feature that can be calculated using the prices.
-        The Alpaca market API can be used to get concurrent information for
-        pairs to find the price correlation.
-      </p>
-      <p>Links:</p>
-      <ul>
-        <li>
-          <a href="https://alpaca.markets/" target="_blank"
-            >Alpaca Market API</a
-          >
-        </li>
-        <li>
-          <a
-            href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset"
-            target="_blank"
-            >Kaggle Stock Market Dataset</a
-          >
-        </li>
-      </ul>
+    <!-- ── HERO ── -->
+    <header class="hero">
+      <div class="hero-tag">CS4641 Machine Learning Project</div>
+      <h1>ML-Driven <span>Pairs Trading</span><br/>Strategy</h1>
+      <p>Applying clustering, linear regression, and Kalman filtering to build a market-neutral algorithmic trading strategy using historical stock data.</p>
+      <div class="hero-meta">
+        <div class="hero-meta-item"><span class="val">294%</span><span class="lbl">Cumulative Return</span></div>
+        <div class="hero-meta-item"><span class="val">3.82</span><span class="lbl">Sharpe Ratio</span></div>
+        <div class="hero-meta-item"><span class="val">XOM/CVX</span><span class="lbl">Primary Pair</span></div>
+        <div class="hero-meta-item"><span class="val">7000+</span><span class="lbl">Stocks Analyzed</span></div>
+      </div>
+    </header>
 
-      <h3>Feature Engineering</h3>
-      <p>
-        To improve the predictive capability of the models, the following
-        features were engineered:
-      </p>
-      <ul>
-        <li>
-          <strong>Daily Return:</strong> Percentage change in the closing price
-          from the previous day.
-        </li>
-        <li>
-          <strong>Moving Averages (MA):</strong> Calculated over different
-          windows:
+    <div class="container">
+
+      <!-- ── INTRODUCTION ── -->
+      <section class="section" id="intro">
+        <div class="section-header">
+          <div class="badge badge-blue"></div>
+          <h2>Introduction / Background</h2>
+        </div>
+        <div class="card">
+          <p>
+            Pairs trading is a <strong>market-neutral trading strategy</strong> that involves matching a long position with a short position in two highly correlated stocks or securities. The idea is to profit from the relative price movements of two stocks that typically move together — called the <em>spread</em>.
+          </p>
+          <p>
+            Market-neutral strategies are important because they are designed to minimize market risk by offsetting both long and short positions. When markets are bearish, market-neutral strategies are largely unaffected by downturns in price movement.
+          </p>
+          <p>
+            If the price relationship between two stocks diverges, the trader would short the over-performing stock and go long on the under-performing stock, expecting the prices to eventually converge again. Pairs trading works on the assumption that prices will <strong>revert to their historical correlation</strong>.
+          </p>
+        </div>
+      </section>
+
+      <!-- ── LITERATURE REVIEW ── -->
+      <section class="section" id="literature">
+        <div class="section-header">
+          <div class="badge badge-purple"></div>
+          <h2>Literature Review</h2>
+        </div>
+
+        <div class="card">
+          <h3>Price Correlation</h3>
+          <p>The correlation between two stocks describes how similarly or differently their prices move relative to each other:</p>
           <ul>
-            <li>
-              MA-5, MA-10, MA-20: Simple moving averages over 5, 10, and 20
-              days, respectively.
-            </li>
+            <li><strong>+1</strong> — stocks move perfectly in tandem</li>
+            <li><strong>−1</strong> — stocks move in exactly opposite directions</li>
+            <li><strong>≈0</strong> — little to no relationship in price movements</li>
           </ul>
-        </li>
-        <li>
-          <strong>Exponential Moving Average (EMA):</strong> A 20-day
-          exponential moving average of the closing price.
-        </li>
-        <li>
-          <strong>Bollinger Bands (BB):</strong>
+        </div>
+
+        <div class="card">
+          <h3>Machine Learning Applications in Pairs Trading</h3>
           <ul>
-            <li>
-              BB_upper, BB_lower: Calculated as the 20-day moving average
-              plus/minus two standard deviations.
-            </li>
+            <li><strong>Stock Selection & Pair Identification:</strong> Clustering, PCA, and regression models analyze historical data to identify co-integrated pairs.</li>
+            <li><strong>Predicting Divergence & Convergence:</strong> Supervised methods (Random Forest, SVM) and time-series models (LSTM) predict when a pair's spread will revert.</li>
+            <li><strong>Risk Management & Execution:</strong> ML optimizes trade execution by predicting price slippage and managing risk dynamically.</li>
           </ul>
-        </li>
-        <li>
-          <strong>Volatility-10:</strong> Standard deviation of daily returns
-          over a 10-day window.
-        </li>
-        <li>
-          <strong>Relative Strength Index (RSI):</strong> A momentum oscillator
-          that measures the speed and change of price movements, calculated over
-          a 14-day window.
-        </li>
-        <li>
-          <strong>Volume Moving Average (Volume MA-20):</strong> A 20-day moving
-          average of the volume.
-        </li>
-        <li>
-          <strong>High-Low Percentage:</strong> Difference between high and low
-          prices as a percentage of the low price.
-        </li>
-        <li>
-          <strong>Close-Open Percentage:</strong> Percentage difference between
-          closing and opening prices.
-        </li>
-        <li>
-          <strong>Rate of Change (ROC-10):</strong> Percentage change in closing
-          price over a 10-day period.
-        </li>
-        <li>
-          <strong>Log Returns:</strong> Natural log of the ratio of the current
-          closing price to the previous day’s closing price.
-        </li>
-      </ul>
-    </section>
+        </div>
 
-    <section>
-      <h2>Problem Definition</h2>
-      <p>The primary research questions for this project include:</p>
-      <ul>
-        <li>
-          <strong
-            >Can machine learning predict profitable entry and exit points for
-            pairs trading based on historical price data?</strong
-          >
+        <div class="grid-2">
+          <div class="card">
+            <h3>Kalman Filter Approach</h3>
+            <p>
+              Models the spread between paired assets as a mean-reverting process using a Gaussian linear state space model derived from the Ornstein-Uhlenbeck process. The Kalman filter continuously updates the <strong>dynamic hedging ratio</strong> as new data arrives — crucial for capturing real-time price movement in financial markets.
+            </p>
+          </div>
+          <div class="card">
+            <h3>Linear Regression Approach</h3>
+            <p>
+              A simpler, static model that quantifies the relationship between two stock prices. Unlike Kalman filtering, linear regression produces a fixed hedging ratio over the training window — providing a "still image" of the historical relationship. Useful as a stable baseline for pairs trading signals.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── DATASET ── -->
+      <section class="section" id="dataset">
+        <div class="section-header">
+          <div class="badge badge-green"></div>
+          <h2>Dataset Description</h2>
+        </div>
+        <div class="card">
           <p>
-            This question investigates whether ML models, trained on historical
-            price patterns, can accurately forecast moments when a stock pair's
-            price divergence is likely to revert. By timing trades precisely,
-            the goal is to enhance profitability.
+            We used the <strong>"Huge Stock Market Dataset"</strong> on Kaggle — originally 7,000+ text files converted to CSV, containing single-equity data with fields: Date, Open, High, Low, Close, Adj Close, Volume. The Alpaca Market API supplemented the dataset with real-time pricing data.
           </p>
-        </li>
-        <li>
-          <strong
-            >What machine learning techniques are most effective for improving
-            pairs trading strategies?</strong
-          >
+          <div style="margin-top:0.75rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+            <a href="https://alpaca.markets/" target="_blank" class="algo-tag">Alpaca Market API ↗</a>
+            <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" class="algo-tag">Kaggle Stock Dataset ↗</a>
+          </div>
+        </div>
+
+        <div class="fig-wrap">
+          <img src="initial_features.png" alt="Initial features dataset example" />
+          <div class="fig-caption">Fig 1. Initial raw features from the Huge Stock Market Dataset</div>
+        </div>
+
+        <div class="section-header" style="margin-top:2rem;">
+          <div class="badge badge-green"></div>
+          <h2>Feature Engineering</h2>
+        </div>
+        <div class="feature-grid">
+          <div class="feature-item"><strong>Daily Return</strong><span>% change in closing price from previous day</span></div>
+          <div class="feature-item"><strong>Moving Averages</strong><span>MA-5, MA-10, MA-20 simple moving averages</span></div>
+          <div class="feature-item"><strong>EMA-20</strong><span>20-day exponential moving average</span></div>
+          <div class="feature-item"><strong>Bollinger Bands</strong><span>20-day MA ± 2 standard deviations</span></div>
+          <div class="feature-item"><strong>Volatility-10</strong><span>Std dev of daily returns over 10-day window</span></div>
+          <div class="feature-item"><strong>RSI-14</strong><span>Relative Strength Index, 14-day window</span></div>
+          <div class="feature-item"><strong>Volume MA-20</strong><span>20-day moving average of trading volume</span></div>
+          <div class="feature-item"><strong>High-Low %</strong><span>(High − Low) / Low as a percentage</span></div>
+          <div class="feature-item"><strong>Close-Open %</strong><span>% difference between close and open</span></div>
+          <div class="feature-item"><strong>ROC-10</strong><span>Rate of change over 10-day period</span></div>
+          <div class="feature-item"><strong>Log Returns</strong><span>ln(Close_t / Close_{t-1})</span></div>
+        </div>
+
+        <div class="fig-wrap" style="margin-top:1.25rem;">
+          <img src="feature_variance.png" alt="Variance of each feature" />
+          <div class="fig-caption">Fig 2. Feature variance — high-variance features provide better cluster separation</div>
+        </div>
+        <div class="card" style="margin-top:1rem;">
           <p>
-            This question explores the most effective ML methods for identifying
-            pairs, forecasting price movements, and optimizing trades.
-            Techniques such as clustering, time-series analysis, and
-            reinforcement learning will be analyzed.
+            A <strong>variance threshold</strong> was applied to filter out low-variance features. Each time-series metric was condensed to <strong>25th, 50th, and 75th percentile</strong> summary statistics over a two-year window — balancing dimensionality reduction against temporal detail.
           </p>
-        </li>
-        <li>
-          <strong
-            >How does ML affect the risk and return profile of pairs trading
-            compared to traditional methods?</strong
-          >
+        </div>
+      </section>
+
+      <!-- ── PROBLEM DEFINITION ── -->
+      <section class="section" id="problem">
+        <div class="section-header">
+          <div class="badge badge-orange"></div>
+          <h2>Problem Definition</h2>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Entry & Exit Timing</h3>
+            <p>Can ML models trained on historical price patterns accurately forecast moments when a stock pair's spread is likely to revert — improving trade timing and profitability?</p>
+          </div>
+          <div class="card">
+            <h3>Effective Techniques</h3>
+            <p>Which ML methods — clustering, time-series analysis, reinforcement learning — are most effective for identifying pairs and forecasting price movements?</p>
+          </div>
+          <div class="card">
+            <h3>Risk-Return Profile</h3>
+            <p>How does ML affect risk and return compared to traditional statistical methods? Can ML better manage risk while maintaining profitability?</p>
+          </div>
+          <div class="card">
+            <h3>Motivation</h3>
+            <p>Pairs trading is a low-risk strategy but faces challenges in optimal pair selection and trade timing. ML directly addresses both, making the strategy more efficient and scalable.</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- ── METHODS ── -->
+      <section class="section" id="methods">
+        <div class="section-header">
+          <div class="badge badge-blue"></div>
+          <h2>Methods</h2>
+        </div>
+
+        <div class="card">
+          <h3>Data Preprocessing</h3>
+          <ul>
+            <li><strong>Normalization / Scaling:</strong> Min-Max Scaling (0–1) and Z-score normalization standardize data so price magnitude doesn't distort model learning.</li>
+            <li><strong>Missing Data Interpolation:</strong> Forward-fill handles gaps from market holidays or incomplete records.</li>
+            <li><strong>Feature Engineering:</strong> Price ratios, moving averages, volatility, and log returns uncover stock-pair relationships.</li>
+            <li><strong>ADF Test:</strong> Augmented Dickey-Fuller test checks stationarity — confirming that a series is mean-reverting and suitable for pairs trading.</li>
+          </ul>
+        </div>
+
+        <div class="card">
+          <h3>ML Algorithms</h3>
+          <div style="margin-bottom:0.75rem;">
+            <span class="algo-tag">SVM</span>
+            <span class="algo-tag">Random Forest</span>
+            <span class="algo-tag">XGBoost / LightGBM</span>
+            <span class="algo-tag">KNN</span>
+            <span class="algo-tag">LSTM</span>
+            <span class="algo-tag">Linear Regression</span>
+            <span class="algo-tag">K-Means</span>
+            <span class="algo-tag">DBSCAN</span>
+          </div>
+          <ul>
+            <li><strong>SVM:</strong> Classifies buy/sell states based on price spreads, finding the optimal separating hyperplane.</li>
+            <li><strong>Random Forest:</strong> Ensemble of decision trees for predicting spreads and classifying trading signals.</li>
+            <li><strong>GBM (XGBoost/LightGBM):</strong> Detects complex patterns in security relationships via boosted tree ensembles.</li>
+            <li><strong>KNN:</strong> Classifies states by comparing to historically similar trading opportunities.</li>
+            <li><strong>LSTM:</strong> Recurrent networks that capture long-range temporal dependencies between asset prices.</li>
+            <li><strong>Linear Regression:</strong> Establishes the hedging ratio and baseline historical price correlation.</li>
+          </ul>
+        </div>
+      </section>
+
+      <!-- ── FULL REPORT ── -->
+      <section class="section" id="report">
+        <div class="section-header">
+          <div class="badge badge-green"></div>
+          <h2>Final Report</h2>
+        </div>
+
+        <!-- Clustering -->
+        <div class="card">
+          <h3>K-Means Clustering</h3>
           <p>
-            This question seeks to evaluate the advantages of ML-based
-            strategies over traditional statistical models in terms of risk and
-            return. It examines if ML can better manage risk while achieving
-            profitability.
+            K-Means groups stocks by minimizing within-cluster distances. We used the <strong>20-day volume MA (50th pct)</strong> and <strong>10-day MA (50th pct)</strong> as inputs, standardized to zero mean and unit variance, with <strong>K = 30 clusters</strong>. Cluster quality was measured via Silhouette score.
           </p>
-        </li>
-      </ul>
-    </section>
+        </div>
+        <div class="fig-wrap">
+          <img src="kmean_clustering.png" alt="K-Means clustering" />
+          <div class="fig-caption">Fig 3. K-Means clustering on high-variance features</div>
+        </div>
+        <div class="fig-wrap">
+          <img src="individuals_in_kmean_cluster.png" alt="Individuals per K-Means cluster" />
+          <div class="fig-caption">Fig 4. Number of stocks per K-Means cluster</div>
+        </div>
 
-    <section>
-      <h2>Motivation</h2>
-      <p>
-        Pairs trading is often viewed as a low-risk strategy, but it faces
-        challenges in selecting optimal pairs and timing trades. Machine
-        learning offers promising solutions to address these challenges, making
-        the strategy more efficient and potentially more profitable. By
-        utilizing ML, this project aims to optimize pair selection and trade
-        timing, which are critical to maximizing returns and minimizing risk.
-      </p>
-    </section>
+        <div class="card" style="margin-top:1.25rem;">
+          <h3>DBSCAN Clustering</h3>
+          <p>
+            DBSCAN requires no predefined cluster count — it groups points by density and isolates noise. We first reduced dimensions with <strong>t-SNE</strong> (perplexity=30, n_iter=300), then ran DBSCAN with <code style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.85em;">eps=0.3, min_samples=8</code> to balance cluster discovery against noise tolerance.
+          </p>
+        </div>
+        <div class="fig-wrap">
+          <img src="dbscan_clustering.png" alt="DBSCAN clustering" />
+          <div class="fig-caption">Fig 5. DBSCAN on t-SNE components — noise points excluded from clusters</div>
+        </div>
 
-    <section>
-      <h2>Methods</h2>
-      <h3>Data Preprocessing</h3>
-      <ul>
-        <li>
-          <strong>Normalization/Scaling:</strong> Due to the variance in stock
-          prices across companies, it is essential to normalize and scale data.
-          Min-Max Scaling (0-1 range) and Z-score normalization are used to
-          standardize data, enabling algorithms to focus on relationships
-          without price magnitude interference.
-        </li>
-        <li>
-          <strong>Missing Data Interpolation:</strong> Gaps in stock data from
-          market holidays or incomplete records can disrupt calculations and
-          training. Forward filling missing values with the previous data point
-          is an effective solution.
-        </li>
-        <li>
-          <strong>Feature Engineering:</strong> New features, such as price
-          ratios, moving averages, volatility, and log returns, are engineered
-          to uncover stock pair relationships and aid in identifying key trading
-          moments.
-        </li>
-        <li>
-          <strong>ADF Test:</strong> The Augmented Dickey-Fuller (ADF) test is
-          used to check for stationarity in time series data, indicating whether
-          a stock price series is mean-reverting and suitable for pairs trading.
-        </li>
-      </ul>
+        <!-- Cluster examples -->
+        <div class="grid-2" style="margin-top:1.25rem;">
+          <div class="fig-wrap" style="margin:0;">
+            <img src="cluster_1_dbscan.png" alt="DBSCAN Cluster 1" />
+            <div class="fig-caption">Fig 6. DBSCAN Cluster 1 — Closing Prices</div>
+          </div>
+          <div class="fig-wrap" style="margin:0;">
+            <img src="cluster_0_dbscan.png" alt="DBSCAN Cluster 0" />
+            <div class="fig-caption">Fig 7. DBSCAN Cluster 0 — Closing Prices</div>
+          </div>
+        </div>
+        <div class="fig-wrap" style="margin-top:1rem;">
+          <img src="cluster_4_kmean.png" alt="K-Means Cluster 4" />
+          <div class="fig-caption">Fig 8. K-Means Cluster 4 — Closing Prices</div>
+        </div>
 
-      <h3>ML Algorithms/Models</h3>
-      <ul>
-        <li>
-          <strong>Support Vector Machines (SVM):</strong> SVMs are used to
-          classify "buy" or "sell" states based on price spreads or other
-          features, finding the optimal hyperplane for accurate separation.
-        </li>
-        <li>
-          <strong>Random Forest:</strong> An ensemble of decision trees that
-          improves prediction accuracy, useful for predicting spreads or
-          classifying trading signals.
-        </li>
-        <li>
-          <strong>Gradient Boosting Machines (GBM):</strong> Models like XGBoost
-          and LightGBM use an ensemble of trees to detect complex patterns in
-          security relationships, enhancing predictive accuracy.
-        </li>
-        <li>
-          <strong>K-Nearest Neighbors (KNN):</strong> KNN can classify states by
-          comparing them to historical patterns, potentially identifying similar
-          past trading opportunities.
-        </li>
-        <li>
-          <strong>LSTM:</strong> Long Short-Term Memory networks, a type of
-          recurrent neural network, capture complex relationships over time
-          between asset prices, revealing advanced patterns.
-        </li>
-        <li>
-          <strong>Linear Regression:</strong> This model identifies linear
-          relationships between asset prices, establishing the historical price
-          correlation as a baseline for future forecasts.
-        </li>
-      </ul>
-    </section>
+        <hr class="sep" />
 
-    <section>
-      <h2>Results and Discussion</h2>
-      <p>Quantitative metrics to evaluate the project include:</p>
-      <ul>
-        <li>
-          <strong>Sharpe Ratio:</strong> Measures the risk-adjusted return, with
-          SOFR as the risk-free rate.
-        </li>
-        <li>
-          <strong>Cumulative Return:</strong> Tracks the total portfolio return
-          during backtesting.
-        </li>
-        <li>
-          <strong>Mean Squared Error (MSE):</strong> Measures the accuracy of
-          spread forecasts.
-        </li>
-        <li>
-          <strong>Alpha and Beta:</strong> Alpha indicates performance relative
-          to a benchmark, while beta measures volatility compared to the market.
-        </li>
-      </ul>
-    </section>
+        <!-- Linear Regression -->
+        <div class="card">
+          <h3>Linear Regression — XOM / CVX Pair</h3>
+          <p>
+            We selected <strong>XOM and CVX</strong> — a well-known pairs trading pair. Log transformation was applied to stabilize variance. XOM log-price serves as the independent variable; CVX log-price is the dependent variable. The fitted model yields a <strong>hedge ratio</strong> and intercept representing the equilibrium relationship.
+          </p>
+          <h4>Signal Generation (Z-Score Thresholds)</h4>
+          <ul>
+            <li><strong>Long signal</strong>: z-score ≤ −1.0 → pair undervalued, expect upward reversion</li>
+            <li><strong>Short signal</strong>: z-score ≥ +1.0 → pair overvalued, expect downward reversion</li>
+            <li><strong>Hold</strong>: z-score within threshold</li>
+          </ul>
+        </div>
 
-    <section>
-      <h2>Project Goals</h2>
-      <p>
-        The objective is to predict optimal entry and exit points for trading
-        pairs by analyzing the price spread using ML. Our goal is to enhance
-        pair selection while minimizing risk, with backtesting to evaluate
-        quantitative metrics. A secondary goal is to explore reinforcement
-        learning for adapting strategies to market conditions.
-      </p>
-    </section>
+        <div class="metrics-row">
+          <div class="metric-pill"><span class="num">294.48%</span><span class="desc">Cumulative Return</span></div>
+          <div class="metric-pill"><span class="num">3.82</span><span class="desc">Sharpe Ratio</span></div>
+          <div class="metric-pill"><span class="num">2010–2014</span><span class="desc">Backtest Period</span></div>
+        </div>
 
-    <section>
-      <h2>Expected Results</h2>
-      <p>
-        The expected outcome is to identify highly correlated pairs reflected by
-        cumulative returns in backtesting. The strategy should remain
-        market-neutral with a low beta and strong quantitative metrics,
-        including low MSE for spread forecasts. Ultimately, the goal is a
-        profitable, risk-adjusted return rate.
-      </p>
-    </section>
+        <div class="grid-2">
+          <div class="fig-wrap" style="margin:0;">
+            <img src="cum_LR_return.jpeg" alt="Cumulative Returns" />
+            <div class="fig-caption">Fig 9. Cumulative Returns — LR Strategy</div>
+          </div>
+          <div class="fig-wrap" style="margin:0;">
+            <img src="logcloseprices_LR.jpeg" alt="Log Close Prices" />
+            <div class="fig-caption">Fig 10. Log Close Prices: CVX vs XOM</div>
+          </div>
+        </div>
+        <div class="fig-wrap" style="margin-top:1rem;">
+          <img src="logprices_LR.jpeg" alt="Log Prices & Trading Signals" />
+          <div class="fig-caption">Fig 11. Logarithmic Prices, Spread, and Trading Signals</div>
+        </div>
 
-    <>
-      <h2>Final Report</h2>
+        <div class="sw-grid" style="margin-top:1.25rem;">
+          <div class="sw-box strength">
+            <h4>Strengths</h4>
+            <ul>
+              <li>294.48% cumulative return over 4 years</li>
+              <li>Sharpe Ratio of 3.82 — outstanding risk-adjusted performance</li>
+              <li>Trading signals align well with mean reversion in the spread</li>
+            </ul>
+          </div>
+          <div class="sw-box weakness">
+            <h4>Weaknesses</h4>
+            <ul>
+              <li>Based on in-sample data (2010–2014) only</li>
+              <li>Static hedging ratio may not capture regime changes</li>
+              <li>Needs out-of-sample validation for robustness</li>
+            </ul>
+          </div>
+        </div>
 
-      <h3>Data</h3>
-      <p>
-        We decided to switch our dataset to the “Huge Stock Market Dataset” on
-        Kaggle, which contains more recent information, aiding in our
-        backtesting and model training. The dataset contains both ETF and single
-        equity data, but we only used the single equity data. The dataset
-        originally contained 7000 text files, which we converted to CSV files.
-      </p>
-      <img
-        src="initial_features.png"
-        alt="Initial features dataset example"
-        width="600"
-      />
+        <hr class="sep" />
 
-      <h3>Feature Engineering</h3>
-      <p>
-        The original dataset contained only a limited set of features, primarily
-        basic price and volume data. While informative, these features alone
-        were insufficient for effectively training our clustering models, as
-        they did not capture essential quantitative metrics related to price
-        volatility, trend momentum, and trading behavior. Therefore, as outlined
-        in our proposal, we performed extensive feature engineering to enhance
-        the dataset's depth for clustering.
-      </p>
-      <p>
-        To build more robust features, we introduced several new quantitative
-        features. Key additions included moving averages over multiple time
-        windows (e.g., 5, 10, and 20 days) to smooth out price fluctuations and
-        reveal long-term trends, as well as exponential moving averages (EMAs).
-        By incorporating Bollinger Bands and volatility metrics, we enhanced our
-        ability to assess price variability and detect breakout points, which
-        are critical for understanding stock behavior across market conditions
-        (Elliott, Van Der Hoek, & Malcolm, 2005).
-      </p>
-      <p>
-        Furthermore, we added momentum indicators like the Relative Strength
-        Index (RSI) and Rate of Change (ROC), which measure price momentum and
-        help distinguish between bullish and bearish trends. To capture intraday
-        price dynamics, we calculated percentage changes between daily high and
-        low prices (High-Low %) and closing and opening prices (Close-Open %).
-        We also transformed price data into log returns for a statistically
-        sound measurement of continuous compounding returns, making the dataset
-        suitable for models that assume normally distributed returns.
-      </p>
-      <p>
-        Additionally, volume-based features such as the Volume Moving Average
-        allowed us to incorporate trading activity trends, highlighting periods
-        of increased buying or selling pressure. Each of these engineered
-        features provided insights into the underlying market structure and
-        behavior, enhancing the dataset’s utility for clustering.
-      </p>
+        <!-- Comparisons -->
+        <h3 style="font-size:1rem;font-weight:600;color:var(--text);margin-bottom:1rem;">Method Comparisons</h3>
+        <div class="compare-card">
+          <h4>K-Means vs. DBSCAN</h4>
+          <p>While K-Means excels on well-structured data, DBSCAN's ability to identify irregularly shaped clusters, handle noise, and adapt without a predefined cluster count makes it better suited for the dynamic relationships in financial markets — leading to more meaningful clustering for pairs trading.</p>
+        </div>
+        <div class="compare-card">
+          <h4>DBSCAN + Linear Regression (Combined)</h4>
+          <p>DBSCAN handles the initial pair selection by identifying stocks with similar behavioral profiles. Linear Regression then provides the quantitative framework for trade execution — calculating the hedge ratio and generating entry/exit signals. Used in tandem, they form a robust and adaptive pairs trading pipeline.</p>
+        </div>
 
-      <h3>Feature Selection</h3>
-      <p>
-        In clustering, variances of features play a significant role in
-        determining how well the data can be grouped into clusters (Chang, Man,
-        Xu, & Hsu, 2020). Variance measures how features differ from each other,
-        with high variance features providing a more distinct separation across
-        data points. To find the optimal features, we used a variance threshold
-        to filter out features that do not vary much, as low variance features
-        don’t effectively separate the data points for clustering (Chang, Man,
-        Xu, & Hsu, 2020).
-      </p>
-      <img
-        src="feature_variance.png"
-        alt="Variance of each feature"
-        width="600"
-      />
-      <p>
-        The graph above shows the variance for each feature in our dataset. We
-        aimed to condense the time series data into summary statistics without
-        using the full time series to simplify the data. For each time series
-        metric, like daily return, moving average, exponential moving average,
-        volatility, etc., we calculated the 25th percentile, 50th percentile,
-        and 75th percentile values over a two-year time span. These percentiles
-        provided the distribution of each metric. Taking these percentile
-        values, we created features that represent the range and central
-        tendencies. While it condenses the data effectively, it sacrifices
-        temporal details. By reducing each time series to a few key percentiles,
-        we lose the ability to capture day-to-day patterns, which would offer
-        more insights for clustering.
-      </p>
+        <hr class="sep" />
 
-      <h3>Clustering Techniques</h3>
-      <h4>K-Means</h4>
-      <p>
-        K-Means clustering is an unsupervised machine learning algorithm used to
-        group similar points of data based on their features. It organizes
-        points to minimize differences within clusters while maximizing the
-        distance between each cluster. The number K is the number of clusters or
-        centroids. Each point is assigned to the nearest cluster, and the
-        centroids are recalculated. This algorithm stops when the clusters
-        stabilize.
-      </p>
-      <img
-        src="kmean_clustering.png"
-        alt="K-Means clustering on high-variance features"
-        width="600"
-      />
-      <p>
-        First, we loaded the dataset and removed any missing values. Only
-        numeric features were used for clustering. Using the 20-day volume
-        moving average (50th percentile) and 10-day moving average (50th
-        percentile), we chose 30 clusters. The features were standardized to
-        have a mean of 0 and a standard deviation of 1, which is important as it
-        treats the features equally when calculating distances between points.
-        We used a Silhouette score to determine the quality of clusters, where a
-        higher score indicates a better-defined cluster.
-      </p>
-      <img
-        src="individuals_in_kmean_cluster.png"
-        alt="Number of individuals in each K-Mean cluster"
-        width="600"
-      />
+        <!-- Next Steps -->
+        <div class="card">
+          <h3>Next Steps</h3>
+          <ul>
+            <li>Explore <strong>hierarchical clustering</strong> and <strong>Gaussian Mixture Models</strong> for pair identification</li>
+            <li>Add <strong>LSTM-based spread forecasting</strong> to improve signal quality</li>
+            <li>Apply <strong>Kalman filtering</strong> for dynamic hedging ratio estimation</li>
+            <li>Conduct extensive <strong>out-of-sample backtesting</strong> with walk-forward optimization</li>
+            <li>Evaluate <strong>reinforcement learning</strong> for adaptive strategy optimization</li>
+          </ul>
+        </div>
+      </section>
 
-      <h4>DBSCAN</h4>
-      <p>
-        DBSCAN is an unsupervised machine learning algorithm particularly
-        effective for identifying clusters in data with varying densities and
-        for dealing with noisy data. Unlike K-Means, DBSCAN does not require the
-        number of clusters to be specified in advance. Instead, it groups points
-        based on density, identifying regions of high point concentration and
-        classifying sparse points as noise.
-      </p>
-      <img
-        src="dbscan_clustering.png"
-        alt="DBSCAN clustering on t-SNE components"
-        width="600"
-      />
-      <p>
-        For this analysis, we first transformed our high-dimensional feature
-        space into a 2D space using t-SNE (t-distributed Stochastic Neighbor
-        Embedding), with parameters set to TSNE(n_components=2, perplexity=30,
-        n_iter=300). t-SNE is a powerful tool for visualizing high-dimensional
-        data, preserving relative distances and ensuring that similar data
-        points are closer in the new 2D representation.
-      </p>
-      <p>
-        We then applied DBSCAN to the t-SNE-transformed data with parameters
-        eps=0.3 and min_samples=8. These values were chosen to balance the
-        identification of meaningful clusters and minimize noise. DBSCAN
-        effectively identified stocks with similar characteristics while
-        isolating outliers, enabling a nuanced view of data that did not fit
-        neatly into any specific cluster.
-      </p>
+      <!-- ── RESULTS OVERVIEW ── -->
+      <section class="section" id="results">
+        <div class="section-header">
+          <div class="badge badge-orange"></div>
+          <h2>Results &amp; Evaluation Metrics</h2>
+        </div>
+        <div class="grid-2">
+          <div class="card">
+            <h3>Sharpe Ratio</h3>
+            <p>Measures risk-adjusted return using SOFR as the risk-free rate. A ratio above 3 is considered outstanding in financial contexts.</p>
+          </div>
+          <div class="card">
+            <h3>Cumulative Return</h3>
+            <p>Tracks the total portfolio return during the backtesting period — our primary measure of strategy profitability.</p>
+          </div>
+          <div class="card">
+            <h3>Mean Squared Error (MSE)</h3>
+            <p>Measures the accuracy of spread forecasts — lower MSE indicates the model more precisely tracks the pair's equilibrium relationship.</p>
+          </div>
+          <div class="card">
+            <h3>Alpha &amp; Beta</h3>
+            <p>Alpha measures performance above the market benchmark. Beta captures volatility relative to the market — a low beta confirms the market-neutral property.</p>
+          </div>
+        </div>
+      </section>
 
-      <h3>Quantitative Findings/Graphs</h3>
-      <p>
-        K-Means and DBSCAN clustering graphs represent all clusters formed. The
-        graph shows the number of individuals in each cluster. Stocks within
-        clusters exhibit similar patterns and are deemed as pairs.
-      </p>
-      <img
-        src="cluster_1_dbscan.png"
-        alt="Cluster 1 - Closing Prices (DBSCAN)"
-        width="600"
-      />
-      <img
-        src="cluster_0_dbscan.png"
-        alt="Cluster 0 - Closing Prices (DBSCAN)"
-        width="600"
-      />
-      <img
-        src="cluster_4_kmean.png"
-        alt="Cluster 4 - Closing Prices (K-Means)"
-        width="600"
-      />
+      <!-- ── REFERENCES ── -->
+      <section class="section" id="references">
+        <div class="section-header">
+          <div class="badge badge-blue"></div>
+          <h2>References</h2>
+        </div>
+        <ul class="ref-list">
+          <li><span class="ref-num">[1]</span>S. M. Sarmento and N. Horta, <em>A Machine Learning Based Pairs Trading Investment Strategy</em>. SpringerBriefs, 2020. <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank">doi:10.1007/978-3-030-47251-1</a></li>
+          <li><span class="ref-num">[2]</span>S. M. Sarmento and N. Horta, "Enhancing a Pairs Trading strategy with ML," <em>Expert Systems with Applications</em>, vol. 158, 2020. <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank">doi:10.1016/j.eswa.2020.113490</a></li>
+          <li><span class="ref-num">[3]</span>V. Chang et al., "Pairs trading on different portfolios based on ML," <em>Expert Systems</em>, vol. 38, no. 3, 2020. <a href="https://doi.org/10.1111/exsy.12649" target="_blank">doi:10.1111/exsy.12649</a></li>
+          <li><span class="ref-num">[4]</span>R. J. Elliott, J. Van Der Hoek, and W. P. Malcolm, "Pairs trading," <em>Quantitative Finance</em>, vol. 5, no. 3, pp. 271–276, 2005. <a href="https://doi.org/10.1080/14697680500149370" target="_blank">doi:10.1080/14697680500149370</a></li>
+          <li><span class="ref-num">[5]</span>R. T. Smith and X. Xu, "A good pair: Alternative pairs-trading strategies," <em>Finance Markets Portfolio Management</em>, vol. 31, no. 1, 2017. <a href="https://doi.org/10.1007/s11408-016-0280-x" target="_blank">doi:10.1007/s11408-016-0280-x</a></li>
+          <li><span class="ref-num">[6]</span>C. E. de Moura, A. Pizzinga, and J. Zubelli, "Pairs trading via Kalman filter," <em>Quantitative Finance</em>, vol. 16, no. 10, 2016. <a href="https://doi.org/10.1080/14697688.2016.1164886" target="_blank">doi:10.1080/14697688.2016.1164886</a></li>
+          <li><span class="ref-num">[7]</span>M. J. Nourahmadi and M. Nourahmadi, "Kalman Filter for Dynamic Hedge Ratio in Pairs Trading," <em>Financial Research Journal</em>, vol. 21, no. 3, 2021. <a href="https://doi.org/10.22059/FRJ.2021.325988.1007206" target="_blank">doi:10.22059/FRJ.2021.325988.1007206</a></li>
+          <li><span class="ref-num">[8]</span>A. J. Patton, "Are 'Market Neutral' Hedge Funds Really Market Neutral?," <em>Review of Financial Studies</em>, vol. 22, no. 7, 2009. <a href="https://doi.org/10.1093/rfs/hhn113" target="_blank">doi:10.1093/rfs/hhn113</a></li>
+          <li><span class="ref-num">[9]</span>B. Do, R. Faff, and K. Hamza, "A New Approach to Modeling and Estimation for Pairs Trading," 2006. <a href="https://doi.org/10.2139/ssrn.901289" target="_blank">doi:10.2139/ssrn.901289</a></li>
+        </ul>
+      </section>
 
-      <h3>
-        Linear Regression
-      </h3>
-      <h4>Overview</h4>
-      <p>For our supervised learning algorithm, we chose to use linear regression. Linear regression is better suited for modeling the direct relationship
-        between two stocks as it can quantify how closely two data points move together. This will help quantify their dependency and calculate their residual spread.
-      </p>
-      <h4>Data for Linear Regression Model</h4>
-      <p>We chose to use two stocks (XOM and CVX) that were already known to be used in pairs trading.
-        Log transformation was applied to the stocks' closing prices to stabilize variance and make the data more suitable for linear analysis.
-        The log-transformed prices of the two stocks were then merged into their common date to align the data with their time-series.
-        Then, the log-transformed closing prices of XOM were used as the independent variable, while the log-transformed closing prices of CVX were used as the dependent variable.
-      </p>
+      <!-- ── CONTRIBUTIONS ── -->
+      <section class="section" id="contributions">
+        <div class="section-header">
+          <div class="badge badge-green"></div>
+          <h2>Team Contributions</h2>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Name</th><th>Final Contributions</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>Wesley Lu</td><td>Presentation Slides, K-Means Clustering, Kalman Filtering, Linear Regression</td></tr>
+              <tr><td>Matthew She</td><td>Presentation Slides, Data Processing, Feature Engineering</td></tr>
+              <tr><td>Matthew Lu</td><td>Presentation Slides, DBSCAN Clustering</td></tr>
+              <tr><td>Justin Lee</td><td>Presentation Slides, Data Processing, Feature Engineering</td></tr>
+              <tr><td>Victor Wu</td><td>Presentation Slides, Data Processing, Feature Engineering, Linear Regression</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </section>
 
-      <h4>Model Training and Evaluation</h4>
-      <p>A linear regression model was trained on the data to model the relationship between the log-transformed prices.
-        This model would provide us with a hedge-ratio and an intercept which represented the statistical relationship between two stocks. 
-        Then using the fitted regression model, the residuals (difference form predicted and actual) were calculated to capture deviations from the expected equillibrium.
-        <br>
-        We then normalized the residual spread using z-score transformation which standardizes values to identify deviations from the mean.
-        We then were able to create trading signals based off the z-score thresholds. A z-score of -1.0 or lower indicated a long signal and indicated that the pair was likely to revert upward.
-        A short signal of z-score higher than 1.0 indicated that the pair is overvalued and likely to revert downward.
-        A hold signal would be when the z-score remained within the threshold.
-      </p>
-      <img
-        src="cum_LR_return.jpeg"
-        alt="Cumulative Returns of LR Strategy"
-        width="600"
-      />
-      <img
-        src="logprices_LR.jpeg"
-        alt="Logarithmic Prices & Spread and Trading Signals"
-        width="600"
-      />
-      <img
-        src="logcloseprices_LR.jpeg"
-        alt="Logarithmic Close Prices: CVX vs XOM"
-        width="600"
-      />
+      <!-- ── GANTT ── -->
+      <section class="section" id="gantt">
+        <div class="section-header">
+          <div class="badge badge-purple"></div>
+          <h2>Project Timeline</h2>
+        </div>
+        <div class="iframe-wrap">
+          <iframe
+            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5n0LOcpPxzPahQBxcPG46zXWm-MLAN2CHTJLEBEEx2XPt_OAPdQn_-88kTPDsbGuAad-U3dZAs0s/pubhtml?widget=true&headers=false"
+            width="100%"
+            height="600"
+            style="border:none;"
+          ></iframe>
+        </div>
+      </section>
 
-      <h3>Linear Regression Analysis</h3>
-        <p>Overall, the linear regression model performed strongly, generating a 294.48% return over the four year time period. Below is a strengths/weaknesses analysis of the algorithm. </p>
-      <h4>Strengths</h4>
-      <p>Cumulative Return: A 294.48% return over the observed period of four years is a good result for a pairs trading strategy. </p>
-      <p>Sharpe Ratio: The linear regression model generated a Sharpe Ratio of 3.82, which indicates excellent risk-adjusted performance. A ratio above 3 is typically regarded as outstanding in financial contexts</p>
-      <p>Log Price and Spread Behavior: The signals generated in the graph above align well with the spread reverting to the mean, validating the linear regression model's ability to predict profitable trades</p>
-      <h4>Weaknesses</h4>
-      <p>Dataset Time: The results are based on historical data (2010 through 2014). For a thorough evaluation, it's essential to validate the strategy's robustness on out-of-sample data</p>
+    </div><!-- /container -->
 
+    <footer>
+      CS4641 Machine Learning · Georgia Tech · Pairs Trading Project
+    </footer>
 
-      <h4>Comparison of dbscan and k-means</h4>
-      <p>K-Means is a powerful clustering method for well-structured data, DBSCAN's ability to identify irregularly shaped clusters, handle noise, and adapt without requiring a predefined number of clusters makes it a better choice for pairs trading under volatile conditions. DBSCAN's flexibility ensures more meaningful clustering in the context of financial relationships, which can ultimately lead to more accurate trading signals and better performance in dynamic markets.</p>
-      <h4>Comparison of dbscan and linear regression</h4>
-      <p>DBSCAN and Linear Regression can work together effectively in pairs trading, each addressing different aspects of the strategy. DBSCAN's ability to identify irregularly shaped clusters, handle noise, and adapt to dynamic relationships makes it ideal for the initial step of selecting potential pairs. Linear Regression then takes over to provide a quantitative framework for trade execution, determining optimal entry and exit points. By using these two methods in tandem, traders can build a robust and adaptive pairs trading strategy that is well-suited to navigating the complexities of financial markets.</p>
-      <h4></h4>
-
-
-      <h3>Next Steps</h3>
-      <p>To further enhance the pairs trading model, one could explore additional clustering methods like hierarchical clustering or Gaussian Mixture Models, apply feature engineering to derive new indicators, utilize advanced models such as LSTMs for forecasting, and conduct extensive backtesting with optimization techniques to ensure the robustness of the model.</p>
-    </section>
-    <section>
-      <h2>References</h2>
-      <ul>
-        <li>
-          [1] S. M. Sarmento and N. Horta, <em>A Machine Learning Based Pairs Trading Investment Strategy</em>. SpringerBriefs in Applied Sciences and Technology, 2020. [Online]. Available: <a href="https://doi.org/10.1007/978-3-030-47251-1" target="_blank">https://doi.org/10.1007/978-3-030-47251-1</a>.
-        </li>
-        <li>
-          [2] S. M. Sarmento and N. Horta, "Enhancing a Pairs Trading strategy with the application of Machine Learning," <em>Expert Systems with Applications</em>, vol. 158, p. 113490, 2020. [Online]. Available: <a href="https://doi.org/10.1016/j.eswa.2020.113490" target="_blank">https://doi.org/10.1016/j.eswa.2020.113490</a>.
-        </li>
-        <li>
-          [3] V. Chang, X. Man, Q. Xu, and C. Hsu, "Pairs trading on different portfolios based on machine learning," <em>Expert Systems</em>, vol. 38, no. 3, 2020. [Online]. Available: <a href="https://doi.org/10.1111/exsy.12649" target="_blank">https://doi.org/10.1111/exsy.12649</a>.
-        </li>
-        <li>
-          [4] R. J. Elliott, J. Van Der Hoek, and W. P. Malcolm, "Pairs trading," <em>Quantitative Finance</em>, vol. 5, no. 3, pp. 271–276, 2005. [Online]. Available: <a href="https://doi.org/10.1080/14697680500149370" target="_blank">https://doi.org/10.1080/14697680500149370</a>.
-        </li>
-        <li>
-          [5] R. T. Smith and X. Xu, "A good pair: Alternative pairs-trading strategies," <em>Finance Markets Portfolio Management</em>, vol. 31, no. 1, pp. 1–26, 2017. [Online]. Available: <a href="https://doi.org/10.1007/s11408-016-0280-x" target="_blank">https://doi.org/10.1007/s11408-016-0280-x</a>.
-        </li>
-        <li>
-          [6] C. E. de Moura, A. Pizzinga, and J. Zubelli, "A pairs trading strategy based on linear state space models and the Kalman filter," <em>Quantitative Finance</em>, vol. 16, no. 10, pp. 1559–1573, 2016. [Online]. Available: <a href="https://doi.org/10.1080/14697688.2016.1164886" target="_blank">https://doi.org/10.1080/14697688.2016.1164886</a>.
-        </li>
-        <li>
-          [7] M. J. Nourahmadi and M. Nourahmadi, "Application of Kalman Filter to Estimate Dynamic Hedge Ratio in Pairs Trading Strategy: A Case Study of the Automobile Industry," <em>Financial Research Journal</em>, vol. 21, no. 3, 2021. [Online]. Available: <a href="https://doi.org/10.22059/FRJ.2021.325988.1007206" target="_blank">https://doi.org/10.22059/FRJ.2021.325988.1007206</a>.
-        </li>
-        <li>
-          [8] A. J. Patton, "Are 'Market Neutral' Hedge Funds Really Market Neutral?," <em>The Review of Financial Studies</em>, vol. 22, no. 7, pp. 2495–2530, 2009. [Online]. Available: <a href="https://doi.org/10.1093/rfs/hhn113" target="_blank">https://doi.org/10.1093/rfs/hhn113</a>.
-        </li>
-        <li>
-          [9] B. Do, R. Faff, and K. Hamza, "A New Approach to Modeling and Estimation for Pairs Trading," 2006. [Online]. Available: <a href="https://doi.org/10.2139/ssrn.901289" target="_blank">https://doi.org/10.2139/ssrn.901289</a>.
-        </li>
-      </ul>
-    </section>
-    <section>
-      <h2>Contributions</h2>
-      <table>
-        <tr>
-          <th>Name</th>
-          <th>Final Contributions</th>
-        </tr>
-        <tr>
-          <td>Wesley Lu</td>
-          <td>Presentation Slide, K-mean Clustering, Kalman Filtering, Linear Regression</td>
-        </tr>
-        <tr>
-          <td>Matthew She</td>
-          <td>Presentation Slide, Data Processing, Feature Engineering</td>
-        </tr>
-        <tr>
-          <td>Matthew Lu</td>
-          <td>Presentation Slide, DBScan Clustering</td>
-        </tr>
-        <tr>
-          <td>Justin Lee</td>
-          <td>Presentation Slide, Data Processing, Feature Engineering</td>
-        </tr>
-        <tr>
-          <td>Victor Wu</td>
-          <td>Presentation Slide, Data Processing, Feature Engineering, Linear Regression</td>
-        </tr>
-      </table>
-    </section>
-
-    <iframe
-      src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5n0LOcpPxzPahQBxcPG46zXWm-MLAN2CHTJLEBEEx2XPt_OAPdQn_-88kTPDsbGuAad-U3dZAs0s/pubhtml?widget=true&amp;headers=false"
-      width="100%"
-      height="600"
-    ></iframe>
   </body>
 </html>
