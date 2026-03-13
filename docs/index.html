@@ -6,32 +6,31 @@
     <title>ML Pairs Trading — CS4641 Project</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,400&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
     <style>
       *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
       :root {
-        --bg: #0d1117;
-        --bg-card: #161b22;
-        --bg-card-hover: #1c2128;
-        --border: #30363d;
-        --accent: #58a6ff;
-        --accent2: #3fb950;
-        --accent3: #f78166;
-        --text: #e6edf3;
-        --text-muted: #8b949e;
-        --text-dim: #6e7681;
-        --radius: 10px;
-        --shadow: 0 4px 24px rgba(0,0,0,0.4);
+        --bg:          #ffffff;
+        --bg-subtle:   #f7f6f2;
+        --border:      #ddd8ce;
+        --gold:        #B3A369;   /* GT Gold */
+        --gold-dark:   #7a6d3d;   /* darker gold — links, em text */
+        --navy:        #003057;   /* GT Navy */
+        --text:        #1a1a1a;
+        --text-muted:  #4d4d4d;
+        --text-dim:    #888;
+        --max-w:       1060px;
       }
 
       html { scroll-behavior: smooth; }
 
       body {
-        font-family: 'Inter', sans-serif;
+        font-family: 'Source Serif 4', Georgia, serif;
         background: var(--bg);
         color: var(--text);
-        line-height: 1.7;
+        line-height: 1.78;
+        font-size: 1rem;
       }
 
       /* ── NAV ── */
@@ -39,200 +38,201 @@
         position: sticky;
         top: 0;
         z-index: 100;
-        background: rgba(13,17,23,0.92);
-        backdrop-filter: blur(12px);
-        border-bottom: 1px solid var(--border);
+        background: #ffffff;
+        border-bottom: 3px solid var(--gold);
         padding: 0 2rem;
         display: flex;
         align-items: center;
         justify-content: space-between;
-        height: 58px;
+        height: 52px;
       }
       .nav-brand {
-        font-weight: 600;
-        font-size: 0.95rem;
-        color: var(--accent);
+        font-family: 'Inter', sans-serif;
+        font-weight: 700;
+        font-size: 0.88rem;
+        color: var(--navy);
         text-decoration: none;
-        letter-spacing: 0.02em;
+        letter-spacing: 0.03em;
+        text-transform: uppercase;
       }
       .nav-links {
         display: flex;
-        gap: 0.25rem;
+        gap: 0;
         list-style: none;
         flex-wrap: wrap;
       }
       .nav-links a {
+        font-family: 'Inter', sans-serif;
         color: var(--text-muted);
         text-decoration: none;
-        font-size: 0.82rem;
+        font-size: 0.8rem;
         font-weight: 500;
-        padding: 0.3rem 0.7rem;
-        border-radius: 6px;
-        transition: color 0.15s, background 0.15s;
+        padding: 0.3rem 0.65rem;
+        transition: color 0.15s;
       }
-      .nav-links a:hover { color: var(--text); background: var(--bg-card); }
+      .nav-links a:hover { color: var(--navy); }
 
       /* ── HERO ── */
       .hero {
-        padding: 5rem 2rem 4rem;
-        max-width: 900px;
+        padding: 4rem 2rem 3rem;
+        max-width: var(--max-w);
         margin: 0 auto;
         text-align: center;
+        border-bottom: 1px solid var(--border);
       }
       .hero-tag {
         display: inline-block;
-        font-size: 0.75rem;
-        font-weight: 600;
-        letter-spacing: 0.1em;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.72rem;
+        font-weight: 700;
+        letter-spacing: 0.12em;
         text-transform: uppercase;
-        color: var(--accent);
-        background: rgba(88,166,255,0.1);
-        border: 1px solid rgba(88,166,255,0.25);
-        border-radius: 20px;
-        padding: 0.3rem 0.9rem;
-        margin-bottom: 1.5rem;
+        color: var(--navy);
+        border-bottom: 2px solid var(--gold);
+        padding-bottom: 3px;
+        margin-bottom: 1.25rem;
       }
       .hero h1 {
-        font-size: clamp(2rem, 5vw, 3.2rem);
+        font-family: 'Inter', sans-serif;
+        font-size: clamp(1.8rem, 4vw, 2.75rem);
         font-weight: 700;
         line-height: 1.2;
-        color: var(--text);
-        margin-bottom: 1rem;
+        color: var(--navy);
+        margin-bottom: 0.85rem;
       }
-      .hero h1 span { color: var(--accent); }
+      .hero h1 span { color: var(--gold-dark); }
       .hero p {
-        font-size: 1.05rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.97rem;
         color: var(--text-muted);
-        max-width: 620px;
+        max-width: 580px;
         margin: 0 auto 2rem;
       }
       .hero-meta {
         display: flex;
         justify-content: center;
-        gap: 2rem;
+        gap: 3.5rem;
         flex-wrap: wrap;
+        border-top: 1px solid var(--border);
+        padding-top: 1.5rem;
       }
-      .hero-meta-item {
-        text-align: center;
-      }
+      .hero-meta-item { text-align: center; }
       .hero-meta-item .val {
         display: block;
-        font-size: 1.6rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.5rem;
         font-weight: 700;
-        color: var(--accent2);
-        font-family: 'JetBrains Mono', monospace;
+        color: var(--navy);
       }
       .hero-meta-item .lbl {
-        font-size: 0.75rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
         color: var(--text-dim);
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.09em;
       }
 
       /* ── LAYOUT ── */
       .container {
-        max-width: 980px;
+        max-width: var(--max-w);
         margin: 0 auto;
-        padding: 0 2rem 4rem;
+        padding: 2rem 2rem 5rem;
       }
 
       /* ── SECTION ── */
-      .section {
-        margin-bottom: 3rem;
-      }
+      .section { margin-bottom: 3.5rem; }
+
       .section-header {
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        margin-bottom: 1.5rem;
-        padding-bottom: 0.75rem;
-        border-bottom: 1px solid var(--border);
+        gap: 0;
+        margin-bottom: 1.25rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px solid var(--gold);
       }
-      .section-header .badge {
-        width: 8px;
-        height: 28px;
-        border-radius: 4px;
-        flex-shrink: 0;
-      }
-      .badge-blue { background: var(--accent); }
-      .badge-green { background: var(--accent2); }
-      .badge-red { background: var(--accent3); }
-      .badge-purple { background: #bc8cff; }
-      .badge-orange { background: #e3b341; }
+      .section-header .badge { display: none; }
       .section-header h2 {
-        font-size: 1.35rem;
-        font-weight: 600;
-        color: var(--text);
+        font-family: 'Inter', sans-serif;
+        font-size: 1.25rem;
+        font-weight: 700;
+        color: var(--navy);
+        letter-spacing: -0.01em;
       }
 
-      /* ── CARD ── */
+      /* ── CARD — plain text block ── */
       .card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        margin-bottom: 1.25rem;
-        transition: border-color 0.2s, background 0.2s;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        padding: 0;
+        margin-bottom: 1.5rem;
       }
-      .card:hover { border-color: #484f58; background: var(--bg-card-hover); }
+      .card:hover { background: transparent; border-color: transparent; }
       .card h3 {
+        font-family: 'Inter', sans-serif;
         font-size: 1rem;
-        font-weight: 600;
-        color: var(--accent);
-        margin-bottom: 0.6rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.45rem;
       }
       .card h4 {
+        font-family: 'Inter', sans-serif;
         font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--text);
-        margin: 1rem 0 0.4rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin: 1rem 0 0.35rem;
       }
-      .card p { color: var(--text-muted); font-size: 0.9rem; margin-bottom: 0.5rem; }
-      .card ul { padding-left: 1.2rem; color: var(--text-muted); font-size: 0.9rem; }
-      .card ul li { margin-bottom: 0.35rem; }
+      .card p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 0.55rem; }
+      .card ul { padding-left: 1.4rem; color: var(--text-muted); font-size: 0.95rem; }
+      .card ul li { margin-bottom: 0.4rem; }
       .card strong { color: var(--text); }
 
       /* ── TWO-COL GRID ── */
-      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.25rem; }
+      .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 1.75rem; }
       @media (max-width: 640px) { .grid-2 { grid-template-columns: 1fr; } .nav-links { display: none; } }
 
-      /* ── METRIC PILLS ── */
+      /* ── METRIC ROW — plain inline stats ── */
       .metrics-row {
         display: flex;
-        gap: 1rem;
+        gap: 0;
         flex-wrap: wrap;
-        margin-bottom: 1.25rem;
+        margin: 1.5rem 0;
+        border-top: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
       }
       .metric-pill {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0.8rem 1.2rem;
+        background: transparent;
+        border: none;
+        border-right: 1px solid var(--border);
+        border-radius: 0;
+        padding: 1rem 2rem;
         flex: 1;
-        min-width: 130px;
+        min-width: 120px;
         text-align: center;
       }
+      .metric-pill:last-child { border-right: none; }
       .metric-pill .num {
         display: block;
-        font-size: 1.4rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 1.35rem;
         font-weight: 700;
-        font-family: 'JetBrains Mono', monospace;
-        color: var(--accent2);
+        color: var(--navy);
       }
       .metric-pill .desc {
-        font-size: 0.72rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.7rem;
         color: var(--text-dim);
         text-transform: uppercase;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.09em;
       }
 
       /* ── FIGURE ── */
       .fig-wrap {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        overflow: hidden;
-        margin: 1rem 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        overflow: visible;
+        margin: 1.75rem auto;
         text-align: center;
       }
       .fig-wrap img {
@@ -241,149 +241,203 @@
         height: auto;
         display: block;
         margin: 0 auto;
-        padding: 1rem;
+        border: 1px solid var(--border);
       }
       .fig-caption {
-        font-size: 0.78rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.8rem;
         color: var(--text-dim);
-        padding: 0.5rem 1rem 0.75rem;
-        border-top: 1px solid var(--border);
+        padding: 0.4rem 0 0;
         font-style: italic;
+        text-align: center;
       }
 
-      /* ── COMPARISON CARDS ── */
-      .compare-card {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: var(--radius);
-        padding: 1.25rem 1.5rem;
-        margin-bottom: 1rem;
-      }
-      .compare-card h4 {
-        font-size: 0.9rem;
-        font-weight: 600;
-        color: var(--accent);
-        margin-bottom: 0.5rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-      }
-      .compare-card h4::before {
-        content: '';
-        display: inline-block;
-        width: 6px;
-        height: 6px;
-        background: var(--accent);
-        border-radius: 50%;
-      }
-      .compare-card p { color: var(--text-muted); font-size: 0.875rem; }
-
-      /* ── INLINE STRENGTH/WEAKNESS ── */
-      .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; }
+      /* ── STRENGTHS / WEAKNESSES ── */
+      .sw-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 2.5rem; margin-top: 1.25rem; }
       @media (max-width: 640px) { .sw-grid { grid-template-columns: 1fr; } }
-      .sw-box {
-        border-radius: var(--radius);
-        padding: 1rem 1.25rem;
+      .sw-box { background: transparent; border: none; padding: 0; }
+      .sw-box h4 {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.07em;
+        text-transform: uppercase;
+        margin-bottom: 0.5rem;
+        padding-bottom: 0.35rem;
+        border-bottom: 1px solid var(--border);
       }
-      .sw-box.strength { background: rgba(63,185,80,0.08); border: 1px solid rgba(63,185,80,0.25); }
-      .sw-box.weakness { background: rgba(247,129,102,0.08); border: 1px solid rgba(247,129,102,0.25); }
-      .sw-box h4 { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.07em; text-transform: uppercase; margin-bottom: 0.5rem; }
-      .sw-box.strength h4 { color: var(--accent2); }
-      .sw-box.weakness h4 { color: var(--accent3); }
-      .sw-box p, .sw-box li { font-size: 0.85rem; color: var(--text-muted); }
-      .sw-box ul { padding-left: 1.1rem; }
-      .sw-box ul li { margin-bottom: 0.3rem; }
+      .sw-box.strength h4 { color: #2d6a3f; }
+      .sw-box.weakness h4 { color: #8b3a3a; }
+      .sw-box p, .sw-box li { font-size: 0.9rem; color: var(--text-muted); }
+      .sw-box ul { padding-left: 1.2rem; }
+      .sw-box ul li { margin-bottom: 0.35rem; }
 
-      /* ── FEATURE LIST ── */
+      /* ── FEATURE GRID ── */
       .feature-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-        gap: 0.75rem;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0;
+        border: 1px solid var(--border);
       }
       .feature-item {
-        background: var(--bg-card);
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 0.75rem 1rem;
-        font-size: 0.85rem;
+        background: transparent;
+        border: none;
+        border-bottom: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+        padding: 0.65rem 0.9rem;
+        font-size: 0.875rem;
       }
-      .feature-item strong { color: var(--accent); display: block; margin-bottom: 0.2rem; font-size: 0.8rem; }
+      .feature-item strong {
+        font-family: 'Inter', sans-serif;
+        color: var(--navy);
+        display: block;
+        margin-bottom: 0.15rem;
+        font-size: 0.8rem;
+        font-weight: 600;
+      }
       .feature-item span { color: var(--text-muted); font-size: 0.8rem; }
 
       /* ── ALGO TAGS ── */
       .algo-tag {
         display: inline-block;
+        font-family: 'Inter', sans-serif;
         font-size: 0.72rem;
         font-weight: 600;
-        font-family: 'JetBrains Mono', monospace;
-        padding: 0.2rem 0.6rem;
-        border-radius: 4px;
-        background: rgba(88,166,255,0.1);
-        color: var(--accent);
-        border: 1px solid rgba(88,166,255,0.2);
+        padding: 0.15rem 0.55rem;
+        border-radius: 3px;
+        background: rgba(179,163,105,0.1);
+        color: var(--gold-dark);
+        border: 1px solid rgba(179,163,105,0.4);
         margin: 0.2rem 0.2rem 0.2rem 0;
+        text-decoration: none;
       }
+      .algo-tag:hover { background: rgba(179,163,105,0.2); text-decoration: none; }
 
       /* ── TABLE ── */
       .table-wrap {
         overflow-x: auto;
-        border-radius: var(--radius);
         border: 1px solid var(--border);
         margin-top: 1rem;
       }
       table { width: 100%; border-collapse: collapse; }
       th {
-        background: var(--bg-card);
-        color: var(--text-muted);
-        font-size: 0.75rem;
+        background: var(--navy);
+        color: #ffffff;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.72rem;
         font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.07em;
-        padding: 0.85rem 1rem;
+        padding: 0.65rem 0.9rem;
         text-align: left;
-        border-bottom: 1px solid var(--border);
       }
       td {
-        padding: 0.85rem 1rem;
-        font-size: 0.9rem;
+        padding: 0.65rem 0.9rem;
+        font-family: 'Inter', sans-serif;
+        font-size: 0.875rem;
         color: var(--text-muted);
         border-bottom: 1px solid var(--border);
       }
       tr:last-child td { border-bottom: none; }
-      tr:hover td { background: var(--bg-card-hover); color: var(--text); }
+      tr:nth-child(even) td { background: var(--bg-subtle); }
+      tr:hover td { background: #eee9de; color: var(--text); }
 
       /* ── REFERENCES ── */
       .ref-list { list-style: none; }
       .ref-list li {
-        padding: 0.6rem 0;
+        padding: 0.5rem 0;
         border-bottom: 1px solid var(--border);
-        font-size: 0.84rem;
+        font-size: 0.875rem;
         color: var(--text-muted);
-        line-height: 1.5;
+        line-height: 1.65;
       }
       .ref-list li:last-child { border-bottom: none; }
-      .ref-list a { color: var(--accent); text-decoration: none; }
+      .ref-list a { color: var(--gold-dark); text-decoration: none; }
       .ref-list a:hover { text-decoration: underline; }
       .ref-num {
-        font-family: 'JetBrains Mono', monospace;
+        font-family: 'Inter', sans-serif;
         font-size: 0.78rem;
-        color: var(--accent);
-        font-weight: 600;
-        margin-right: 0.5rem;
+        color: var(--navy);
+        font-weight: 700;
+        margin-right: 0.4rem;
       }
 
       /* ── LINKS ── */
-      a { color: var(--accent); text-decoration: none; }
+      a { color: var(--gold-dark); text-decoration: none; }
       a:hover { text-decoration: underline; }
 
       /* ── SEPARATOR ── */
       .sep { border: none; border-top: 1px solid var(--border); margin: 2rem 0; }
 
-      /* ── IFRAME SECTION ── */
-      .iframe-wrap {
-        background: var(--bg-card);
+      /* ── RESEARCH CALLOUT ── */
+      .research-block {
+        border-left: 3px solid var(--gold);
+        background: rgba(179,163,105,0.06);
+        padding: 1rem 1.5rem;
+        margin: 1.75rem 0;
+      }
+      .research-block h4 {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.78rem;
+        font-weight: 700;
+        letter-spacing: 0.09em;
+        text-transform: uppercase;
+        color: var(--navy);
+        margin-bottom: 0.75rem;
+      }
+      .research-block p { color: var(--text-muted); font-size: 0.92rem; margin-bottom: 0.6rem; line-height: 1.7; }
+      .research-block p:last-child { margin-bottom: 0; }
+
+      /* ── EQUATIONS ── */
+      .eq {
+        display: block;
+        font-family: Georgia, serif;
+        font-size: 0.97rem;
+        color: var(--text);
+        background: var(--bg-subtle);
         border: 1px solid var(--border);
-        border-radius: var(--radius);
+        padding: 0.65rem 1.25rem;
+        margin: 0.85rem 0;
+        text-align: center;
+      }
+      .eq sub { font-size: 0.7rem; }
+      .def-grid {
+        display: grid;
+        grid-template-columns: max-content 1fr;
+        gap: 0.4rem 1.25rem;
+        margin-top: 0.75rem;
+        font-size: 0.875rem;
+      }
+      .def-grid dt {
+        font-family: 'Inter', sans-serif;
+        color: var(--navy);
+        font-size: 0.82rem;
+        font-weight: 700;
+        white-space: nowrap;
+      }
+      .def-grid dd { color: var(--text-muted); line-height: 1.6; }
+
+      /* ── COMPARE CARD — plain text ── */
+      .compare-card {
+        background: transparent;
+        border: none;
+        padding: 0;
+        margin-bottom: 1.25rem;
+      }
+      .compare-card h4 {
+        font-family: 'Inter', sans-serif;
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: var(--navy);
+        margin-bottom: 0.4rem;
+        display: block;
+      }
+      .compare-card h4::before { display: none; }
+      .compare-card p { color: var(--text-muted); font-size: 0.92rem; }
+
+      /* ── IFRAME ── */
+      .iframe-wrap {
+        border: 1px solid var(--border);
         overflow: hidden;
         margin-top: 1rem;
       }
@@ -391,10 +445,11 @@
 
       /* ── FOOTER ── */
       footer {
-        border-top: 1px solid var(--border);
-        padding: 2rem;
+        border-top: 3px solid var(--gold);
+        padding: 1.5rem 2rem;
         text-align: center;
         color: var(--text-dim);
+        font-family: 'Inter', sans-serif;
         font-size: 0.8rem;
       }
     </style>
@@ -422,9 +477,9 @@
       <h1>ML-Driven <span>Pairs Trading</span><br/>Strategy</h1>
       <p>Applying clustering, linear regression, and Kalman filtering to build a market-neutral algorithmic trading strategy using historical stock data.</p>
       <div class="hero-meta">
-        <div class="hero-meta-item"><span class="val">294%</span><span class="lbl">Cumulative Return</span></div>
-        <div class="hero-meta-item"><span class="val">3.82</span><span class="lbl">Sharpe Ratio</span></div>
-        <div class="hero-meta-item"><span class="val">XOM/CVX</span><span class="lbl">Primary Pair</span></div>
+        <div class="hero-meta-item"><span class="val">0.99</span><span class="lbl">Avg Sharpe (78 pairs)</span></div>
+        <div class="hero-meta-item"><span class="val">85%</span><span class="lbl">Pairs Profitable</span></div>
+        <div class="hero-meta-item"><span class="val">78</span><span class="lbl">Cointegrated Pairs</span></div>
         <div class="hero-meta-item"><span class="val">7000+</span><span class="lbl">Stocks Analyzed</span></div>
       </div>
     </header>
@@ -437,17 +492,15 @@
           <div class="badge badge-blue"></div>
           <h2>Introduction / Background</h2>
         </div>
-        <div class="card">
-          <p>
-            Pairs trading is a <strong>market-neutral trading strategy</strong> that involves matching a long position with a short position in two highly correlated stocks or securities. The idea is to profit from the relative price movements of two stocks that typically move together — called the <em>spread</em>.
-          </p>
-          <p>
-            Market-neutral strategies are important because they are designed to minimize market risk by offsetting both long and short positions. When markets are bearish, market-neutral strategies are largely unaffected by downturns in price movement.
-          </p>
-          <p>
-            If the price relationship between two stocks diverges, the trader would short the over-performing stock and go long on the under-performing stock, expecting the prices to eventually converge again. Pairs trading works on the assumption that prices will <strong>revert to their historical correlation</strong>.
-          </p>
-        </div>
+        <p>
+          Pairs trading is a <strong>market-neutral trading strategy</strong> that profits from temporary divergences in the relative prices of two historically correlated securities. Rather than betting on absolute price direction, the strategy is constructed to be simultaneously long one asset and short the other, so that broad market moves largely cancel out. The source of alpha is purely the mean-reverting behavior of the <em>spread</em> between the two positions.
+        </p>
+        <p style="margin-top:0.75rem;">
+          The theoretical foundation is <strong>statistical arbitrage</strong>: if two assets share a common stochastic trend — that is, they are cointegrated in the Engle–Granger sense — then any deviation of their price ratio from equilibrium is transient and will eventually correct. Formally, two log-price series P<sub>1,t</sub> and P<sub>2,t</sub> are cointegrated if there exists a coefficient β such that s<sub>t</sub> = P<sub>1,t</sub> − β P<sub>2,t</sub> is stationary (I(0)), even though each series individually is non-stationary (I(1)). The trading signal is generated when s<sub>t</sub> deviates significantly from its long-run mean.
+        </p>
+        <p style="margin-top:0.75rem;">
+          Classical pair identification relies on selecting stocks within the same industry sector and confirming the cointegration relationship via the Augmented Dickey-Fuller (ADF) test on the spread residuals. More recent work applies machine learning — primarily unsupervised clustering — to discover latent structure across thousands of stocks simultaneously, identifying candidate pairs beyond obvious sector boundaries [1, 3]. Our project follows this paradigm: we use clustering to narrow the search space from O(n²) to within-cluster pairs, then apply OLS regression and Kalman filtering to model the spread dynamics of the identified pairs.
+        </p>
       </section>
 
       <!-- ── LITERATURE REVIEW ── -->
@@ -457,36 +510,27 @@
           <h2>Literature Review</h2>
         </div>
 
-        <div class="card">
-          <h3>Price Correlation</h3>
-          <p>The correlation between two stocks describes how similarly or differently their prices move relative to each other:</p>
-          <ul>
-            <li><strong>+1</strong> — stocks move perfectly in tandem</li>
-            <li><strong>−1</strong> — stocks move in exactly opposite directions</li>
-            <li><strong>≈0</strong> — little to no relationship in price movements</li>
-          </ul>
-        </div>
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Statistical Foundations</h3>
+        <p>
+          The Pearson correlation coefficient between two return series quantifies co-movement on a scale from −1 to +1, but correlation alone is insufficient for pairs trading because two highly correlated series can diverge without bound. <strong>Cointegration</strong> is the stronger condition: it guarantees that the spread is stationary and therefore reverts to a finite mean. Engle and Granger (1987) formalized this — test stationarity of the OLS residual s<sub>t</sub> = P<sub>1</sub> − β̂ P<sub>2</sub> using an ADF test; if the null of a unit root is rejected at p &lt; 0.05, the pair is deemed cointegrated and suitable for trading.
+        </p>
 
-        <div class="card">
-          <h3>Machine Learning Applications in Pairs Trading</h3>
-          <ul>
-            <li><strong>Stock Selection & Pair Identification:</strong> Clustering, PCA, and regression models analyze historical data to identify co-integrated pairs.</li>
-            <li><strong>Predicting Divergence & Convergence:</strong> Supervised methods (Random Forest, SVM) and time-series models (LSTM) predict when a pair's spread will revert.</li>
-            <li><strong>Risk Management & Execution:</strong> ML optimizes trade execution by predicting price slippage and managing risk dynamically.</li>
-          </ul>
-        </div>
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.25rem 0 0.5rem;">Machine Learning for Pair Identification</h3>
+        <p>
+          Sarmento and Horta [1, 2] demonstrated that unsupervised clustering substantially outperforms the classical distance-based approach when applied to large stock universes. By projecting stocks into a feature space of price-derived statistics and running K-Means or OPTICS, they reduce the combinatorial pair search while improving signal quality. Chang et al. [3] extended this to multi-portfolio settings, showing that heterogeneous clustering methods produce complementary pair sets that reduce strategy drawdown through diversification. Supervised methods (Random Forest, SVM, LSTM) have also been studied for timing trade entries and exits, though they require careful look-ahead bias controls [1, 3].
+        </p>
 
-        <div class="grid-2">
-          <div class="card">
-            <h3>Kalman Filter Approach</h3>
-            <p>
-              Models the spread between paired assets as a mean-reverting process using a Gaussian linear state space model derived from the Ornstein-Uhlenbeck process. The Kalman filter continuously updates the <strong>dynamic hedging ratio</strong> as new data arrives — crucial for capturing real-time price movement in financial markets.
+        <div class="grid-2" style="margin-top:1.25rem;">
+          <div>
+            <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Kalman Filter Approach</h3>
+            <p style="font-size:0.95rem;color:var(--text-muted);line-height:1.75;">
+              Elliott et al. [4] and de Moura et al. [6] model the spread as an Ornstein-Uhlenbeck process embedded in a state-space framework. The state vector θ<sub>t</sub> = [β<sub>t</sub>, α<sub>t</sub>]<sup>T</sup> tracks the time-varying hedge ratio and intercept; the Kalman filter provides the minimum-variance linear estimate of θ<sub>t</sub> given all observations up to time t. This dynamic hedging ratio adapts to structural breaks in the cointegration relationship — a critical advantage when market regimes shift.
             </p>
           </div>
-          <div class="card">
-            <h3>Linear Regression Approach</h3>
-            <p>
-              A simpler, static model that quantifies the relationship between two stock prices. Unlike Kalman filtering, linear regression produces a fixed hedging ratio over the training window — providing a "still image" of the historical relationship. Useful as a stable baseline for pairs trading signals.
+          <div>
+            <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Linear Regression Approach</h3>
+            <p style="font-size:0.95rem;color:var(--text-muted);line-height:1.75;">
+              The static OLS approach regresses one log-price series on the other over a fixed training window to obtain a constant hedge ratio β. The spread is the residual series, z-score normalized to generate entry and exit signals. While less adaptive, OLS is analytically tractable and provides a stable baseline. Smith and Xu [5] showed that well-specified OLS strategies achieve strong Sharpe ratios on liquid, heavily correlated pairs such as XOM/CVX.
             </p>
           </div>
         </div>
@@ -498,26 +542,27 @@
           <div class="badge badge-green"></div>
           <h2>Dataset Description</h2>
         </div>
-        <div class="card">
-          <p>
-            We used the <strong>"Huge Stock Market Dataset"</strong> on Kaggle — originally 7,000+ text files converted to CSV, containing single-equity data with fields: Date, Open, High, Low, Close, Adj Close, Volume. The Alpaca Market API supplemented the dataset with real-time pricing data.
-          </p>
-          <div style="margin-top:0.75rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
-            <a href="https://alpaca.markets/" target="_blank" class="algo-tag">Alpaca Market API ↗</a>
-            <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" class="algo-tag">Kaggle Stock Dataset ↗</a>
-          </div>
+        <p>
+          We used the <strong>"Huge Stock Market Dataset"</strong> from Kaggle, containing daily OHLCV (Open, High, Low, Close, Adjusted Close, Volume) records for over 7,000 US equities in CSV format. Our clustering analysis focused on the <strong>2015–2017 window</strong> to capture a consistent cross-sectional feature set. The Alpaca Market API supplemented the dataset with recent pricing data for the backtesting window.
+        </p>
+        <div style="margin-top:0.75rem; display:flex; gap:0.75rem; flex-wrap:wrap;">
+          <a href="https://alpaca.markets/" target="_blank" class="algo-tag">Alpaca Market API ↗</a>
+          <a href="https://www.kaggle.com/datasets/jacksoncrow/stock-market-dataset" target="_blank" class="algo-tag">Kaggle Stock Dataset ↗</a>
         </div>
 
         <div class="fig-wrap">
-          <img src="initial_features.png" alt="Initial features dataset example" />
-          <div class="fig-caption">Fig 1. Initial raw features from the Huge Stock Market Dataset</div>
+          <img src="assets/initial_features.png" alt="Initial features dataset example" />
+          <div class="fig-caption">Fig 1. Initial raw features from the Huge Stock Market Dataset.</div>
         </div>
 
         <div class="section-header" style="margin-top:2rem;">
           <div class="badge badge-green"></div>
           <h2>Feature Engineering</h2>
         </div>
-        <div class="feature-grid">
+        <p>
+          Raw OHLCV data is not directly suitable for clustering — stocks trade at vastly different price levels, and price magnitude carries no information about behavioral similarity. We transform the raw time series into distributional summary statistics that characterize each stock's <em>trading behavior</em> over the two-year window. Each metric was summarized at its <strong>25th, 50th, and 75th percentiles</strong>, compressing intra-series temporal structure into a compact cross-sectional feature vector while preserving distributional shape.
+        </p>
+        <div class="feature-grid" style="margin:1rem 0;">
           <div class="feature-item"><strong>Daily Return</strong><span>% change in closing price from previous day</span></div>
           <div class="feature-item"><strong>Moving Averages</strong><span>MA-5, MA-10, MA-20 simple moving averages</span></div>
           <div class="feature-item"><strong>EMA-20</strong><span>20-day exponential moving average</span></div>
@@ -528,17 +573,15 @@
           <div class="feature-item"><strong>High-Low %</strong><span>(High − Low) / Low as a percentage</span></div>
           <div class="feature-item"><strong>Close-Open %</strong><span>% difference between close and open</span></div>
           <div class="feature-item"><strong>ROC-10</strong><span>Rate of change over 10-day period</span></div>
-          <div class="feature-item"><strong>Log Returns</strong><span>ln(Close_t / Close_{t-1})</span></div>
+          <div class="feature-item"><strong>Log Returns</strong><span>ln(Close<sub>t</sub> / Close<sub>t−1</sub>)</span></div>
         </div>
+        <p>
+          A <strong>variance threshold</strong> filter was applied first to eliminate near-constant features. The remaining features were de-correlated by dropping one member of every pair with |r| &gt; 0.95, leaving <strong>18 features</strong>. All features were standardized with <strong>RobustScaler</strong> — scaling by median and IQR rather than mean and standard deviation — to reduce distortion from the heavy-tailed return distributions common in financial data.
+        </p>
 
         <div class="fig-wrap" style="margin-top:1.25rem;">
-          <img src="feature_variance.png" alt="Variance of each feature" />
-          <div class="fig-caption">Fig 2. Feature variance — high-variance features provide better cluster separation</div>
-        </div>
-        <div class="card" style="margin-top:1rem;">
-          <p>
-            A <strong>variance threshold</strong> was applied to filter out low-variance features. Each time-series metric was condensed to <strong>25th, 50th, and 75th percentile</strong> summary statistics over a two-year window — balancing dimensionality reduction against temporal detail.
-          </p>
+          <img src="assets/feature_variance.png" alt="Variance of each feature" />
+          <div class="fig-caption">Fig 2. Feature variance. High-variance features drive cluster separation; near-zero variance features were dropped by the threshold filter.</div>
         </div>
       </section>
 
@@ -548,22 +591,26 @@
           <div class="badge badge-orange"></div>
           <h2>Problem Definition</h2>
         </div>
-        <div class="grid-2">
-          <div class="card">
-            <h3>Entry & Exit Timing</h3>
-            <p>Can ML models trained on historical price patterns accurately forecast moments when a stock pair's spread is likely to revert — improving trade timing and profitability?</p>
+        <p>
+          The core challenge in algorithmic pairs trading is threefold: identifying which pairs of stocks share a stable cointegration relationship, quantifying spread dynamics to generate reliable entry and exit signals, and managing risk when the relationship breaks down. We frame this as a two-stage ML pipeline. <strong>Stage 1</strong> uses unsupervised clustering (K-Means, DBSCAN) on engineered behavioral features to group stocks, reducing the pair candidate space from O(n²) to within-cluster pairs. <strong>Stage 2</strong> estimates the hedge ratio and models spread dynamics via OLS (static) or Kalman filtering (dynamic), ranking pairs by mean-reversion quality metrics and backtesting the top selections.
+        </p>
+        <p style="margin-top:0.75rem;">The specific research questions guiding our analysis are:</p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div>
+            <h3 style="font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:0.35rem;">Entry &amp; Exit Timing</h3>
+            <p style="font-size:0.92rem;color:var(--text-muted);">Can models trained on historical price patterns accurately forecast when a pair's spread is likely to revert, improving trade timing and profitability?</p>
           </div>
-          <div class="card">
-            <h3>Effective Techniques</h3>
-            <p>Which ML methods — clustering, time-series analysis, reinforcement learning — are most effective for identifying pairs and forecasting price movements?</p>
+          <div>
+            <h3 style="font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:0.35rem;">Effective Techniques</h3>
+            <p style="font-size:0.92rem;color:var(--text-muted);">Which clustering methods most effectively surface pairs with genuine cointegration, and how do static vs. dynamic spread models compare on risk-adjusted returns?</p>
           </div>
-          <div class="card">
-            <h3>Risk-Return Profile</h3>
-            <p>How does ML affect risk and return compared to traditional statistical methods? Can ML better manage risk while maintaining profitability?</p>
+          <div>
+            <h3 style="font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:0.35rem;">Risk-Return Profile</h3>
+            <p style="font-size:0.92rem;color:var(--text-muted);">How does ML-based pair selection affect Sharpe ratio and drawdown compared to traditional sector-based selection? Can ML manage drawdown while maintaining profitability?</p>
           </div>
-          <div class="card">
-            <h3>Motivation</h3>
-            <p>Pairs trading is a low-risk strategy but faces challenges in optimal pair selection and trade timing. ML directly addresses both, making the strategy more efficient and scalable.</p>
+          <div>
+            <h3 style="font-family:'Inter',sans-serif;font-size:0.92rem;font-weight:700;color:var(--navy);margin-bottom:0.35rem;">Motivation</h3>
+            <p style="font-size:0.92rem;color:var(--text-muted);">Pairs trading profitability depends heavily on pair quality and trade timing. ML addresses both at scale, making the strategy less dependent on analyst judgment and applicable to thousands of securities simultaneously.</p>
           </div>
         </div>
       </section>
@@ -575,171 +622,370 @@
           <h2>Methods</h2>
         </div>
 
-        <div class="card">
-          <h3>Data Preprocessing</h3>
-          <ul>
-            <li><strong>Normalization / Scaling:</strong> Min-Max Scaling (0–1) and Z-score normalization standardize data so price magnitude doesn't distort model learning.</li>
-            <li><strong>Missing Data Interpolation:</strong> Forward-fill handles gaps from market holidays or incomplete records.</li>
-            <li><strong>Feature Engineering:</strong> Price ratios, moving averages, volatility, and log returns uncover stock-pair relationships.</li>
-            <li><strong>ADF Test:</strong> Augmented Dickey-Fuller test checks stationarity — confirming that a series is mean-reverting and suitable for pairs trading.</li>
-          </ul>
-        </div>
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin-bottom:0.5rem;">Data Preprocessing</h3>
+        <p>
+          Missing values from market holidays or delisted stocks were forward-filled to maintain a consistent time axis. <strong>RobustScaler</strong> was applied after feature engineering, scaling each feature by subtracting the median and dividing by the IQR, making the normalization robust to heavy-tailed financial distributions. The Augmented Dickey-Fuller test was used post-clustering to verify spread stationarity: we regress log-price of Stock 1 on log-price of Stock 2, compute the residual series, and test the null hypothesis of a unit root at the 5% significance level. Rejection confirms the pair is cointegrated and the spread is mean-reverting.
+        </p>
 
-        <div class="card">
-          <h3>ML Algorithms</h3>
-          <div style="margin-bottom:0.75rem;">
-            <span class="algo-tag">SVM</span>
-            <span class="algo-tag">Random Forest</span>
-            <span class="algo-tag">XGBoost / LightGBM</span>
-            <span class="algo-tag">KNN</span>
-            <span class="algo-tag">LSTM</span>
-            <span class="algo-tag">Linear Regression</span>
-            <span class="algo-tag">K-Means</span>
-            <span class="algo-tag">DBSCAN</span>
-          </div>
-          <ul>
-            <li><strong>SVM:</strong> Classifies buy/sell states based on price spreads, finding the optimal separating hyperplane.</li>
-            <li><strong>Random Forest:</strong> Ensemble of decision trees for predicting spreads and classifying trading signals.</li>
-            <li><strong>GBM (XGBoost/LightGBM):</strong> Detects complex patterns in security relationships via boosted tree ensembles.</li>
-            <li><strong>KNN:</strong> Classifies states by comparing to historically similar trading opportunities.</li>
-            <li><strong>LSTM:</strong> Recurrent networks that capture long-range temporal dependencies between asset prices.</li>
-            <li><strong>Linear Regression:</strong> Establishes the hedging ratio and baseline historical price correlation.</li>
-          </ul>
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.25rem 0 0.5rem;">Algorithms</h3>
+        <div style="margin-bottom:0.85rem;">
+          <span class="algo-tag">K-Means</span>
+          <span class="algo-tag">DBSCAN</span>
+          <span class="algo-tag">OLS Linear Regression</span>
+          <span class="algo-tag">Kalman Filter</span>
+          <span class="algo-tag">SVM</span>
+          <span class="algo-tag">Random Forest</span>
+          <span class="algo-tag">XGBoost / LightGBM</span>
+          <span class="algo-tag">LSTM</span>
         </div>
+        <p>
+          K-Means and DBSCAN form Stage 1 (pair discovery); OLS and Kalman filtering form Stage 2 (spread modeling). The remaining supervised methods were surveyed from the literature as extensions for signal classification and are left for future work. The two clustering approaches are described in detail in the Final Report below, as they drive the core pair identification pipeline.
+        </p>
       </section>
 
-      <!-- ── FULL REPORT ── -->
+      <!-- ── FINAL REPORT ── -->
       <section class="section" id="report">
         <div class="section-header">
           <div class="badge badge-green"></div>
           <h2>Final Report</h2>
         </div>
 
-        <!-- Clustering -->
-        <div class="card">
-          <h3>K-Means Clustering</h3>
-          <p>
-            K-Means groups stocks by minimizing within-cluster distances. We used the <strong>20-day volume MA (50th pct)</strong> and <strong>10-day MA (50th pct)</strong> as inputs, standardized to zero mean and unit variance, with <strong>K = 30 clusters</strong>. Cluster quality was measured via Silhouette score.
-          </p>
+        <!-- ── K-MEANS ── -->
+        <div class="section-header" style="margin-top:0;">
+          <div class="badge badge-blue"></div>
+          <h2>K-Means Clustering</h2>
         </div>
-        <div class="fig-wrap">
-          <img src="kmean_clustering.png" alt="K-Means clustering" />
-          <div class="fig-caption">Fig 3. K-Means clustering on high-variance features</div>
-        </div>
-        <div class="fig-wrap">
-          <img src="individuals_in_kmean_cluster.png" alt="Individuals per K-Means cluster" />
-          <div class="fig-caption">Fig 4. Number of stocks per K-Means cluster</div>
-        </div>
-
-        <div class="card" style="margin-top:1.25rem;">
-          <h3>DBSCAN Clustering</h3>
-          <p>
-            DBSCAN requires no predefined cluster count — it groups points by density and isolates noise. We first reduced dimensions with <strong>t-SNE</strong> (perplexity=30, n_iter=300), then ran DBSCAN with <code style="font-family:'JetBrains Mono',monospace;color:var(--accent);font-size:0.85em;">eps=0.3, min_samples=8</code> to balance cluster discovery against noise tolerance.
-          </p>
-        </div>
-        <div class="fig-wrap">
-          <img src="dbscan_clustering.png" alt="DBSCAN clustering" />
-          <div class="fig-caption">Fig 5. DBSCAN on t-SNE components — noise points excluded from clusters</div>
-        </div>
-
-        <!-- Cluster examples -->
-        <div class="grid-2" style="margin-top:1.25rem;">
-          <div class="fig-wrap" style="margin:0;">
-            <img src="cluster_1_dbscan.png" alt="DBSCAN Cluster 1" />
-            <div class="fig-caption">Fig 6. DBSCAN Cluster 1 — Closing Prices</div>
-          </div>
-          <div class="fig-wrap" style="margin:0;">
-            <img src="cluster_0_dbscan.png" alt="DBSCAN Cluster 0" />
-            <div class="fig-caption">Fig 7. DBSCAN Cluster 0 — Closing Prices</div>
-          </div>
-        </div>
-        <div class="fig-wrap" style="margin-top:1rem;">
-          <img src="cluster_4_kmean.png" alt="K-Means Cluster 4" />
-          <div class="fig-caption">Fig 8. K-Means Cluster 4 — Closing Prices</div>
-        </div>
-
-        <hr class="sep" />
-
-        <!-- Linear Regression -->
-        <div class="card">
-          <h3>Linear Regression — XOM / CVX Pair</h3>
-          <p>
-            We selected <strong>XOM and CVX</strong> — a well-known pairs trading pair. Log transformation was applied to stabilize variance. XOM log-price serves as the independent variable; CVX log-price is the dependent variable. The fitted model yields a <strong>hedge ratio</strong> and intercept representing the equilibrium relationship.
-          </p>
-          <h4>Signal Generation (Z-Score Thresholds)</h4>
-          <ul>
-            <li><strong>Long signal</strong>: z-score ≤ −1.0 → pair undervalued, expect upward reversion</li>
-            <li><strong>Short signal</strong>: z-score ≥ +1.0 → pair overvalued, expect downward reversion</li>
-            <li><strong>Hold</strong>: z-score within threshold</li>
-          </ul>
-        </div>
-
-        <div class="metrics-row">
-          <div class="metric-pill"><span class="num">294.48%</span><span class="desc">Cumulative Return</span></div>
-          <div class="metric-pill"><span class="num">3.82</span><span class="desc">Sharpe Ratio</span></div>
-          <div class="metric-pill"><span class="num">2010–2014</span><span class="desc">Backtest Period</span></div>
-        </div>
+        <p>
+          K-Means partitions n stocks into K clusters by minimizing the total within-cluster sum of squared Euclidean distances:
+        </p>
+        <span class="eq">argmin<sub>C</sub> &sum;<sub>k=1</sub><sup>K</sup> &sum;<sub>x &isin; C<sub>k</sub></sub> ‖x &minus; &mu;<sub>k</sub>‖&sup2;</span>
+        <p>
+          where μ<sub>k</sub> is the centroid of cluster k. The algorithm was initialized with <strong>k-means++</strong>, which selects initial centroids with probability proportional to their squared distance from existing centroids, substantially reducing convergence time and sensitivity to random seeding compared to uniform random initialization. After fitting K = 30 clusters, every ordered pair (i, j) within each cluster was scored for mean-reversion quality using three metrics: crossing count, half-life, and OLS correlation.
+        </p>
+        <p style="margin-top:0.75rem;">
+          K was selected jointly from three diagnostic plots computed over K ∈ [5, 50]: the <strong>elbow curve</strong> of within-cluster sum of squares (WCSS), the <strong>silhouette score</strong> measuring how similar each point is to its own cluster relative to neighboring clusters, and the <strong>Calinski-Harabasz index</strong> (ratio of between-cluster to within-cluster dispersion). All three criteria converged near <strong>K = 30</strong>, producing clusters granular enough to surface sector-coherent groupings while keeping within-cluster pair counts manageable.
+        </p>
 
         <div class="grid-2">
           <div class="fig-wrap" style="margin:0;">
-            <img src="cum_LR_return.jpeg" alt="Cumulative Returns" />
-            <div class="fig-caption">Fig 9. Cumulative Returns — LR Strategy</div>
+            <img src="assets/30kmeans.png" alt="K-Means clustering scatter" />
+            <div class="fig-caption">Fig 3. K-Means (K=30) scatter on first two de-correlated features.</div>
           </div>
           <div class="fig-wrap" style="margin:0;">
-            <img src="logcloseprices_LR.jpeg" alt="Log Close Prices" />
-            <div class="fig-caption">Fig 10. Log Close Prices: CVX vs XOM</div>
+            <img src="assets/kmeans_cluster_individuals.png" alt="Individuals per K-Means cluster" />
+            <div class="fig-caption">Fig 4. Stocks per cluster. Cluster 21 is the densest with 12 members.</div>
           </div>
         </div>
         <div class="fig-wrap" style="margin-top:1rem;">
-          <img src="logprices_LR.jpeg" alt="Log Prices & Trading Signals" />
-          <div class="fig-caption">Fig 11. Logarithmic Prices, Spread, and Trading Signals</div>
+          <img src="assets/kmeans_sil_elbow.png" alt="K-Means elbow, silhouette, and Calinski-Harabasz plots" />
+          <div class="fig-caption">Fig 5. Elbow (WCSS), silhouette score, and Calinski-Harabasz index used jointly to select K = 30.</div>
+        </div>
+        <p style="margin-top:1rem;">
+          The correlation heatmap of Cluster 21 (Fig. 7) confirms that the cluster captures a coherent group of large-cap industrial and financial conglomerates (HON, UPS, DHR, UTX, BRK-B, COF, AXP), with most pairwise return correlations in the 0.50–0.70 range — well above what would be expected by chance in a universe of 7,000+ stocks.
+        </p>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="fig-wrap" style="margin:0;">
+            <img src="assets/kmean_cluster21_bestpair.png" alt="HON/UPS spread plot" />
+            <div class="fig-caption">Fig 6. Cluster 21 best pair HON/UPS: rebased log-prices (top) and OLS spread with mean-crossings (bottom).</div>
+          </div>
+          <div class="fig-wrap" style="margin:0;">
+            <img src="assets/kmean_cluster21_return_corr.png" alt="Cluster 21 return correlation heatmap" />
+            <div class="fig-caption">Fig 7. Cluster 21 pairwise return correlation heatmap. Strong within-cluster correlations validate the clustering quality.</div>
+          </div>
         </div>
 
-        <div class="sw-grid" style="margin-top:1.25rem;">
+        <div class="research-block" style="margin-top:1.75rem;">
+          <h4>3.1 &nbsp; Spread Construction &amp; Mean Reversion Metrics</h4>
+          <p>
+            A common misconception in pairs trading is that "crossings" refers to the two stock price series crossing one another. In practice, the raw prices of two correlated stocks are not expected to intersect; they typically trend together at different absolute levels. The actionable signal comes from the <em>spread</em>, which measures how far the relative valuation of Stock 1 has deviated from the equilibrium implied by Stock 2.
+          </p>
+          <p>
+            For a candidate pair (Stock 1, Stock 2), we first estimate a static hedge ratio β via Ordinary Least Squares regression of log-prices over the full sample:
+          </p>
+          <span class="eq">log(P<sub>1,t</sub>) &nbsp;=&nbsp; &alpha; &nbsp;+&nbsp; &beta; &middot; log(P<sub>2,t</sub>) &nbsp;+&nbsp; &epsilon;<sub>t</sub></span>
+          <p>
+            The spread s<sub>t</sub> is the OLS residual — the component of Stock 1's log-price that cannot be explained by the contemporaneous log-price of Stock 2. Because OLS minimizes the sum of squared residuals, E[s<sub>t</sub>] = 0 by construction:
+          </p>
+          <span class="eq">s<sub>t</sub> &nbsp;=&nbsp; log(P<sub>1,t</sub>) &nbsp;&minus;&nbsp; &beta; &middot; log(P<sub>2,t</sub>) &nbsp;&minus;&nbsp; &alpha;</span>
+          <p>
+            A positive spread indicates Stock 1 is <em>overvalued</em> relative to Stock 2; negative indicates <em>undervaluation</em>. The HON/UPS chart (Fig. 6) illustrates this: the upper panel shows both log-prices trending together — the hedge ratio β = 1.60 accounts for HON appreciating faster in absolute terms — while the lower panel shows s<sub>t</sub> oscillating around zero with 95 marked crossings, each a completed round-trip trade opportunity.
+          </p>
+          <p>
+            Mean-reversion speed is quantified via an AR(1) regression on the first-differenced spread: Δs<sub>t</sub> = α + β<sub>AR</sub>·s<sub>t−1</sub> + ε<sub>t</sub>. The <strong>half-life</strong> is half_life = −ln(2) / ln(1 + β<sub>AR</sub>). A shorter half-life means faster reversion and a more suitable pair for high-frequency execution.
+          </p>
+          <dl class="def-grid">
+            <dt>Crossings</dt><dd>Number of times s<sub>t</sub> crosses its historical mean. Higher values indicate a more actively mean-reverting spread and more potential trade entries per year.</dd>
+            <dt>Half-Life</dt><dd>AR(1)-estimated time for the spread to decay halfway back to zero. Shorter half-life implies faster reversion and more practical live execution.</dd>
+            <dt>Hedge Ratio β</dt><dd>OLS coefficient specifying how many dollars of Stock 2 to short per dollar of Stock 1 long, constructing a dollar-neutral position.</dd>
+          </dl>
+        </div>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.5rem 0 0.4rem;">Top Ranked Pairs: K-Means</h3>
+        <p>
+          The top pairs are concentrated in <strong>Cluster 21</strong> (large-cap industrials and financials: HON, UPS, DHR, UTX, BRK-B, COF, AXP). <strong>HON / UPS</strong> leads with 95 crossings and a half-life of <strong>39.8 days</strong> — the spread reverts approximately once a month on average, a practical cadence for an active strategy. Nine of the top 10 pairs originate from Cluster 21, confirming the cluster's quality but also highlighting concentration risk.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Rank</th><th>Cluster</th><th>Stock 1</th><th>Stock 2</th><th>Crossings</th><th>Half-Life (d)</th><th>Hedge Ratio</th><th>Correlation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>21</td><td>HON</td><td>UPS</td><td>95</td><td>39.78</td><td>1.6027</td><td>0.623</td></tr>
+              <tr><td>2</td><td>21</td><td>DHR</td><td>COF</td><td>86</td><td>64.17</td><td>0.9107</td><td>0.512</td></tr>
+              <tr><td>3</td><td>21</td><td>UTX</td><td>COF</td><td>84</td><td>54.82</td><td>0.7332</td><td>0.524</td></tr>
+              <tr><td>4</td><td>21</td><td>HON</td><td>BRK-B</td><td>81</td><td>62.49</td><td>1.3087</td><td>0.694</td></tr>
+              <tr><td>5</td><td>21</td><td>BRK-B</td><td>UPS</td><td>78</td><td>55.32</td><td>1.1860</td><td>0.623</td></tr>
+              <tr><td>6</td><td>21</td><td>HON</td><td>DHR</td><td>76</td><td>96.63</td><td>1.3811</td><td>0.655</td></tr>
+              <tr><td>7</td><td>21</td><td>UTX</td><td>UPS</td><td>73</td><td>81.90</td><td>0.8412</td><td>0.584</td></tr>
+              <tr><td>8</td><td>21</td><td>DHR</td><td>UPS</td><td>72</td><td>67.05</td><td>1.0669</td><td>0.529</td></tr>
+              <tr><td>9</td><td>21</td><td>BRK-B</td><td>COF</td><td>68</td><td>80.10</td><td>0.9905</td><td>0.620</td></tr>
+              <tr><td>10</td><td>17</td><td>ATRI</td><td>CABO</td><td>66</td><td>23.48</td><td>0.8287</td><td>0.076</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sw-grid" style="margin-top:1.5rem;">
           <div class="sw-box strength">
             <h4>Strengths</h4>
             <ul>
-              <li>294.48% cumulative return over 4 years</li>
-              <li>Sharpe Ratio of 3.82 — outstanding risk-adjusted performance</li>
-              <li>Trading signals align well with mean reversion in the spread</li>
+              <li>High within-pair correlations (up to 0.694 for HON/BRK-B), confirming genuine co-movement</li>
+              <li>HON/UPS half-life of 39.8d is actionable for monthly-rebalanced strategies</li>
+              <li>Cluster 21's sector coherence (diversified industrials + financials) provides economic rationale for cointegration</li>
+              <li>k-means++ initialization ensures consistent cluster structure across runs</li>
             </ul>
           </div>
           <div class="sw-box weakness">
             <h4>Weaknesses</h4>
             <ul>
-              <li>Based on in-sample data (2010–2014) only</li>
-              <li>Static hedging ratio may not capture regime changes</li>
-              <li>Needs out-of-sample validation for robustness</li>
+              <li>Hard cluster assignment forces every stock into a cluster, allowing noise stocks to dilute quality</li>
+              <li>Euclidean distance assumes spherical clusters; non-linear behavioral relationships are missed</li>
+              <li>Nine of the top 10 pairs from one cluster — no diversification across sectors or regimes</li>
+              <li>Static K requires re-tuning as the stock universe evolves</li>
             </ul>
           </div>
         </div>
 
-        <hr class="sep" />
+        <!-- ── DBSCAN ── -->
+        <div class="section-header" style="margin-top:2.5rem;">
+          <div class="badge badge-red"></div>
+          <h2>DBSCAN Clustering</h2>
+        </div>
+        <p>
+          DBSCAN (Density-Based Spatial Clustering of Applications with Noise) defines clusters as dense regions in feature space separated by lower-density regions. A point x is a <em>core point</em> if at least <code>min_samples</code> points (including x) lie within an ε-radius ball. Core points are connected into clusters via <em>density-reachability</em>; points reachable from a core point but not themselves core points are <em>border points</em>. All remaining points are labeled <strong>noise</strong> (label −1) and excluded from all downstream pair scoring. This noise-rejection mechanism is a key advantage over K-Means for financial data, where a substantial fraction of stocks exhibit idiosyncratic behavior unrelated to any group.
+        </p>
+        <p style="margin-top:0.75rem;">
+          Because DBSCAN is sensitive to feature space scale, we first applied <strong>PCA to 10 components</strong>, preserving 96% of total variance while removing noise dimensions. The hyperparameter ε was selected using a <strong>k-NN distance elbow plot</strong>: for each point, the distance to its k-th nearest neighbor (k = min_samples) was sorted ascending. The elbow in this curve marks the natural density threshold above which points are likely noise. A subsequent grid search over eps ∈ [0.1, 1.1] and min_samples ∈ [3, 11], constrained to ≥ 3 clusters and ≤ 50% noise, selected final parameters by <strong>silhouette score</strong> on the non-noise subset using stratified subsampling to guarantee at least one representative per cluster.
+        </p>
 
-        <!-- Comparisons -->
-        <h3 style="font-size:1rem;font-weight:600;color:var(--text);margin-bottom:1rem;">Method Comparisons</h3>
+        <div class="fig-wrap">
+          <img src="assets/dbscan_clustering.png" alt="DBSCAN t-SNE clustering" />
+          <div class="fig-caption">Fig 8. DBSCAN clusters visualized via t-SNE on PCA-reduced features. Gray points are noise (label −1) and are excluded from all pair scoring.</div>
+        </div>
+        <div class="grid-2" style="margin-top:1rem;">
+          <div class="fig-wrap" style="margin:0;">
+            <img src="assets/dbscan_cluster15_pair.png" alt="DBSCAN Cluster 15 best pair spread" />
+            <div class="fig-caption">Fig 9. Cluster 15 best pair SNDX/APTO: rebased log-prices (top) and OLS spread with mean-crossings (bottom).</div>
+          </div>
+          <div class="fig-wrap" style="margin:0;">
+            <img src="assets/dbscan_cluster15_return_corr.png" alt="DBSCAN Cluster 15 return correlation heatmap" />
+            <div class="fig-caption">Fig 10. Cluster 15 pairwise return correlation heatmap.</div>
+          </div>
+        </div>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.5rem 0 0.4rem;">Top Ranked Pairs: DBSCAN</h3>
+        <p>
+          <strong>CTL / SLB</strong> (Cluster 9) leads with 168 crossings — nearly double K-Means' top pair — reflecting a very active spread between a telecom carrier and an energy services company. Cluster 8 (MRK, GILD, QCOM, FOXA) contributes four of the top 10 pairs. However, most DBSCAN top pairs carry very long half-lives (100–400 days): technically cointegrated, but the spread reverts so slowly it is difficult to exploit at practical trading frequencies. <strong>GNW / P</strong> (Cluster 2) offers the best balance with 84 crossings and a 62-day half-life.
+        </p>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr><th>Rank</th><th>Cluster</th><th>Stock 1</th><th>Stock 2</th><th>Crossings</th><th>Half-Life (d)</th><th>Hedge Ratio</th><th>Correlation</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>9</td><td>CTL</td><td>SLB</td><td>168</td><td>266.43</td><td>0.7309</td><td>0.234</td></tr>
+              <tr><td>2</td><td>8</td><td>MRK</td><td>GILD</td><td>98</td><td>191.77</td><td>0.3849</td><td>0.376</td></tr>
+              <tr><td>3</td><td>18</td><td>XOM</td><td>ORCL</td><td>88</td><td>341.22</td><td>0.4260</td><td>0.211</td></tr>
+              <tr><td>4</td><td>2</td><td>GNW</td><td>P</td><td>84</td><td>61.96</td><td>1.0839</td><td>0.164</td></tr>
+              <tr><td>5</td><td>8</td><td>QCOM</td><td>GILD</td><td>82</td><td>102.64</td><td>0.2906</td><td>0.347</td></tr>
+              <tr><td>6</td><td>18</td><td>KO</td><td>ORCL</td><td>81</td><td>402.76</td><td>0.4021</td><td>0.208</td></tr>
+              <tr><td>7</td><td>8</td><td>FOXA</td><td>GILD</td><td>80</td><td>252.88</td><td>0.4843</td><td>0.375</td></tr>
+              <tr><td>8</td><td>8</td><td>FOXA</td><td>MRK</td><td>67</td><td>116.08</td><td>1.2281</td><td>0.445</td></tr>
+              <tr><td>9</td><td>13</td><td>BTG</td><td>LPI</td><td>60</td><td>74.19</td><td>0.4272</td><td>0.155</td></tr>
+              <tr><td>10</td><td>4</td><td>CPE</td><td>HZNP</td><td>59</td><td>76.34</td><td>0.3546</td><td>0.112</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="sw-grid" style="margin-top:1.5rem;">
+          <div class="sw-box strength">
+            <h4>Strengths</h4>
+            <ul>
+              <li>CTL/SLB achieves 168 crossings — far the highest crossing activity across both methods</li>
+              <li>Noise rejection prevents low-quality stocks from contaminating clusters</li>
+              <li>No predefined K; cluster count adapts to actual data density</li>
+              <li>Surfaces cross-sector pairs (pharma, telecom, energy) that K-Means misses via forced assignment</li>
+            </ul>
+          </div>
+          <div class="sw-box weakness">
+            <h4>Weaknesses</h4>
+            <ul>
+              <li>Top pairs carry half-lives of 100–400 days — cointegrated but practically slow to trade</li>
+              <li>Lower within-pair correlations (avg ~0.28 vs. K-Means avg ~0.60)</li>
+              <li>Sensitive to ε and min_samples; small parameter changes can drastically shift cluster boundaries</li>
+              <li>PCA reduction may discard cointegration-relevant features if they carry low variance</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="compare-card" style="margin-top:2rem;">
+          <h4>K-Means vs. DBSCAN: Recommended Pairs</h4>
+          <p style="margin-bottom:0.75rem;">Combining both methods, the pairs best suited for a live strategy balance high crossing frequency with a tractable half-life. K-Means pairs dominate on reversion speed; DBSCAN pairs offer higher raw crossing counts but longer reversion timescales.</p>
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr><th>Source</th><th>Pair</th><th>Crossings</th><th>Half-Life</th><th>Rationale</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>K-Means</td><td><strong>HON / UPS</strong></td><td>95</td><td>39.8d</td><td>Fastest reversion and highest crossings in K-Means universe</td></tr>
+                <tr><td>K-Means</td><td><strong>HON / BRK-B</strong></td><td>81</td><td>62.5d</td><td>Highest within-pair correlation (0.694) across all K-Means pairs</td></tr>
+                <tr><td>DBSCAN</td><td><strong>GNW / P</strong></td><td>84</td><td>62.0d</td><td>Best balance of crossings and half-life in DBSCAN top-10</td></tr>
+                <tr><td>DBSCAN</td><td><strong>MRK / GILD</strong></td><td>98</td><td>191.8d</td><td>Strongest pharma pair; high crossings despite long half-life</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- MULTI-PAIR SWEEP -->
+        <div class="section-header" style="margin-top:2.5rem;">
+          <div class="badge badge-blue"></div>
+          <h2>Linear Regression Spread Model: Multi-Pair Sweep</h2>
+        </div>
+        <p>
+          The OLS spread model regresses the log-price of one stock on another over a fixed training window to obtain hedge ratio β and intercept α. The spread s<sub>t</sub> = log(P<sub>Y,t</sub>) − β·log(P<sub>X,t</sub>) − α is z-score normalized using a 30-day rolling mean and standard deviation. Signals are generated as: <strong>long spread</strong> (buy Y, short X) when z ≤ −1.0; <strong>short spread</strong> (sell Y, buy X) when z ≥ +1.0; <strong>close position</strong> when |z| ≤ 0.25. Position sizing is dollar-neutral — for every $1 long in Y, β dollars are shorted in X — ensuring near-zero net market exposure.
+        </p>
+        <p style="margin-top:0.75rem;">
+          We swept all pairs from both K-Means and DBSCAN over the <strong>2015–2016 training window</strong>, aligned with the clustering feature window, applying an Engle–Granger cointegration filter (p &lt; 0.05) and an extreme hedge-ratio filter (|β| &gt; 5). Of the 842 candidate pairs, <strong>78 passed the cointegration test</strong> — 66 from K-Means and 12 from DBSCAN — and were backtested. The sweep confirmed that cointegration relationships are regime-dependent: running the same filter on the misaligned 2010–2013 window yields fewer than 2 cointegrated pairs from the same candidate set.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-pill"><span class="num">78</span><span class="desc">Cointegrated Pairs</span></div>
+          <div class="metric-pill"><span class="num">0.99</span><span class="desc">Avg Sharpe</span></div>
+          <div class="metric-pill"><span class="num">+63.4%</span><span class="desc">Avg Training Return</span></div>
+          <div class="metric-pill"><span class="num">85%</span><span class="desc">Pairs Profitable</span></div>
+          <div class="metric-pill"><span class="num">19</span><span class="desc">Pairs Sharpe &gt; 1.5</span></div>
+        </div>
+
+        <div class="fig-wrap" style="margin-top:1rem;">
+          <img src="assets/sweep_summary.png" alt="Multi-pair sweep summary" />
+          <div class="fig-caption">Fig 11. Sweep summary across 78 cointegrated pairs. Top-left: all pairs ranked by training Sharpe (GT Navy = K-Means, GT Gold = DBSCAN). Top-right: train vs. OOS Sharpe scatter — points below the diagonal indicate overfitting. Bottom-left: risk/return scatter, bubble size proportional to number of trades. Bottom-right: cumulative returns for the top-5 pairs over the training window.</div>
+        </div>
+
+        <p style="margin-top:1rem;">
+          The Sharpe distribution is right-skewed: 19 pairs achieve Sharpe &gt; 1.5 while the median is 0.94, indicating a small but consistent set of high-quality signals. The train-vs-OOS scatter reveals moderate persistence — pairs with higher training Sharpe tend toward positive OOS Sharpe, though with substantial dispersion. The risk/return scatter shows no clear relationship between trade frequency and return, confirming that pair-specific spread dynamics dominate over execution intensity. 85% of the 78 pairs generated positive training returns.
+        </p>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.75rem 0 0.75rem;">Top-15 Pairs by Training Sharpe</h3>
+        <table>
+          <thead>
+            <tr><th>Pair</th><th>Source</th><th>Coint p</th><th>β</th><th>Train Return</th><th>Sharpe</th><th>Max DD</th><th>Trades</th><th>OOS Sharpe</th><th>3σ Test</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>CSS/GCV_B</td><td>DBSCAN</td><td>0.0002</td><td>−0.10</td><td>+34.1%</td><td>3.44</td><td>−4.0%</td><td>50</td><td>2.47</td><td>—</td></tr>
+            <tr><td>SNDX/KPTI</td><td>K-Means</td><td>0.0315</td><td>0.56</td><td>+35.5%</td><td>3.08</td><td>−5.5%</td><td>9</td><td>1.10</td><td>PASS ✓</td></tr>
+            <tr><td>DEWJ/HDRW</td><td>DBSCAN</td><td>0.0179</td><td>0.94</td><td>+3.0%</td><td>2.78</td><td>−0.0%</td><td>5</td><td>−0.35</td><td>—</td></tr>
+            <tr><td>TCO/DD_A</td><td>K-Means</td><td>0.0189</td><td>−0.18</td><td>+56.2%</td><td>2.41</td><td>−9.4%</td><td>49</td><td>2.97</td><td>—</td></tr>
+            <tr><td>ESTE/ONDK</td><td>K-Means</td><td>0.0256</td><td>1.32</td><td>+917.8%</td><td>2.40</td><td>−40.4%</td><td>57</td><td>0.39</td><td>PASS ✓</td></tr>
+            <tr><td>CSS/REIS</td><td>K-Means</td><td>0.0079</td><td>0.36</td><td>+102.5%</td><td>2.11</td><td>−12.5%</td><td>61</td><td>1.58</td><td>—</td></tr>
+            <tr><td>STDY/TUES</td><td>K-Means</td><td>0.0180</td><td>0.71</td><td>+380.9%</td><td>2.03</td><td>−33.2%</td><td>40</td><td>−2.24</td><td>PASS ✓</td></tr>
+            <tr><td>TMUSP/ABMD</td><td>K-Means</td><td>0.0097</td><td>1.47</td><td>+54.9%</td><td>1.94</td><td>−12.8%</td><td>23</td><td>−0.66</td><td>—</td></tr>
+            <tr><td>TLRA/MERC</td><td>K-Means</td><td>0.0080</td><td>1.05</td><td>+300.7%</td><td>1.92</td><td>−23.8%</td><td>51</td><td>−0.30</td><td>PASS ✓</td></tr>
+            <tr><td>GS_I/ALL_A</td><td>K-Means</td><td>0.0150</td><td>0.83</td><td>+22.7%</td><td>1.90</td><td>−3.0%</td><td>51</td><td>1.59</td><td>—</td></tr>
+            <tr><td><strong>CBG/CIT</strong></td><td>K-Means</td><td>0.0196</td><td>1.22</td><td><strong>+92.4%</strong></td><td><strong>1.81</strong></td><td>−13.7%</td><td>53</td><td>0.10</td><td><strong>PASS ✓</strong></td></tr>
+            <tr><td>IHT/CATS</td><td>K-Means</td><td>0.0001</td><td>3.87</td><td>+359.9%</td><td>1.80</td><td>−81.0%</td><td>33</td><td>2.65</td><td>PASS ✓</td></tr>
+            <tr><td>FCNCA/AVB</td><td>K-Means</td><td>0.0376</td><td>0.17</td><td>+47.4%</td><td>1.80</td><td>−8.0%</td><td>47</td><td>0.53</td><td>—</td></tr>
+            <tr><td>ABMD/NEE_Q</td><td>K-Means</td><td>0.0045</td><td>0.44</td><td>+27.4%</td><td>1.70</td><td>−13.3%</td><td>29</td><td>0.87</td><td>—</td></tr>
+            <tr><td>KONE/MTBC</td><td>DBSCAN</td><td>0.0142</td><td>0.93</td><td>+329.6%</td><td>1.67</td><td>−73.5%</td><td>44</td><td>0.89</td><td>PASS ✓</td></tr>
+          </tbody>
+        </table>
+
+        <!-- CBG/CIT DEEP DIVE -->
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:2rem 0 0.75rem;">Deep Dive: CBG / CIT</h3>
+        <p>
+          <strong>CBG (CBRE Group) and CIT (CIT Group)</strong> represent a K-Means-identified pair from a cluster of diversified financials and commercial real estate services. Their cointegration p-value of <strong>0.0196</strong> and hedge ratio β = 1.22 indicate a stable long-run equilibrium over the training window. With 53 z-score crossings (roughly 3 per month) and a moderate hedge ratio, the pair sits in an operationally practical regime — fast enough to generate consistent trade opportunities without incurring excessive transaction costs.
+        </p>
+
+        <div class="metrics-row">
+          <div class="metric-pill"><span class="num">+92.4%</span><span class="desc">Training Return</span></div>
+          <div class="metric-pill"><span class="num">1.81</span><span class="desc">Sharpe Ratio</span></div>
+          <div class="metric-pill"><span class="num">−13.7%</span><span class="desc">Max Drawdown</span></div>
+          <div class="metric-pill"><span class="num">3σ PASS</span><span class="desc">vs Buy-and-Hold</span></div>
+        </div>
+
+        <div class="fig-wrap" style="margin-top:1rem;">
+          <img src="assets/Pair_Trading_Signals_CBG:CIT.png" alt="CBG/CIT Buy and Sell Signals" />
+          <div class="fig-caption">Fig 15. CBG/CIT trading signals, 2015–2016. Top panel: CIT price with green ▲ (buy CIT / long spread) and red ▼ (sell CIT / short spread). Middle panel: CBG hedge leg with mirrored signals. Bottom panel: spread z-score with ±1.0 entry bands (dashed) and ±0.25 exit bands (dotted); green shading = long spread position, red shading = short spread position.</div>
+        </div>
+
+        <p style="margin-top:1rem;">
+          The signal chart reveals the strategy's market-neutral character: both CIT and CBG decline significantly over 2015–2016, yet the strategy profits from the oscillation of their <em>relative</em> valuation. Entries cluster around large z-score excursions — the spike to z ≈ +4 in mid-2015 triggers a short spread position that unwinds profitably as the relationship reestablishes — while the shaded bands show the strategy is rarely exposed for more than a few weeks at a time, keeping drawdown contained at −13.7%.
+        </p>
+
+        <div class="fig-wrap" style="margin-top:1rem;">
+          <img src="assets/CBG:CIT_MonteCarlo_Simulation.png" alt="CBG/CIT Monte Carlo Simulation" />
+          <div class="fig-caption">Fig 16. Monte Carlo analysis for CBG/CIT (1,000 paths, 252 trading days). Left: pairs strategy fan chart — median terminal wealth ≈ 1.60. Centre: equal-weight buy-and-hold fan chart — median terminal wealth ≈ 0.81, reflecting the underlying stock decline. Right: terminal wealth KDE — the strategy distribution (navy) lies entirely beyond the BnH +3σ threshold (red dashed), yielding z = +3.50σ, a statistically significant outperformance at the 0.13% level.</div>
+        </div>
+
+        <p style="margin-top:1rem;">
+          The Monte Carlo result is the key statistical finding for this pair. Under the null hypothesis that the strategy and buy-and-hold share the same expected terminal wealth, the observed z-score of <strong>+3.50σ</strong> corresponds to a one-sided p-value of approximately 0.02% — strong evidence that the pairs strategy's returns are not attributable to the underlying assets' positive drift. The Welch t-test on terminal wealth distributions yields t = 52.3, p ≈ 0. Critically, 99.9% of the 1,000 simulated strategy paths outperform the buy-and-hold median, and the strategy's 5th-percentile path still exceeds the buy-and-hold median — indicating robustness even in adverse realisations of the strategy's return distribution.
+        </p>
+
+        <div class="sw-grid" style="margin-top:1.5rem;">
+          <div class="sw-box strength">
+            <h4>Strengths</h4>
+            <ul>
+              <li>78 cointegrated pairs identified across both K-Means and DBSCAN candidates</li>
+              <li>Mean Sharpe of 0.99 and 85% profitable pairs across the sweep</li>
+              <li>Dollar-neutral construction eliminates broad market beta — CBG/CIT profitable despite both stocks declining</li>
+              <li>CBG/CIT passes the 3σ Monte Carlo outperformance test (z = +3.50σ, p ≈ 0.02%)</li>
+              <li>Cointegration filter removes false signals, ensuring only statistically validated pairs are traded</li>
+            </ul>
+          </div>
+          <div class="sw-box weakness">
+            <h4>Weaknesses</h4>
+            <ul>
+              <li>Static hedge ratio cannot adapt to structural breaks; Kalman filter addresses this</li>
+              <li>Train-vs-OOS Sharpe scatter shows high dispersion — many pairs that perform well in-sample do not generalise</li>
+              <li>Some high-Sharpe pairs (e.g. ESTE/ONDK +917%) have extreme returns that inflate the mean; median of +24.9% is more representative</li>
+              <li>1 bp transaction cost assumption understates real execution costs for illiquid tickers</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- METHOD COMPARISONS -->
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:2rem 0 0.75rem;">Method Comparisons</h3>
         <div class="compare-card">
           <h4>K-Means vs. DBSCAN</h4>
-          <p>While K-Means excels on well-structured data, DBSCAN's ability to identify irregularly shaped clusters, handle noise, and adapt without a predefined cluster count makes it better suited for the dynamic relationships in financial markets — leading to more meaningful clustering for pairs trading.</p>
+          <p>K-Means produces tighter, more homogeneous clusters (higher avg. within-pair correlation, faster half-lives) due to its centroid-based objective. However, it forces every stock into a cluster even when no good fit exists, and its assumption of spherical cluster geometry misses non-linear behavioral groupings. DBSCAN's noise-rejection prevents low-quality stocks from diluting clusters, and its lack of a predefined K makes it more adaptive to the data. DBSCAN surfaces cross-sector pairs with high crossing counts entirely missed by K-Means — but these pairs tend to have very long half-lives (100–400 days), reducing their practical tradability. For a live strategy, K-Means pairs are preferred for speed-of-reversion; DBSCAN pairs add sector diversity.</p>
         </div>
-        <div class="compare-card">
-          <h4>DBSCAN + Linear Regression (Combined)</h4>
-          <p>DBSCAN handles the initial pair selection by identifying stocks with similar behavioral profiles. Linear Regression then provides the quantitative framework for trade execution — calculating the hedge ratio and generating entry/exit signals. Used in tandem, they form a robust and adaptive pairs trading pipeline.</p>
+        <div class="compare-card" style="margin-top:1rem;">
+          <h4>OLS vs. Kalman Filter</h4>
+          <p>Static OLS provides a stable, interpretable equilibrium estimate and performs well in regimes of low structural change (as demonstrated on XOM/CVX, 2010–2014). Its core limitation is that a single fixed β cannot adapt to time-varying cointegration. If the fundamental relationship between two stocks shifts — due to spin-offs, changes in capital allocation, or macroeconomic regime shifts — the static spread will drift and generate false signals. The Kalman filter treats β<sub>t</sub> as a latent state evolving via a random-walk transition model, continuously updating the hedge ratio as new data arrives. This allows the spread to remain centered through structural shifts. The tradeoff is increased sensitivity: the process noise covariance must be carefully tuned, and overly high process noise causes the filter to overfit to short-term fluctuations.</p>
+        </div>
+        <div class="compare-card" style="margin-top:1rem;">
+          <h4>DBSCAN + Linear Regression (Combined Pipeline)</h4>
+          <p>The most robust pipeline combines DBSCAN's density-based pair discovery with OLS spread modeling. DBSCAN identifies clusters of behaviorally similar stocks, rejecting noise tickers that pollute the candidate pool. OLS then quantifies the hedge ratio and generates z-score signals for top-ranked pairs within each cluster. This pipeline is fully unsupervised at the pair-selection stage and requires no prior sector knowledge, making it scalable to universes of thousands of stocks. The combined system produced pairs with strong crossing activity across multiple sectors, demonstrating that ML-driven pair identification can surface opportunities invisible to traditional analyst-based methods.</p>
         </div>
 
-        <hr class="sep" />
-
-        <!-- Next Steps -->
-        <div class="card">
-          <h3>Next Steps</h3>
-          <ul>
-            <li>Explore <strong>hierarchical clustering</strong> and <strong>Gaussian Mixture Models</strong> for pair identification</li>
-            <li>Add <strong>LSTM-based spread forecasting</strong> to improve signal quality</li>
-            <li>Apply <strong>Kalman filtering</strong> for dynamic hedging ratio estimation</li>
-            <li>Conduct extensive <strong>out-of-sample backtesting</strong> with walk-forward optimization</li>
-            <li>Evaluate <strong>reinforcement learning</strong> for adaptive strategy optimization</li>
-          </ul>
-        </div>
+        <!-- ── NEXT STEPS ── -->
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:2rem 0 0.5rem;">Next Steps</h3>
+        <p>Several extensions would meaningfully improve robustness and live tradability:</p>
+        <ul style="margin:0.75rem 0 0 1.5rem;color:var(--text-muted);font-size:0.95rem;line-height:1.9;">
+          <li>Conduct <strong>walk-forward backtesting</strong> with rolling refit windows to measure out-of-sample performance and avoid look-ahead bias in hedge ratio estimation</li>
+          <li>Apply <strong>hierarchical clustering</strong> and <strong>Gaussian Mixture Models</strong> as alternative pair discovery methods and compare cluster quality metrics</li>
+          <li>Integrate <strong>LSTM-based spread forecasting</strong> to predict spread direction over a short horizon, improving entry timing beyond simple z-score thresholds</li>
+          <li>Model transaction costs, borrowing costs for short positions, and market impact to produce realistic net P&amp;L estimates</li>
+          <li>Evaluate <strong>reinforcement learning</strong> for adaptive position sizing and stop-loss management under changing volatility regimes</li>
+        </ul>
       </section>
 
       <!-- ── RESULTS OVERVIEW ── -->
@@ -748,24 +994,27 @@
           <div class="badge badge-orange"></div>
           <h2>Results &amp; Evaluation Metrics</h2>
         </div>
-        <div class="grid-2">
-          <div class="card">
-            <h3>Sharpe Ratio</h3>
-            <p>Measures risk-adjusted return using SOFR as the risk-free rate. A ratio above 3 is considered outstanding in financial contexts.</p>
-          </div>
-          <div class="card">
-            <h3>Cumulative Return</h3>
-            <p>Tracks the total portfolio return during the backtesting period — our primary measure of strategy profitability.</p>
-          </div>
-          <div class="card">
-            <h3>Mean Squared Error (MSE)</h3>
-            <p>Measures the accuracy of spread forecasts — lower MSE indicates the model more precisely tracks the pair's equilibrium relationship.</p>
-          </div>
-          <div class="card">
-            <h3>Alpha &amp; Beta</h3>
-            <p>Alpha measures performance above the market benchmark. Beta captures volatility relative to the market — a low beta confirms the market-neutral property.</p>
-          </div>
-        </div>
+        <p>The strategy is evaluated on four quantitative metrics, aggregated across the 78-pair cointegrated sweep (train: Jan 2015 – Jun 2016, OOS: Jul 2016 – Nov 2017) using the static OLS spread model.</p>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.25rem 0 0.4rem;">Sharpe Ratio</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;">
+          Defined as (R<sub>p</sub> − R<sub>f</sub>) / σ<sub>p</sub>, where R<sub>p</sub> is annualized portfolio return, R<sub>f</sub> is the risk-free rate (SOFR), and σ<sub>p</sub> is annualized return standard deviation. A ratio above 1.0 is considered good; above 2.0 excellent; above 3.0 exceptional. Across the 78-pair sweep, the mean Sharpe is <strong>0.99</strong> with 19 pairs exceeding 1.5 — the top pair (CSS/GCV_B) reaching 3.44.
+        </p>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.25rem 0 0.4rem;">Cumulative Return</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;">
+          Total compounded portfolio return over the backtest period, ignoring transaction costs. Across the 78-pair sweep, the mean training return is <strong>+63.4%</strong> and median is +24.9% over the 18-month training window (Jan 2015 – Jun 2016). 85% of pairs generated positive returns, with the high mean driven by a tail of high-performing pairs. This should be interpreted alongside Sharpe ratio — high returns from a few concentrated positions carry more risk than the same return achieved through many small, consistent spread trades.
+        </p>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.25rem 0 0.4rem;">Mean Squared Error (Spread Fit)</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;">
+          For models that produce an explicit forecast (e.g., the Kalman filter's predicted state), MSE measures how accurately the model tracks the pair's equilibrium. Lower MSE indicates the model is capturing short-run spread dynamics well. In the static OLS model, MSE is assessed on the rolling z-score fit rather than the level, since the spread is the residual by construction.
+        </p>
+
+        <h3 style="font-family:'Inter',sans-serif;font-size:1rem;font-weight:700;color:var(--navy);margin:1.25rem 0 0.4rem;">Alpha &amp; Beta</h3>
+        <p style="color:var(--text-muted);font-size:0.95rem;">
+          Alpha measures excess return above what a benchmark (S&amp;P 500) would predict given the portfolio's market exposure. A successful market-neutral strategy should have <strong>beta ≈ 0</strong> (long and short legs cancel market direction) and <strong>alpha &gt; 0</strong> (positive return without net market bet). The dollar-neutral construction ensures near-zero beta; positive alpha confirms spread mean-reversion is a genuine source of return rather than disguised market exposure.
+        </p>
       </section>
 
       <!-- ── REFERENCES ── -->
@@ -791,38 +1040,18 @@
       <section class="section" id="contributions">
         <div class="section-header">
           <div class="badge badge-green"></div>
-          <h2>Team Contributions</h2>
+          <h2>Acknowledgments &amp; Author Contributions</h2>
         </div>
-        <div class="table-wrap">
-          <table>
-            <thead>
-              <tr><th>Name</th><th>Final Contributions</th></tr>
-            </thead>
-            <tbody>
-              <tr><td>Wesley Lu</td><td>Presentation Slides, K-Means Clustering, Kalman Filtering, Linear Regression</td></tr>
-              <tr><td>Matthew She</td><td>Presentation Slides, Data Processing, Feature Engineering</td></tr>
-              <tr><td>Matthew Lu</td><td>Presentation Slides, DBSCAN Clustering</td></tr>
-              <tr><td>Justin Lee</td><td>Presentation Slides, Data Processing, Feature Engineering</td></tr>
-              <tr><td>Victor Wu</td><td>Presentation Slides, Data Processing, Feature Engineering, Linear Regression</td></tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
-
-      <!-- ── GANTT ── -->
-      <section class="section" id="gantt">
-        <div class="section-header">
-          <div class="badge badge-purple"></div>
-          <h2>Project Timeline</h2>
-        </div>
-        <div class="iframe-wrap">
-          <iframe
-            src="https://docs.google.com/spreadsheets/d/e/2PACX-1vQv5n0LOcpPxzPahQBxcPG46zXWm-MLAN2CHTJLEBEEx2XPt_OAPdQn_-88kTPDsbGuAad-U3dZAs0s/pubhtml?widget=true&headers=false"
-            width="100%"
-            height="600"
-            style="border:none;"
-          ></iframe>
-        </div>
+        <p>
+          This project was completed as part of <strong>CS4641 Machine Learning</strong> at the Georgia Institute of Technology. The authors are undergraduate students in the College of Computing. Individual contributions are listed below in accordance with the CRediT (Contributor Roles Taxonomy) framework.
+        </p>
+        <ul style="margin:1rem 0 0 1.5rem;color:var(--text-muted);font-size:0.95rem;line-height:2;">
+          <li><strong>Wesley Lu</strong> — K-Means clustering implementation (k = 30, k-means++ initialization, WCSS optimization); Kalman filtering with dynamic hedge ratio estimation; static OLS linear regression backtesting; multi-pair sweep pipeline across 842 candidates from both K-Means and DBSCAN with Engle–Granger cointegration filtering; date-window alignment diagnosis and fix (identifying the 2010–2013 vs. 2015–2017 regime mismatch that suppressed cointegrated pair discovery); buy/sell signal visualization with z-score entry/exit bands; Monte Carlo simulation and 3σ outperformance testing against buy-and-hold; CBG/CIT deep-dive analysis (Sharpe 1.81, z = +3.50σ, 3σ PASS); 4-panel sweep summary visualization; project website (docs/index.html) design, content, and results writeup; presentation slides.</li>
+          <li><strong>Matthew She</strong> — Data collection and preprocessing, feature engineering pipeline, presentation slides.</li>
+          <li><strong>Matthew Lu</strong> — DBSCAN clustering implementation, t-SNE visualization, presentation slides.</li>
+          <li><strong>Justin Lee</strong> — Data preprocessing, feature engineering, presentation slides.</li>
+          <li><strong>Victor Wu</strong> — Feature engineering, linear regression analysis, presentation slides.</li>
+        </ul>
       </section>
 
     </div><!-- /container -->
